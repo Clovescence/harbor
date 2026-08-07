@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0f1115;
+    color: #F3F4F6;
+
+    font-family: Inter, sans-serif;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+}
+
+h1 {
+    font-size: 4rem;
+    font-weight: 300;
+}
