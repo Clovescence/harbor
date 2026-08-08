@@ -1,0 +1,499 @@
+/* ==========================================================
+   Harbor
+   Oak 0.1 — Departure
+   Author: Haga Pradiva
+========================================================== */
+
+
+/* ==========================================================
+   DESIGN SYSTEM
+========================================================== */
+
+:root {
+
+    /* Colors */
+
+    --color-background: #0C1015;
+    --color-surface: #171D24;
+    --color-text: #F4F5F7;
+    --color-secondary: #9DA7B5;
+    --color-accent: #D9B86C;
+    --color-border: rgba(255, 255, 255, 0.08);
+
+    /* Typography */
+
+    --font-heading: "Newsreader", serif;
+    --font-body: "Inter", sans-serif;
+
+    /* Layout */
+
+    --container-width: 72rem;
+    --section-padding: 8rem;
+    --content-gap: 2rem;
+
+    /* Motion */
+
+    --duration-fast: 300ms;
+    --duration-normal: 700ms;
+    --duration-slow: 1400ms;
+
+    --ease:
+        cubic-bezier(.22, 1, .36, 1);
+
+}
+
+
+/* ==========================================================
+   RESET
+========================================================== */
+
+*,
+*::before,
+*::after {
+
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+html {
+
+    scroll-behavior: smooth;
+
+}
+
+body {
+
+    background: var(--color-background);
+    color: var(--color-text);
+
+    font-family: var(--font-body);
+
+    overflow-x: hidden;
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+
+}
+
+img {
+
+    display: block;
+    max-width: 100%;
+
+}
+
+button {
+
+    font: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+}
+
+ul {
+
+    list-style: none;
+
+}
+
+a {
+
+    color: inherit;
+    text-decoration: none;
+
+}
+
+
+/* ==========================================================
+   GLOBAL LAYOUT
+========================================================== */
+
+section {
+
+    width: 100%;
+
+}
+
+.prologue,
+.hero,
+.coming-soon {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+
+    padding-inline: 2rem;
+
+}
+
+.prologue__content,
+.hero__content,
+.coming-soon__content {
+
+    width: min(100%, var(--container-width));
+    text-align: center;
+
+}
+
+/* ==========================================================
+   PROLOGUE
+========================================================== */
+
+.prologue {
+
+    position: fixed;
+    inset: 0;
+
+    z-index: 100;
+
+    background: var(--color-background);
+
+    transition:
+        opacity var(--duration-slow) var(--ease),
+        transform var(--duration-slow) var(--ease);
+
+}
+
+.prologue__content {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 3rem;
+
+}
+
+.prologue__title {
+
+    max-width: 14ch;
+
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 500;
+    line-height: 1.1;
+
+    letter-spacing: -0.03em;
+
+}
+
+.prologue__quote {
+
+    max-width: 42rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    color: var(--color-secondary);
+
+    font-size: 1rem;
+    line-height: 1.9;
+
+}
+
+.cast-off-button {
+
+    padding: 0.9rem 2.5rem;
+
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+
+    color: var(--color-text);
+
+    transition:
+        background var(--duration-fast),
+        border-color var(--duration-fast),
+        transform var(--duration-fast);
+
+}
+
+.cast-off-button:hover {
+
+    background: rgba(255, 255, 255, 0.04);
+    border-color: var(--color-accent);
+
+    transform: translateY(-2px);
+
+}
+
+.cast-off-button:active {
+
+    transform: translateY(0);
+
+}
+
+
+/* ==========================================================
+   HARBOR
+========================================================== */
+
+.harbor {
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition:
+        opacity var(--duration-slow) var(--ease);
+
+}
+
+.harbor.is-visible {
+
+    opacity: 1;
+    pointer-events: auto;
+
+}
+
+/* ==========================================================
+   HERO
+========================================================== */
+
+.hero {
+
+    position: relative;
+}
+
+.hero__content {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 1.5rem;
+
+}
+
+.hero__status {
+
+    color: var(--color-accent);
+
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+
+}
+
+.hero__subtitle {
+
+    color: var(--color-secondary);
+
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+
+}
+
+.hero__name {
+
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 500;
+    line-height: 1;
+
+    letter-spacing: -0.04em;
+
+}
+
+.hero__roles {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.75rem;
+
+    color: var(--color-secondary);
+
+    font-size: 1.05rem;
+
+}
+
+.scroll-indicator {
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 3rem;
+
+    transform: translateX(-50%);
+
+}
+
+.scroll-indicator__line {
+
+    display: block;
+
+    width: 1px;
+    height: 3.5rem;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            var(--color-secondary),
+            transparent
+        );
+
+    animation:
+        breathe 2.5s ease-in-out infinite;
+
+}
+
+
+/* ==========================================================
+   COMING SOON
+========================================================== */
+
+.coming-soon {
+
+    border-top: 1px solid var(--color-border);
+
+}
+
+.coming-soon__content {
+
+    max-width: 40rem;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1.5rem;
+
+}
+
+.coming-soon h2 {
+
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 500;
+
+}
+
+.coming-soon p {
+
+    color: var(--color-secondary);
+
+    line-height: 1.8;
+
+}
+
+/* ==========================================================
+   ANIMATIONS
+========================================================== */
+
+@keyframes breathe {
+
+    0%,
+    100% {
+
+        opacity: 0.25;
+        transform: scaleY(0.85);
+
+    }
+
+    50% {
+
+        opacity: 1;
+        transform: scaleY(1);
+
+    }
+
+}
+
+.prologue.is-leaving {
+
+    opacity: 0;
+    transform: translateY(-8vh);
+
+}
+
+.hero__content > * {
+
+    opacity: 0;
+    transform: translateY(24px);
+
+    animation: rise 0.9s var(--ease) forwards;
+
+}
+
+.hero__status {
+
+    animation-delay: 0.3s;
+
+}
+
+.hero__subtitle {
+
+    animation-delay: 0.8s;
+
+}
+
+.hero__name {
+
+    animation-delay: 1.3s;
+
+}
+
+.hero__roles {
+
+    animation-delay: 1.8s;
+
+}
+
+@keyframes rise {
+
+    from {
+
+        opacity: 0;
+        transform: translateY(24px);
+
+    }
+
+    to {
+
+        opacity: 1;
+        transform: translateY(0);
+
+    }
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 768px) {
+
+    .prologue,
+    .hero,
+    .coming-soon {
+
+        padding-inline: 1.5rem;
+
+    }
+
+    .prologue__content {
+
+        gap: 2.25rem;
+
+    }
+
+    .hero__roles {
+
+        font-size: 1rem;
+
+    }
+
+    .scroll-indicator {
+
+        bottom: 2rem;
+
+    }
+
+}
