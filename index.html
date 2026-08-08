@@ -1,154 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <!-- ==========================================================
-         Harbor
-         Oak 0.1 — Departure
-         Author: Haga Pradiva
-    =========================================================== -->
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Harbor</title>
-    <meta name="description" content="A harbor exists to be left.">
+    <meta
+        name="description"
+        content="A harbor exists to be left."
+    />
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:opsz,wght@6..72,400;500;600;700&display=swap"
+        rel="stylesheet"
+    />
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:opsz,wght@6..72,400;500;600&display=swap"
-        rel="stylesheet">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Scripts -->
+    <link rel="stylesheet" href="style.css" />
     <script src="main.js" defer></script>
 </head>
-
 <body>
 
-    <!-- ==========================================================
-         PROLOGUE
-    =========================================================== -->
-
-    <section id="prologue" class="prologue">
-
+    <section id="prologue" class="prologue" aria-label="Opening prologue">
         <div class="prologue__content">
-
             <h1 class="prologue__title">
                 Every harbor is built for departure.
             </h1>
 
             <blockquote class="prologue__quote">
-
                 <p>
-                    Twenty years from now you will be more disappointed by the
-                    things that you didn't do than by the ones you did do.
+                    Twenty years from now you will be more disappointed by the things you didn't do than by the ones you did do.
                 </p>
-
                 <p>
-                    So throw off the bowlines.
+                    So throw off the bowlines. Sail away from the safe harbor. Catch the trade winds in your sails.
                 </p>
-
-                <p>
-                    Sail away from the safe harbor.
-                </p>
-
-                <p>
-                    Catch the trade winds in your sails.
-                </p>
-
-                <p>Explore.</p>
-                <p>Dream.</p>
-                <p>Discover.</p>
-
             </blockquote>
+
+            <div class="prologue__callouts" aria-label="Call to action">
+                <p class="prologue__callout prologue__callout--explore">Explore.</p>
+                <p class="prologue__callout prologue__callout--dream">Dream.</p>
+                <p class="prologue__callout prologue__callout--discover">Discover.</p>
+            </div>
 
             <button
                 id="cast-off"
                 class="cast-off-button"
-                type="button">
-
-                Cast off
-
+                type="button"
+                aria-label="Leave the prologue and begin the harbor"
+            >
+                Bon Voyage
             </button>
-
         </div>
-
     </section>
 
-        <!-- ==========================================================
-         HARBOR
-    =========================================================== -->
-
     <main id="harbor" class="harbor" aria-hidden="true">
-
-        <!-- ======================================================
-             HERO
-        ======================================================= -->
-
         <section id="hero" class="hero">
-
             <div class="hero__content">
+                <p class="hero__eyebrow">The personal website of</p>
 
-                <p class="hero__status">
-                    Building quietly.
-                </p>
+                <h1 class="hero__name">Haga Pradiva</h1>
 
-                <h1 class="hero__name">
-                    Haga Pradiva
-                </h1>
-
-                <p class="hero__subtitle">
-                    The personal website of
-                </p>
+                <p class="hero__eyebrow">Building quietly.</p>
 
                 <ul class="hero__roles" aria-label="Roles">
-
-                    <li>Environmental Engineering Student</li>
-                    <li>Designer</li>
+                    <li>Environmental Engineer</li>
+                    <li>Graphic Designer</li>
                     <li>Photographer</li>
-                    <li>Builder</li>
-
+                    <li>Code Learner</li>
+                    <li>Yearner</li>
                 </ul>
-
             </div>
 
             <div class="scroll-indicator" aria-hidden="true">
-
                 <span class="scroll-indicator__line"></span>
-
             </div>
-
         </section>
 
-        <!-- ======================================================
-             PLACEHOLDER
-        ======================================================= -->
-
-        <section class="coming-soon">
-
+        <section class="coming-soon" aria-label="Coming soon">
             <div class="coming-soon__content">
-
-                <h2>
-                    More will arrive with the tide.
-                </h2>
-
+                <h2>More will arrive with the tide.</h2>
                 <p>
-                    Harbor is still under construction.
-                    New destinations will appear as Oak continues
-                    its voyage.
+                    Harbor is still under construction. New destinations will appear as Oak continues its voyage.
                 </p>
-
             </div>
-
         </section>
-
     </main>
 
-    </body>
-
+</body>
 </html>
