@@ -32,7 +32,11 @@ const navObserver = new IntersectionObserver(
 
       navLinks.forEach((link) => {
         const isCurrent = link.getAttribute("href") === `#${entry.target.id}`;
-        link.toggleAttribute("aria-current", isCurrent);
+        if (isCurrent) {
+          link.setAttribute("aria-current", "location");
+        } else {
+          link.removeAttribute("aria-current");
+        }
       });
     });
   },

@@ -120,7 +120,7 @@ select {
   color: var(--text);
 }
 
-.nav a[aria-current="true"] {
+.nav a[aria-current="location"] {
   color: var(--accent);
 }
 
