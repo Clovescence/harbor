@@ -2,6 +2,10 @@ const revealItems = document.querySelectorAll(".reveal");
 const hero = document.querySelector(".hero");
 const orbs = document.querySelectorAll(".orb");
 const yearNode = document.querySelector("[data-year]");
+const navLinks = document.querySelectorAll('.nav a[href^="#"]');
+const navSections = [...navLinks]
+  .map((link) => document.querySelector(link.getAttribute("href")))
+  .filter(Boolean);
 
 if (yearNode) {
   yearNode.textContent = new Date().getFullYear();
@@ -20,6 +24,22 @@ const revealObserver = new IntersectionObserver(
 );
 
 revealItems.forEach((item) => revealObserver.observe(item));
+
+const navObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+
+      navLinks.forEach((link) => {
+        const isCurrent = link.getAttribute("href") === `#${entry.target.id}`;
+        link.toggleAttribute("aria-current", isCurrent);
+      });
+    });
+  },
+  { rootMargin: "-35% 0px -55%", threshold: 0 }
+);
+
+navSections.forEach((section) => navObserver.observe(section));
 
 if (hero && orbs.length) {
   hero.addEventListener("pointermove", (event) => {

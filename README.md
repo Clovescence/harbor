@@ -47,7 +47,14 @@ harbor/
 └── README.md
 ```
 
-The Studio gallery uses local images, preserving their original aspect ratios while keeping each card linked to its Instagram post. This avoids relying on temporary Instagram CDN image URLs and prevents portrait images from being cropped into squares.
+The Studio gallery uses local images and keeps each card linked to its Instagram post. The six posts are arranged in a responsive row-based grid (1–2–3, then 4–5–6); the portrait second post is intentionally cropped to match the square composition. Each gallery image has a 960px, quality-optimized JPEG counterpart and uses lazy loading, so images below the fold do not delay the first render.
+
+## Launch polish
+
+- `assets/favicon.svg` supplies Harbor’s browser-tab icon.
+- `assets/harbor-social.jpg` is the 1200 × 630 social sharing image for WhatsApp, LinkedIn, Discord, and similar services.
+- Open Graph and X/Twitter metadata live in `index.html`. They currently use `https://hagapradiva.com/` as Harbor’s public URL; update those URLs if the final deployment uses a different domain.
+- The navigation highlights the section currently in view.
 
 ## Motion and accessibility
 
