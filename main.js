@@ -1,136 +1,46 @@
-/*
-==========================================================
-Harbor
-Oak 0.1 — Departure
-Author: Haga Pradiva
-==========================================================
-*/
+const revealItems = document.querySelectorAll(".reveal");
+const hero = document.querySelector(".hero");
+const orbs = document.querySelectorAll(".orb");
+const yearNode = document.querySelector("[data-year]");
 
-/*
-==========================================================
-ELEMENTS
-==========================================================
-*/
-
-const prologue = document.querySelector("#prologue");
-const harbor = document.querySelector("#harbor");
-const castOffButton = document.querySelector("#cast-off");
-
-/*
-==========================================================
-CONFIGURATION
-==========================================================
-*/
-
-const TRANSITION_DURATION = 1400;
-
-/*
-==========================================================
-HELPERS
-==========================================================
-*/
-
-function scrambleText(element, targetText, duration = 900) {
-    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%&*#@!~";
-    const start = performance.now();
-
-    function tick(now) {
-        const elapsed = now - start;
-        const progress = Math.min(elapsed / duration, 1);
-
-        let output = "";
-
-        for (let i = 0; i < targetText.length; i++) {
-            if (i < Math.floor(progress * targetText.length)) {
-                output += targetText[i];
-            } else {
-                output += alphabet[Math.floor(Math.random() * alphabet.length)];
-            }
-        }
-
-        element.textContent = output;
-
-        if (progress < 1) {
-            requestAnimationFrame(tick);
-        } else {
-            element.textContent = targetText;
-        }
-    }
-
-    requestAnimationFrame(tick);
+if (yearNode) {
+  yearNode.textContent = new Date().getFullYear();
 }
 
-function animateHeroRoles() {
-    const roleItems = [...document.querySelectorAll(".hero__roles li")];
-
-    if (!roleItems.length) return;
-
-    roleItems.forEach((item, index) => {
-        const finalText = item.textContent.trim();
-
-        item.textContent = "";
-        item.style.opacity = "0";
-        item.style.transform = "translateY(10px)";
-        item.style.filter = "blur(2px)";
-
-        window.setTimeout(() => {
-            item.style.transition = "opacity 220ms ease, transform 220ms ease, filter 220ms ease";
-            item.style.opacity = "1";
-            item.style.transform = "translateY(0)";
-            item.style.filter = "blur(0)";
-            scrambleText(item, finalText, 700 + index * 180);
-        }, 250 + index * 260);
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
+      }
     });
+  },
+  { threshold: 0.18 }
+);
+
+revealItems.forEach((item) => revealObserver.observe(item));
+
+if (hero && orbs.length) {
+  hero.addEventListener("pointermove", (event) => {
+    const rect = hero.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 28;
+    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 28;
+
+    orbs[0].style.transform = `translate(${x * 1.1}px, ${y * 1.1}px) scale(1.05)`;
+    orbs[1].style.transform = `translate(${x * -0.9}px, ${y * -0.9}px) scale(1.08)`;
+    orbs[2].style.transform = `translate(${x * 0.7}px, ${y * 0.7}px) scale(1.12)`;
+  });
+
+  hero.addEventListener("pointerleave", () => {
+    orbs.forEach((orb) => {
+      orb.style.transform = "translate(0, 0) scale(1)";
+    });
+  });
 }
 
-/*
-==========================================================
-JOURNEY
-==========================================================
-*/
-
-function leavePrologue() {
-    if (!prologue) return;
-
-    prologue.classList.add("is-leaving");
-    window.setTimeout(revealHarbor, TRANSITION_DURATION);
-}
-
-function revealHarbor() {
-    if (!harbor) return;
-
-    harbor.classList.add("is-visible");
-    harbor.removeAttribute("aria-hidden");
-
-    if (prologue) {
-        prologue.remove();
-    }
-
-    window.setTimeout(animateHeroRoles, 150);
-}
-
-/*
-==========================================================
-EVENTS
-==========================================================
-*/
-
-if (castOffButton) {
-    castOffButton.addEventListener("click", leavePrologue);
-}
-
-/*
-==========================================================
-INITIALIZATION
-==========================================================
-*/
-
-document.addEventListener("DOMContentLoaded", () => {
-    if (harbor) {
-        harbor.setAttribute("aria-hidden", "true");
-    }
-
-    if (!prologue) {
-        animateHeroRoles();
-    }
+window.addEventListener("load", () => {
+  requestAnimationFrame(() => {
+    document.body.classList.add("is-ready");
+  });
 });
