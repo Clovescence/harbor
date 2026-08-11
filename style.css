@@ -289,6 +289,12 @@ select {
   box-shadow: 0 12px 28px rgba(255, 255, 255, 0.06);
 }
 
+.button--spotify {
+  background: linear-gradient(135deg, rgba(30, 215, 96, 0.22), rgba(30, 215, 96, 0.08));
+  border-color: rgba(30, 215, 96, 0.48);
+  box-shadow: 0 14px 32px rgba(30, 215, 96, 0.12);
+}
+
 .hero__meta {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
