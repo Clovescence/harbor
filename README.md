@@ -81,6 +81,7 @@ Then open `http://127.0.0.1:4173`.
 - **Oak 0.4 — Lighthouse:** projects and GitHub integration
 - **Oak 0.5 — Horizon:** journal
 - **Oak 1.0 — First Voyage:** public launch
+- **Oak 1.1 — Quiet Refinement:** polish, motion tuning, and launch-ready details
 
 ## Principles for future work
 
