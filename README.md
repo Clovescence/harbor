@@ -4,7 +4,7 @@
 
 Harbor is the personal website of **Haga Pradiva**: a quiet place for environmental engineering, visual design, photography, and the work of becoming.
 
-It is not a portfolio template or a résumé in disguise. Harbor is a sequence of scenes—an invitation to pause before setting out.
+It is not a portfolio template or a résumé in disguise. Harbor is a sequence of scenes, an invitation to pause before setting out.
 
 ## Philosophy
 
@@ -47,7 +47,9 @@ harbor/
 └── README.md
 ```
 
-The Studio gallery uses local images and keeps each card linked to its Instagram post. The six posts are arranged in a responsive row-based grid (1–2–3, then 4–5–6); the portrait second post is intentionally cropped to match the square composition. Each gallery image has a 960px, quality-optimized JPEG counterpart and uses lazy loading, so images below the fold do not delay the first render.
+The Studio visual journal keeps one local image in focus at a time, with controls for all six Instagram entries. The image is contained rather than cropped, so each composition keeps its intended proportions. Each gallery image has a 960px, quality-optimized JPEG counterpart and uses lazy loading, so images below the fold do not delay the first render.
+
+The featured **Field Note** is the first deeper artifact in Harbor: an ongoing photographic practice that connects Haga’s engineering education with attention to landscape, field life, and the people inside a place. It is deliberately framed as unfinished. Update its copy and “Last tended” date whenever the practice genuinely moves; it should stay a living signal, not become a stale status block.
 
 ## Launch polish
 
@@ -75,13 +77,13 @@ Then open `http://127.0.0.1:4173`.
 
 ## Roadmap
 
-- **Oak 0.1 — Departure:** prologue, hero, initial transition
-- **Oak 0.2 — North Star:** About and timeline
-- **Oak 0.3 — Tide:** photography gallery, fullscreen viewer, EXIF details
-- **Oak 0.4 — Lighthouse:** projects and GitHub integration
-- **Oak 0.5 — Horizon:** journal
-- **Oak 1.0 — First Voyage:** public launch
-- **Oak 1.1 — Quiet Refinement:** polish, motion tuning, and launch-ready details
+- **Oak 0.1: Departure:** prologue, hero, initial transition
+- **Oak 0.2: North Star:** About and timeline
+- **Oak 0.3: Tide:** photography gallery, fullscreen viewer, EXIF details
+- **Oak 0.4: Lighthouse:** projects and GitHub integration
+- **Oak 0.5: Horizon:** journal
+- **Oak 1.0: First Voyage:** public launch
+- **Oak 1.1: Quiet Refinement:** polish, motion tuning, and launch-ready details
 
 ## Principles for future work
 
