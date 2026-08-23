@@ -12,6 +12,7 @@
   --highlight: #d7b98a;
   --shadow: rgba(0, 0, 0, 0.48);
   --max-width: 1180px;
+  --gutter: clamp(20px, 5vw, 32px);
   --radius: 24px;
   --content-gap: clamp(4.25rem, 7vw, 7rem);
   --font-body: "Inter", sans-serif;
@@ -24,6 +25,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Keep anchored section headings clear of the sticky topbar. */
+  scroll-padding-top: 92px;
 }
 
 body {
@@ -106,7 +109,7 @@ select {
   gap: 24px;
   width: min(100%, var(--max-width));
   margin: 0 auto;
-  padding: 20px 32px 16px;
+  padding: 20px var(--gutter) 16px;
 }
 
 .brand {
@@ -187,7 +190,7 @@ select {
   display: grid;
   place-items: center;
   min-height: calc(100vh - 80px);
-  padding: 54px 0 28px;
+  padding: 54px var(--gutter) 28px;
   overflow: hidden;
   isolation: isolate;
 }
@@ -391,6 +394,8 @@ section {
   width: min(100%, var(--max-width));
   margin: 0 auto;
   padding-top: var(--content-gap);
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
 }
 
 .section-heading {
@@ -505,15 +510,6 @@ section {
   line-height: 1.08;
   letter-spacing: -0.04em;
   max-width: 18ch;
-}
-
-.manifesto__quote-highlight {
-  display: block;
-  margin-top: 0.7rem;
-  color: var(--highlight);
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .manifesto__credit {
@@ -998,7 +994,7 @@ section {
   position: relative;
   z-index: 1;
   display: flex;
-  width: min(calc(100% - 64px), var(--max-width));
+  width: min(calc(100% - (var(--gutter) * 2)), var(--max-width));
   margin: 0 auto;
   align-items: center;
   justify-content: space-between;
@@ -1082,11 +1078,6 @@ section {
 }
 
 @media (max-width: 720px) {
-  .page-shell {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
   .topbar__inner {
     flex-wrap: wrap;
     justify-content: center;
