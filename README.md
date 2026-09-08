@@ -1,73 +1,33 @@
-# Harbor
+# Freyja
 
-> “A harbor exists to be left.”
-
-Harbor is the personal website of **Haga Pradiva**: a quiet place for environmental engineering, visual design, photography, and the work of becoming.
-
-It is not a portfolio template or a résumé in disguise. Harbor is a sequence of scenes, an invitation to pause before setting out.
-
-## Philosophy
-
-Harbor values restraint over spectacle. It should feel quiet, intentional, timeless, warm, peaceful, and cinematic.
-
-Whitespace, darkness, and silence are part of the composition. Motion is used only to communicate a physical feeling: a reveal, a shift in light, a tide. Nothing should move merely to decorate the page.
-
-## Design language
-
-### Typography
-
-| Purpose | Font |
-| --- | --- |
-| Emotion and display moments | Cormorant Garamond |
-| Information and interface | Inter |
-
-Cormorant Garamond carries the emotional voice; Inter keeps information clear and grounded.
-
-### Palette
-
-| Role | Value |
-| --- | --- |
-| Background | `#0B0D10` |
-| Soft background | `#10151A` |
-| Primary text | `#F3EFE7` |
-| Secondary text | `#CFCBC3` |
-| Accent | `#D9A85F` |
-| Border | `rgba(255, 255, 255, 0.08)` |
+Freyja is Haga Pradiva's personal field guide: a quiet static website for environmental engineering, visual practice, notes, and the work of becoming.
 
 ## Current build
 
 This is a deliberately small static site with no build step or framework.
 
 ```text
-harbor/
-├── index.html                 # Content and page structure
-├── style.css                  # Layout, visual system, responsive rules, motion
-├── main.js                    # Reveal observer, cursor light, current year
-├── instagram-posts/           # Local images used by the Studio gallery
+freyja/
+├── index.html       # Page structure and content
+├── style.css        # Editorial layout, visual system, responsive rules
+├── main.js          # Reveal observer, active navigation, current year
+├── assets/          # FIS favicon
 └── README.md
 ```
 
-The Studio visual journal keeps one local image in focus at a time, with controls for all six Instagram entries. The image is contained rather than cropped, so each composition keeps its intended proportions. Each gallery image has a 960px, quality-optimized JPEG counterpart and uses lazy loading, so images below the fold do not delay the first render.
+The `Self`, `Work`, `Eye`, and `Threshold` sections form the site's current information architecture. The Eye section is intentionally an image-free archive scaffold. It uses tactile placeholders until there is a new body of work worth adding.
 
-The featured **Field Note** is the first deeper artifact in Harbor: an ongoing photographic practice that connects Haga’s engineering education with attention to landscape, field life, and the people inside a place. It is deliberately framed as unfinished. Update its copy and “Last tended” date whenever the practice genuinely moves; it should stay a living signal, not become a stale status block.
+## Design language
 
-## Launch polish
-
-- `assets/favicon.svg` supplies Harbor’s browser-tab icon.
-- `assets/harbor-social.jpg` is the 1200 × 630 social sharing image for WhatsApp, LinkedIn, Discord, and similar services.
-- Open Graph and X/Twitter metadata live in `index.html`. They currently use `https://hagapradiva.com/` as Harbor’s public URL; update those URLs if the final deployment uses a different domain.
-- The navigation highlights the section currently in view.
-
-## Motion and accessibility
-
-- Sections reveal once as they enter the viewport.
-- The hero’s light responds gently to pointer movement.
-- The footer tide spans the viewport with a low-contrast, slow drift.
-- Visitors who enable **Reduce Motion** receive a still version of the experience with visible content and no smooth scrolling.
+- Aged paper, forest ink, stone lines, muted violet, and restrained bronze
+- Fraunces for display moments and DM Sans for navigation and metadata
+- FIS as a small recurring seal and visual signature
+- Motion used for section reveals and gentle interaction feedback
+- Reduced-motion support and visible keyboard focus states
 
 ## Run locally
 
-Because Harbor is static, any local web server will do. For example:
+Because Freyja is static, any local web server will do:
 
 ```sh
 python3 -m http.server 4173
@@ -75,19 +35,10 @@ python3 -m http.server 4173
 
 Then open `http://127.0.0.1:4173`.
 
-## Roadmap
+## Principles
 
-- **Oak 0.1: Departure:** prologue, hero, initial transition
-- **Oak 0.2: North Star:** About and timeline
-- **Oak 0.3: Tide:** photography gallery, fullscreen viewer, EXIF details
-- **Oak 0.4: Lighthouse:** projects and GitHub integration
-- **Oak 0.5: Horizon:** journal
-- **Oak 1.0: First Voyage:** public launch
-- **Oak 1.1: Quiet Refinement:** polish, motion tuning, and launch-ready details
-
-## Principles for future work
-
-- Build for Future Me: keep every file readable years from now.
-- Explain before implementing: architectural choices deserve a reason.
-- Separate responsibilities: HTML is structure, CSS is space and appearance, JavaScript is change over time.
-- Choose craft over speed.
+- HTML is structure.
+- CSS is space and appearance.
+- JavaScript is change over time.
+- Empty space can be content.
+- Future images should be added only when they belong to the archive.

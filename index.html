@@ -3,337 +3,58 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Haga Pradiva: Engineer, designer, curious builder</title>
-    <meta
-      name="description"
-      content="Harbor is Haga Pradiva's personal space for environmental engineering, visual design, photography, and the work of becoming."
-    />
-    <meta name="theme-color" content="#0B0D10" />
+    <title>Freyja — Haga Pradiva</title>
+    <meta name="description" content="Freyja is Haga Pradiva's personal world of environmental engineering, visual work, photographs, and notes." />
+    <meta name="theme-color" content="#17251d" />
     <link rel="canonical" href="https://hagapradiva.com/" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://hagapradiva.com/" />
-    <meta property="og:title" content="Haga Pradiva: Engineer, designer, curious builder" />
-    <meta property="og:description" content="A personal space for environmental engineering, visual design, photography, and the work of becoming." />
-    <meta property="og:image" content="https://hagapradiva.com/assets/harbor-social.jpg" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Haga Pradiva: Engineer, designer, curious builder" />
-    <meta name="twitter:description" content="A personal space for environmental engineering, visual design, photography, and the work of becoming." />
-    <meta name="twitter:image" content="https://hagapradiva.com/assets/harbor-social.jpg" />
-
+    <meta property="og:title" content="Freyja — Haga Pradiva" />
+    <meta property="og:description" content="A personal world of environmental engineering, visual work, photographs, and notes." />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Freyja — Haga Pradiva" />
+    <meta name="twitter:description" content="A personal world of environmental engineering, visual work, photographs, and notes." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml" />
-    <link rel="shortcut icon" href="assets/favicon.svg?v=2" />
-
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet" />
+    <link rel="icon" href="assets/favicon.svg?v=3" type="image/svg+xml" />
     <link rel="stylesheet" href="style.css" />
     <script src="main.js" defer></script>
   </head>
   <body>
-    <a class="skip-link" href="#about">Skip to Haga's story</a>
-    <div class="page-shell">
-      <header class="topbar">
-        <div class="topbar__inner">
-          <a class="brand" href="#top" aria-label="Harbor home">
-            <span class="brand__mark">H</span>
-            <span>Harbor</span>
-          </a>
-
-          <nav class="nav" aria-label="Main navigation">
-            <a href="#about">About</a>
-            <a href="#compass">Compass</a>
-            <a href="#field-notes">Field notes</a>
-            <a href="#contact">Contact</a>
-          </nav>
-
-          <a href="#contact" class="topbar__cta">Begin</a>
-        </div>
+    <div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+    <a class="skip-link" href="#self">Skip to the story</a>
+    <div class="site-shell">
+      <header class="topbar" data-site-header>
+        <a class="brand" href="#top" aria-label="Freyja home"><span class="monogram" aria-hidden="true">FIS</span><span class="brand__name">Freyja</span></a>
+        <nav class="nav" aria-label="Main navigation"><a href="#self">Self</a><a href="#work">Work</a><a href="#eye">Eye</a><a href="#threshold">Threshold</a></nav>
+        <span class="topbar__date">Vol. 01 / 2026</span>
       </header>
 
       <main id="top">
-        <section class="hero">
-          <div class="hero__background" aria-hidden="true">
-            <div class="orb orb--one"></div>
-            <div class="orb orb--two"></div>
-            <div class="orb orb--three"></div>
-          </div>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero__copy reveal"><p class="overline">A personal field guide to becoming</p><h1 id="hero-title">Freyja</h1><p class="hero__subtitle">A world in three movements: what I believe, what I build, and what I notice.</p><p class="hero__aside">Haga Pradiva<br />environmental engineering · visual practice</p></div>
+          <div class="hero__placeholder placeholder placeholder--hero" role="img" aria-label="Reserved space for future visual work"><span class="placeholder__glyph" aria-hidden="true">FIS</span><span class="placeholder__label">Visual record / reserved</span><span class="placeholder__index">01</span></div>
+        </section>
 
-          <div class="hero__content reveal">
-            <p class="eyebrow">A personal practice across environmental engineering &amp; visual design</p>
-            <h1>
-              <span class="hero__wordmark">Harbor</span>
-              <span class="hero__byline">by Haga Pradiva</span>
-            </h1>
-            <p class="lede">
-              I’m Haga, an environmental engineering student and visual designer who
-              follows questions past the obvious, then turns what I find into images,
-              systems, and small beginnings.
-            </p>
-
-            <div class="hero__actions">
-              <a class="button button--primary" href="#about">Meet Haga</a>
-              <a class="button button--secondary" href="#studio">See current work</a>
-            </div>
-
-            <div class="hero__meta" aria-label="Core focus areas">
-              <div>
-                <span>Studying</span>
-                <strong>Environmental Engineering</strong>
-              </div>
-              <div>
-                <span>Making</span>
-                <strong>Visual Narratives</strong>
-              </div>
-              <div>
-                <span>Drawn to</span>
-                <strong>Thoughtful Beginnings</strong>
-              </div>
-            </div>
+        <section class="field-index" aria-label="Current field index">
+          <div class="field-index__heading"><span class="live-dot" aria-hidden="true"></span><span>Field index</span><span class="field-index__date">Tended / <time data-tended-date datetime="2026-09-08">08.09.26</time></span></div>
+          <div class="field-index__items">
+            <div><span class="field-index__label">Studying</span><strong>Environmental systems</strong></div>
+            <div><span class="field-index__label">Making</span><strong>Interfaces with a pulse</strong></div>
+            <div><span class="field-index__label">Keeping</span><strong>Questions before answers</strong></div>
           </div>
         </section>
 
-        <section id="about" class="about reveal">
-          <div class="section-heading">
-            <p class="eyebrow">About Haga</p>
-            <h2>A patient eye, a curious mind, and a preference for the honest answer.</h2>
-          </div>
+        <section id="self" class="self section reveal"><div class="section-marker"><span>01</span><span>Self</span></div><div class="self__content"><p class="overline">A working identity</p><h2>One person, several ways of paying attention.</h2><p class="intro">I study environmental engineering, make visual things, take photographs, and follow questions that do not stay in one discipline for long.</p><p class="body-copy">Freyja is the place where those interests can sit beside each other without being tidied into a job title. It is part notebook, part studio, part evidence of a life still taking shape.</p></div><aside class="identity-note"><p class="note-label">The underlying order</p><dl><div><dt>Freyja</dt><dd>character / desire / becoming</dd></div><div><dt>Iris</dt><dd>sight / colour / interpretation</dd></div><div><dt>Sequoia</dt><dd>roots / systems / time</dd></div></dl></aside></section>
 
-          <div class="about__grid">
-            <article class="panel panel--large">
-              <p class="panel__label">Purpose</p>
-              <blockquote>
-                “I want the things I make to be useful, felt, and awake to the world
-                around them. I would rather understand the hard thing than repeat the
-                easy answer.”
-              </blockquote>
-            </article>
+        <section id="work" class="work section reveal"><div class="section-marker"><span>02</span><span>Work</span></div><div class="work__heading"><p class="overline">Things made and understood</p><h2>Observe a system.<br />Make a response.</h2></div><div class="work__grid"><article class="work-item work-item--large"><span class="work-item__symbol" aria-hidden="true">∿</span><p class="note-label">Working study / 01</p><h3>Water as a way into systems.</h3><p>Environmental engineering begins with attention to movement: where water gathers, what carries it, and what a place reveals when weather changes.</p><dl class="work-item__facts"><div><dt>Question</dt><dd>What does a place need before it can be improved?</dd></div><div><dt>Method</dt><dd>Observe, map, stay with the evidence.</dd></div></dl></article><article class="work-item"><span class="work-item__symbol" aria-hidden="true">✳</span><p class="note-label">Visual design</p><h3>Making thought visible.</h3><p>Interfaces, marks, and small systems for ideas that deserve a clearer shape.</p></article><article class="work-item"><span class="work-item__symbol" aria-hidden="true">◌</span><p class="note-label">Field note / ongoing</p><h3>The long look.</h3><p>A practice of staying with a place before deciding what it means or what it needs.</p></article></div></section>
 
-            <div class="about__notes">
-              <article class="panel">
-                <p class="panel__label">Approach</p>
-                <p>
-                  I notice patterns, small shifts, and contradictions, then stay with
-                  them long enough for a clearer question to appear.
-                </p>
-              </article>
+        <section id="eye" class="eye section reveal"><div class="section-marker"><span>03</span><span>Eye</span></div><div class="eye__intro"><p class="overline">A growing visual archive</p><h2>The frame is waiting for what comes next.</h2><p class="intro">Photography will live here as a collected record of landscape, field life, roadside light, and the people inside a place.</p></div><div class="archive-placeholder" role="img" aria-label="Reserved space for the future photography archive"><div class="placeholder placeholder--archive"><span class="placeholder__glyph" aria-hidden="true">◌</span><span class="placeholder__label">Future image archive</span><span class="placeholder__index">01 / 06</span></div><div class="archive-placeholder__note"><span class="note-label">Archive status</span><p>Images will return when there is something worth keeping.</p><span class="archive-placeholder__rule" aria-hidden="true"></span></div></div><div class="eye__triptych"><div class="placeholder placeholder--small" role="img" aria-label="Reserved future visual study, entry 2"><span class="placeholder__glyph" aria-hidden="true">I</span><span class="placeholder__label">Future study</span><span class="placeholder__index">02</span></div><div class="placeholder placeholder--small" role="img" aria-label="Reserved future visual study, entry 3"><span class="placeholder__glyph" aria-hidden="true">S</span><span class="placeholder__label">Future study</span><span class="placeholder__index">03</span></div><div class="placeholder placeholder--small" role="img" aria-label="Reserved future visual study, entry 4"><span class="placeholder__glyph" aria-hidden="true">F</span><span class="placeholder__label">Future study</span><span class="placeholder__index">04</span></div></div></section>
 
-              <article class="panel">
-                <p class="panel__label">Current rhythm</p>
-                <p>
-                  Designing with environmental sensitivity, taking photographs, and
-                  learning the language of code, one patient experiment at a time.
-                </p>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section id="compass" class="manifesto reveal">
-          <div class="manifesto__copy">
-            <p class="eyebrow">What guides the work</p>
-            <blockquote class="manifesto__quote">
-              Look long enough to see what is actually there. Make something that
-              answers to it. Leave room for wonder.
-            </blockquote>
-            <p class="manifesto__credit">A working compass, not a finished map.</p>
-          </div>
-
-          <div class="manifesto__steps" aria-label="Principles">
-            <article>
-              <span>01</span>
-              <h3>Observe</h3>
-              <p>Pay attention to what is asking to be changed, shaped, or released.</p>
-            </article>
-            <article>
-              <span>02</span>
-              <h3>Create</h3>
-              <p>Make with intention. Let beauty serve purpose and purpose sharpen beauty.</p>
-            </article>
-            <article>
-              <span>03</span>
-              <h3>Depart</h3>
-              <p>Move forward without apology. Carry the signal of your work into the next tide.</p>
-            </article>
-          </div>
-        </section>
-
-        <section id="studio" class="studio reveal">
-          <div class="studio__header">
-            <p class="eyebrow">Current work</p>
-            <h2>A visual journal, one frame at a time.</h2>
-            <p class="studio__intro">
-              Landscape, field life, people, and the details worth keeping. Each frame
-              is a way of staying with a question a little longer.
-            </p>
-          </div>
-
-          <div class="studio__gallery" data-gallery aria-label="Six recent works on Instagram">
-            <a class="studio__stage" data-gallery-link href="https://www.instagram.com/p/DUhJgeaE_pX/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" rel="noreferrer noopener" aria-label="Open visual journal entry one on Instagram">
-              <img src="instagram-posts/post-1-optimized.jpg" alt="A visual study combining climbing leaves and a wave-like emblem" loading="lazy" />
-              <span class="studio__stage-label" aria-hidden="true">Open on Instagram <span>↗</span></span>
-            </a>
-            <div class="studio__gallery-footer">
-              <p class="studio__caption" aria-live="polite">
-                <span class="studio__count" data-gallery-count>01 / 06</span>
-                <span data-gallery-caption>A mark looking for a place to land.</span>
-              </p>
-              <div class="studio__controls" aria-label="Visual journal controls">
-                <button class="studio__control" type="button" data-gallery-previous aria-label="Show previous work">Previous</button>
-                <button class="studio__control" type="button" data-gallery-next aria-label="Show next work">Next</button>
-              </div>
-            </div>
-            <div class="studio__pagination" aria-label="Choose a visual journal entry">
-              <button class="is-active" type="button" data-gallery-slide="0" aria-label="Show work 1 of 6" aria-current="true">01</button>
-              <button type="button" data-gallery-slide="1" aria-label="Show work 2 of 6">02</button>
-              <button type="button" data-gallery-slide="2" aria-label="Show work 3 of 6">03</button>
-              <button type="button" data-gallery-slide="3" aria-label="Show work 4 of 6">04</button>
-              <button type="button" data-gallery-slide="4" aria-label="Show work 5 of 6">05</button>
-              <button type="button" data-gallery-slide="5" aria-label="Show work 6 of 6">06</button>
-            </div>
-          </div>
-
-          <div class="studio__tags" aria-label="Short identity labels">
-            <span>Environmental Engineer</span>
-            <span>Visual Designer</span>
-            <span>Photographer</span>
-            <span>Yearner</span>
-            <span>Curious Builder</span>
-          </div>
-        </section>
-
-        <section id="field-notes" class="feature reveal" aria-labelledby="field-notes-title">
-          <div class="feature__intro">
-            <p class="eyebrow">Featured field note</p>
-            <p class="feature__number">No. 01 · Ongoing</p>
-            <h2 id="field-notes-title">Learning to look before trying to solve.</h2>
-            <p class="feature__lede">
-              Engineering trains me to ask how a system works. Photography reminds me
-              to notice who and what it holds. This is a practice of keeping both
-              instincts in the same frame.
-            </p>
-          </div>
-
-          <div class="feature__details">
-            <dl>
-              <div>
-                <dt>Starting question</dt>
-                <dd>How might I pay closer attention to a place before deciding what it needs?</dd>
-              </div>
-              <div>
-                <dt>Role</dt>
-                <dd>Photographer, observer, editor</dd>
-              </div>
-              <div>
-                <dt>Materials</dt>
-                <dd>Landscape, field life, roadside light</dd>
-              </div>
-            </dl>
-            <p>
-              Not a finished answer or a portfolio proof, just a growing record of
-              attention, made close to the places and people around my studies.
-            </p>
-          </div>
-
-          <div class="feature__images">
-            <figure>
-              <img src="instagram-posts/post-2-optimized.jpg" alt="A green hillside and calm river under a clouded sky" loading="lazy" />
-              <figcaption><span>01</span> Water carries weather.</figcaption>
-            </figure>
-            <figure>
-              <img src="instagram-posts/post-5-optimized.jpg" alt="A group of students in green jackets gathering outdoors" loading="lazy" />
-              <figcaption><span>02</span> A field is people, too.</figcaption>
-            </figure>
-            <figure>
-              <img src="instagram-posts/post-6-optimized.jpg" alt="A person sitting beside a lit roadside late at night" loading="lazy" />
-              <figcaption><span>03</span> Leave room to look.</figcaption>
-            </figure>
-          </div>
-
-          <a
-            class="feature__link"
-            href="https://instagram.com/hagapradiva"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            Follow the field note on Instagram <span aria-hidden="true">↗</span>
-          </a>
-        </section>
-
-        <section id="contact" class="contact reveal">
-          <div class="contact__card">
-            <p class="eyebrow">Reach out</p>
-            <h2>Let’s create something worth setting sail for.</h2>
-            <p class="contact__bio">
-              I’m Haga, an environmental engineering student who spends an unreasonable
-              amount of time turning ideas into things that can be seen, heard, or
-              wandered through. I’m drawn to photography, design, music, and the quiet
-              art of building something from nothing. Somewhere between engineering and
-              creativity, I’m still figuring out what kind of life I want to make, one
-              project, photograph, song, and questionable late-night idea at a time.
-            </p>
-
-            <aside class="now-note" aria-label="What Haga is doing now">
-              <p class="now-note__label">Now</p>
-              <p>
-                Collecting field notes, learning in public, and building the next
-                version of Harbor. <span>Last tended · August 2026</span>
-              </p>
-            </aside>
-
-            <div class="contact__actions">
-              <a
-                class="button button--primary"
-                href="https://instagram.com/hagapradiva"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Instagram
-              </a>
-              <a
-                class="button button--spotify"
-                href="https://open.spotify.com/user/dav6z2wtexqello99ulntvsv9?si=a4c35b45979d4984"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Spotify
-              </a>
-              <a
-                class="button button--secondary"
-                href="https://www.linkedin.com/in/hagapradiva/"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                LinkedIn
-              </a>
-              <a
-                class="button button--secondary"
-                href="mailto:haga@hagapradiva.com"
-              >
-                Email
-              </a>
-            </div>
-          </div>
-        </section>
+        <section id="threshold" class="threshold section reveal"><div class="threshold__line"></div><p class="overline">At the edge of the world</p><h2>There is more to notice.</h2><p class="threshold__copy">For future photographs, half-formed ideas, music, or a conversation about the strange overlap between systems and beauty.</p><div class="threshold__links"><a href="mailto:haga@hagapradiva.com">Email <span>↗</span></a><a href="https://instagram.com/hagapradiva" target="_blank" rel="noreferrer noopener">Instagram <span>↗</span></a><a href="https://open.spotify.com/user/dav6z2wtexqello99ulntvsv9" target="_blank" rel="noreferrer noopener">Currently listening <span>↗</span></a><a href="https://www.linkedin.com/in/hagapradiva/" target="_blank" rel="noreferrer noopener">LinkedIn <span>↗</span></a></div></section>
       </main>
-
-      <footer class="footer">
-        <div class="footer__wave" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div class="footer__inner">
-          <p>Harbor is still arriving.</p>
-          <p>© <span data-year></span> Harbor</p>
-        </div>
-      </footer>
+      <footer class="footer"><div class="footer__mark" aria-hidden="true">FIS</div><p>Keep looking closely.</p><p>© <span data-year></span> Freyja / Haga Pradiva</p></footer>
     </div>
   </body>
 </html>
