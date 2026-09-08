@@ -51,4 +51,3 @@ updateScrollChrome();
 window.addEventListener("scroll", updateScrollChrome, { passive: true });
 window.addEventListener("resize", updateScrollChrome);
 
-window.addEventListener("load", () => requestAnimationFrame(() => document.body.classList.add("is-ready")));
