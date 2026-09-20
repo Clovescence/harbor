@@ -1,4 +1,4 @@
-// Freyja - Main Interactions (Polished with Lenis & GSAP)
+// Sequoia - Main Interactions (Polished with Lenis & GSAP)
 
 // Initialize Lenis for smooth scrolling
 const lenis = new Lenis({
@@ -30,37 +30,59 @@ document.addEventListener('DOMContentLoaded', () => {
     const hour = new Date().getHours();
     const root = document.documentElement;
     if (hour >= 20 || hour < 5) {
-      root.style.setProperty('--bg-deep', '#041216');
-      root.style.setProperty('--bg-secondary', '#0A1C20');
+      root.style.setProperty('--bg-deep', '#071510');
+      root.style.setProperty('--bg-secondary', '#0B1D14');
     } else if (hour >= 5 && hour < 10) {
-      root.style.setProperty('--bg-deep', '#081D22');
-      root.style.setProperty('--bg-secondary', '#0F2E34');
+      root.style.setProperty('--bg-deep', '#0C1E15');
+      root.style.setProperty('--bg-secondary', '#12271C');
     } else if (hour >= 16 && hour < 20) {
-      root.style.setProperty('--bg-deep', '#0A1A1E');
-      root.style.setProperty('--bg-secondary', '#112529');
+      root.style.setProperty('--bg-deep', '#0E2018');
+      root.style.setProperty('--bg-secondary', '#14291F');
     }
   };
   setTimeOfDayAtmosphere();
 
   // 1.5. Live Environment Sync (Weather API)
   window.isRaining = false;
+  const WMO_CONDITIONS = {
+    0: 'Clear sky', 1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast',
+    45: 'Fog', 48: 'Rime fog',
+    51: 'Light drizzle', 53: 'Drizzle', 55: 'Dense drizzle',
+    61: 'Light rain', 63: 'Rain', 65: 'Heavy rain',
+    71: 'Light snow', 73: 'Snow', 75: 'Heavy snow',
+    80: 'Rain showers', 81: 'Moderate showers', 82: 'Violent showers',
+    95: 'Thunderstorm', 96: 'Thunderstorm w/ hail', 99: 'Severe thunderstorm'
+  };
+
   const syncLiveWeather = async () => {
     try {
       // Bandung coordinates
       const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-6.9147&longitude=107.6098&current_weather=true');
       const data = await res.json();
-      const code = data.current_weather.weathercode;
-      // WMO Weather interpretation codes: 50+ indicates drizzle/rain/snow/thunderstorm
+      const weather = data.current_weather;
+      const code = weather.weathercode;
+
+      // Update atmosphere
       if (code >= 50) {
-        document.documentElement.style.setProperty('--bg-deep', '#020A0C');
-        document.documentElement.style.setProperty('--bg-secondary', '#051216');
-        window.isRaining = true; // Signals the WebGL shader to intensify
+        document.documentElement.style.setProperty('--bg-deep', '#061008');
+        document.documentElement.style.setProperty('--bg-secondary', '#091810');
+        window.isRaining = true;
       }
+
+      // Update weather widget
+      const tempEl = document.getElementById('weather-temp');
+      const condEl = document.getElementById('weather-condition');
+      const windEl = document.getElementById('weather-wind');
+
+      if (tempEl) tempEl.textContent = `${Math.round(weather.temperature)}°`;
+      if (condEl) condEl.textContent = WMO_CONDITIONS[code] || 'Unknown';
+      if (windEl) windEl.textContent = `${Math.round(weather.windspeed)} km/h`;
     } catch (e) {
       console.log('Atmosphere sync offline.');
     }
   };
   syncLiveWeather();
+  setInterval(syncLiveWeather, 300000); // Refresh every 5 minutes
 
   // 1.6. Live Spotify "Currently Playing" Sync
   const SPOTIFY_CLIENT_ID = '86802d9c7f674439967ea56da49bae59';
@@ -117,6 +139,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (trackData.item.external_urls && trackData.item.external_urls.spotify) {
           linkEl.href = trackData.item.external_urls.spotify;
+        }
+        
+        // Tab Presence: Live Spotify Status
+        if (trackData.is_playing && !document.hidden) {
+           document.title = `▶ ${trackData.item.name} — Sequoia`;
+        } else if (!document.hidden) {
+           document.title = `Sequoia / Haga Pradiva`;
         }
       }
     } catch (e) {
@@ -321,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
         archive.innerHTML = '';
         
         const sequence = [
-          "FREYJA OS v2.0.26 INIT...",
+          "SEQUOIA OS v2.0.26 INIT...",
           "LOADING KERNEL MODULES [OK]",
           "MOUNTING /dev/sda1 [OK]",
           "ESTABLISHING AUDIO LINK...",
@@ -431,5 +460,61 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   fetchJournalEntries();
+
+
+
+  // 12. Tab Presence
+  let originalTitle = document.title;
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      originalTitle = document.title;
+      document.title = "Come back to the quiet room.";
+    } else {
+      document.title = originalTitle;
+    }
+  });
+
+  // 13. Scroll Progress Bar
+  const progressBar = document.getElementById('scroll-progress');
+  if (progressBar) {
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      progressBar.style.width = progress + '%';
+    }, { passive: true });
+  }
+
+  // 14. Parallax Depth on Frames
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !prefersReducedMotion) {
+    document.querySelectorAll('[data-speed]').forEach(el => {
+      const speed = parseFloat(el.dataset.speed);
+      gsap.to(el, {
+        y: () => (1 - speed) * ScrollTrigger.maxScroll(window) * 0.15,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.5,
+          invalidateOnRefresh: true
+        }
+      });
+    });
+  }
+
+  // 15. Live Bandung Clock (Footer + Weather Widget)
+  const clockEl = document.getElementById('footer-clock');
+  const weatherClockEl = document.getElementById('weather-time-live');
+  const tickClock = () => {
+    const now = new Date().toLocaleTimeString('en-GB', {
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+      timeZone: 'Asia/Jakarta'
+    });
+    if (clockEl) clockEl.textContent = now + ' WIB';
+    if (weatherClockEl) weatherClockEl.textContent = now;
+  };
+  tickClock();
+  setInterval(tickClock, 1000);
 
 });

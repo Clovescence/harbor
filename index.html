@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Freyja / Haga Pradiva</title>
+  <title>Sequoia / Haga Pradiva</title>
   <meta name="description" content="A place for things I make, things I notice, and things I haven't figured out yet.">
   <meta name="theme-color" content="#061A1F">
   
-  <meta property="og:title" content="Freyja / Haga Pradiva">
+  <meta property="og:title" content="Sequoia / Haga Pradiva">
   <meta property="og:description" content="A living archive of environmental engineering, photography, visual design, and questions.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://hagapradiva.com">
-  <meta property="og:image" content="https://hagapradiva.com/assets/freyja-social.jpg">
+  <meta property="og:image" content="https://hagapradiva.com/assets/sequoia-social.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,6 +25,9 @@
   <!-- Film Grain Overlay -->
   <div id="film-grain"></div>
 
+  <!-- Scroll Progress -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
   <!-- Custom Cursor -->
   <div id="custom-cursor" aria-hidden="true">
     <span class="cursor-label"></span>
@@ -32,7 +35,7 @@
 
   <header class="site-header reveal">
     <div class="page-container header-container">
-      <div class="freyja-mark" id="freyja-trigger" tabindex="0" role="button" aria-label="Freyja hidden archive trigger" data-magnetic>
+      <div class="freyja-mark" id="freyja-trigger" tabindex="0" role="button" aria-label="Sequoia hidden archive trigger" data-magnetic>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
           <path d="M7 4V20M7 4H16M7 11H13" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="15.5" cy="11.5" r="1.5" fill="currentColor" stroke="none" />
@@ -57,7 +60,7 @@
       <div class="page-container grid-asymmetric">
         <div class="hero-content reveal">
           <p class="text-overline">Haga Pradiva / <span data-year>2026</span></p>
-          <h1 class="text-hero split-reveal">Freyja</h1>
+          <h1 class="text-hero split-reveal">Sequoia</h1>
           <p class="text-body-large hero-statement split-reveal">A place for things I make, things I notice, and things I haven't figured out yet.</p>
           
           <div class="hero-meta">
@@ -74,11 +77,21 @@
         </div>
         <div class="hero-visual reveal" aria-hidden="true">
           <div class="hero-orb"></div>
+          <div class="weather-widget" id="weather-widget">
+            <p class="weather-location">Bandung, ID</p>
+            <p class="weather-temp" id="weather-temp">--°</p>
+            <p class="weather-condition" id="weather-condition">Syncing...</p>
+            <div class="weather-details">
+              <span id="weather-wind">-- km/h</span>
+              <span class="weather-divider">·</span>
+              <span id="weather-time-live">--:--:--</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section index-section reveal" aria-label="Freyja Index">
+    <section class="section index-section reveal" aria-label="Sequoia Index">
       <div class="page-container">
          <ul class="freyja-index">
             <li><a href="#about"><span class="index-num">01 /</span><span class="index-name">About</span><span class="index-preview">Who & Now</span></a></li>
@@ -107,7 +120,7 @@
             <h3 class="text-h3 split-reveal">Current state</h3>
             <ul class="state-list">
               <li><span class="state-label">STUDYING</span><span class="state-value">Environmental Engineering</span></li>
-              <li><span class="state-label">BUILDING</span><span class="state-value">Freyja</span></li>
+              <li><span class="state-label">BUILDING</span><span class="state-value">Sequoia</span></li>
               <li><span class="state-label">PHOTOGRAPHING</span><span class="state-value">Ordinary places</span></li>
               <li><span class="state-label">LEARNING</span><span class="state-value">Web development</span></li>
             </ul>
@@ -179,7 +192,7 @@
         </div>
         
         <div class="frames-grid reveal">
-          <div class="frame-item frame-landscape" data-cursor="VIEW" aria-label="Photograph placeholder" role="img">
+          <div class="frame-item frame-landscape" data-cursor="VIEW" data-speed="0.92" aria-label="Photograph placeholder" role="img">
             <div class="frame-image-placeholder">
               <span class="text-overline">FRAME 001</span>
             </div>
@@ -188,7 +201,7 @@
               <span class="text-small">Bandung, 2026</span>
             </div>
           </div>
-          <div class="frame-item frame-portrait" data-cursor="VIEW" aria-label="Photograph placeholder" role="img">
+          <div class="frame-item frame-portrait" data-cursor="VIEW" data-speed="1.08" aria-label="Photograph placeholder" role="img">
             <div class="frame-image-placeholder">
               <span class="text-overline">FRAME 002</span>
             </div>
@@ -197,7 +210,7 @@
               <span class="text-small">2025</span>
             </div>
           </div>
-          <div class="frame-item frame-square" data-cursor="VIEW" aria-label="Photograph placeholder" role="img">
+          <div class="frame-item frame-square" data-cursor="VIEW" data-speed="0.96" aria-label="Photograph placeholder" role="img">
             <div class="frame-image-placeholder">
               <span class="text-overline">FRAME 003</span>
             </div>
@@ -256,6 +269,19 @@
           <h2 class="text-h2 split-reveal">Soundtrack.</h2>
           <p class="text-body-large">A dark room for music. The albums and atmospheres that belong here.</p>
           <a href="https://open.spotify.com/user/dav6z2wtexqello99ulntvsv9" target="_blank" rel="noreferrer noopener" class="text-overline spotify-link" data-cursor="LISTEN">Spotify Profile ↗</a>
+          
+          <div class="signals-philosophy" style="margin-top: 4rem; border-left: 1px solid var(--accent-gold); padding-left: 1.5rem;">
+            <p class="text-small" style="font-style: italic; line-height: 1.8; opacity: 0.8;">"I don't make playlists for moods. I make playlists for versions of myself I haven't met yet."</p>
+          </div>
+
+          <div class="signals-mood-tags" style="margin-top: 3rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            <span class="meta-tag">late night drives</span>
+            <span class="meta-tag">rain on windows</span>
+            <span class="meta-tag">2am thinking</span>
+            <span class="meta-tag">golden hour</span>
+            <span class="meta-tag">heartbreak era</span>
+            <span class="meta-tag">quietly hopeful</span>
+          </div>
         </div>
         
         <div class="signals-records reveal">
@@ -294,6 +320,10 @@
                     <p class="text-small">supir pusing, penumpang pusing, storage dia ga cukup buat Google Maps</p>
                  </div>
               </a>
+
+              <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--line-color);">
+                <p class="text-small" style="opacity: 0.5; letter-spacing: 0.05em;">More playlists available on Spotify →</p>
+              </div>
            </div>
         </div>
       </div>
@@ -341,7 +371,8 @@
   <footer class="site-footer">
     <div class="footer-horizon" aria-hidden="true"></div>
     <div class="page-container footer-content">
-      <p class="text-overline">Freyja / <span data-year>2026</span></p>
+      <p class="text-overline">Sequoia / <span data-year>2026</span></p>
+      <p class="text-overline footer-clock" id="footer-clock">--:--:-- WIB</p>
       <p class="text-overline">Still becoming.</p>
     </div>
   </footer>

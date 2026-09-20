@@ -1,4 +1,4 @@
-// Freyja - Synthesized Sound Design (Web Audio API)
+// Sequoia - Synthesized Sound Design (Web Audio API)
 // No external assets required. Completely procedural.
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -78,13 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', initAudio);
   document.addEventListener('keydown', initAudio);
 
-  // Bind hover sound to interactive elements
-  const interactiveElements = document.querySelectorAll('a, button, [data-cursor], [data-magnetic]');
-  interactiveElements.forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        playHoverSound();
-      }
-    });
-  });
+  // Bind hover sound to ALL interactive elements using event delegation
+  // This ensures dynamically added elements (Spotify, Journal) also trigger sounds
+  document.addEventListener('mouseenter', (e) => {
+    const el = e.target.closest('a, button, [data-cursor], [data-magnetic]');
+    if (el && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      playHoverSound();
+    }
+  }, true); // useCapture = true for delegation
 });

@@ -1,4 +1,4 @@
-// Freyja - WebGL Atmosphere (Three.js)
+// Sequoia - WebGL Atmosphere (Three.js)
 
 if (typeof THREE !== 'undefined') {
   const initWebGL = () => {
@@ -72,8 +72,8 @@ if (typeof THREE !== 'undefined') {
         float grain = hash(st * (100.0 + uTime * 10.0)) * 0.04;
 
         // Color blending
-        vec3 color1 = vec3(0.015, 0.04, 0.05); // Dark teal
-        vec3 color2 = vec3(0.005, 0.01, 0.015);
+        vec3 color1 = vec3(0.04, 0.10, 0.07); // Deep racing green
+        vec3 color2 = vec3(0.02, 0.06, 0.04); // Forest shadow
         
         float mixVal = smoothstep(0.2, 1.5, n);
         vec3 finalColor = mix(color1, color2, mixVal) + grain;
