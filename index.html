@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Freyja / Haga Pradiva</title>
+  <meta name="description" content="A place for things I make, things I notice, and things I haven't figured out yet.">
+  <meta name="theme-color" content="#061A1F">
+  
+  <meta property="og:title" content="Freyja / Haga Pradiva">
+  <meta property="og:description" content="A living archive of environmental engineering, photography, visual design, and questions.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hagapradiva.com">
+  <meta property="og:image" content="https://hagapradiva.com/assets/freyja-social.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Film Grain Overlay -->
+  <div id="film-grain"></div>
+
+  <!-- Custom Cursor -->
+  <div id="custom-cursor" aria-hidden="true">
+    <span class="cursor-label"></span>
+  </div>
+
+  <header class="site-header reveal">
+    <div class="page-container header-container">
+      <div class="freyja-mark" id="freyja-trigger" tabindex="0" role="button" aria-label="Freyja hidden archive trigger" data-magnetic>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M7 4V20M7 4H16M7 11H13" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="15.5" cy="11.5" r="1.5" fill="currentColor" stroke="none" />
+        </svg>
+      </div>
+      <nav class="site-nav" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li><a href="#about" data-magnetic>About</a></li>
+          <li><a href="#work" data-magnetic>Work</a></li>
+          <li><a href="#frames" data-magnetic>Frames</a></li>
+          <li><a href="#field" data-magnetic>Field</a></li>
+          <li><a href="#journal" data-magnetic>Journal</a></li>
+          <li><a href="#signals" data-magnetic>Signals</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    
+    <section class="section hero" id="home">
+      <div class="page-container grid-asymmetric">
+        <div class="hero-content reveal">
+          <p class="text-overline">Haga Pradiva / <span data-year>2026</span></p>
+          <h1 class="text-hero split-reveal">Freyja</h1>
+          <p class="text-body-large hero-statement split-reveal">A place for things I make, things I notice, and things I haven't figured out yet.</p>
+          
+          <div class="hero-meta">
+            <span class="meta-tag">Environmental Engineering</span>
+            <span class="meta-tag">Photography</span>
+            <span class="meta-tag">Visual Design</span>
+            <span class="meta-tag">Currently Becoming</span>
+          </div>
+
+          <a href="#about" class="hero-invitation" data-magnetic>
+            Wander in
+            <span class="arrow" aria-hidden="true">↓</span>
+          </a>
+        </div>
+        <div class="hero-visual reveal" aria-hidden="true">
+          <div class="hero-orb"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section index-section reveal" aria-label="Freyja Index">
+      <div class="page-container">
+         <ul class="freyja-index">
+            <li><a href="#about"><span class="index-num">01 /</span><span class="index-name">About</span><span class="index-preview">Who & Now</span></a></li>
+            <li><a href="#work"><span class="index-num">02 /</span><span class="index-name">Work</span><span class="index-preview">Practice</span></a></li>
+            <li><a href="#frames"><span class="index-num">03 /</span><span class="index-name">Frames</span><span class="index-preview">Seen</span></a></li>
+            <li><a href="#field"><span class="index-num">04 /</span><span class="index-name">Field</span><span class="index-preview">Systems</span></a></li>
+            <li><a href="#journal"><span class="index-num">05 /</span><span class="index-name">Journal</span><span class="index-preview">Notes</span></a></li>
+            <li><a href="#signals"><span class="index-num">06 /</span><span class="index-name">Signals</span><span class="index-preview">Soundtrack</span></a></li>
+            <li><a href="#cabinet"><span class="index-num">07 /</span><span class="index-name">Cabinet</span><span class="index-preview">Collected</span></a></li>
+            <li><a href="#contact"><span class="index-num">08 /</span><span class="index-name">Contact</span><span class="index-preview">Depart</span></a></li>
+         </ul>
+      </div>
+    </section>
+
+    <section class="section about-section" id="about">
+      <div class="page-container grid-asymmetric">
+        <div class="about-fragments reveal">
+          <p class="text-overline">01 / About</p>
+          <h2 class="text-h2 split-reveal">One person, several ways of paying attention.</h2>
+          
+          <div class="fragment fragment-a">
+            <p class="text-body-large">Environmental engineering student. Designer. Photographer. Someone interested in systems, places, images, music, and the strange overlap between technical and creative thinking.</p>
+          </div>
+          
+          <div class="fragment fragment-b now-state">
+            <h3 class="text-h3 split-reveal">Current state</h3>
+            <ul class="state-list">
+              <li><span class="state-label">STUDYING</span><span class="state-value">Environmental Engineering</span></li>
+              <li><span class="state-label">BUILDING</span><span class="state-value">Freyja</span></li>
+              <li><span class="state-label">PHOTOGRAPHING</span><span class="state-value">Ordinary places</span></li>
+              <li><span class="state-label">LEARNING</span><span class="state-value">Web development</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="about-sidebar reveal">
+           <div class="fragment fragment-d small-facts">
+             <p class="text-overline">Small facts</p>
+             <ul class="facts-list">
+               <li>Currently in Bandung</li>
+               <li>Loves music</li>
+               <li>Obsessed with Skyrim</li>
+               <li>Drinks coffee</li>
+               <li>Fascinated by places</li>
+             </ul>
+           </div>
+           
+           <div class="things-care-about mt-4">
+             <p class="text-overline">Things I care about</p>
+             <dl class="care-list">
+               <dt>PLACES</dt><dd>Landscapes, cities, rooms, roads, coastlines.</dd>
+               <dt>SYSTEMS</dt><dd>Environment, infrastructure, engineering.</dd>
+               <dt>IMAGES</dt><dd>Photography, composition, color.</dd>
+             </dl>
+           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section work-section" id="work">
+      <div class="page-container">
+        <div class="section-header reveal">
+          <p class="text-overline">02 / Work</p>
+          <h2 class="text-h2 split-reveal">Practice and projects.</h2>
+        </div>
+        
+        <div class="work-grid reveal">
+          <article class="work-item technical">
+             <span class="work-icon" aria-hidden="true">∿</span>
+             <p class="text-overline">Environmental Engineering / Academic</p>
+             <h3 class="text-h3">Water as a way into systems.</h3>
+             <p class="text-small">Environmental engineering begins with attention to movement: where water gathers, what carries it, and what a place reveals when weather changes.</p>
+             <div class="work-meta">
+               <span class="meta-label">2026</span>
+               <span class="meta-label">Research</span>
+             </div>
+          </article>
+          
+          <article class="work-item visual">
+             <span class="work-icon" aria-hidden="true">✳</span>
+             <p class="text-overline">Visual Design / Digital</p>
+             <h3 class="text-h3">Making thought visible.</h3>
+             <p class="text-small">Interfaces, marks, and small systems for ideas that deserve a clearer shape. Exploring typography and atmospheric design.</p>
+             <div class="work-meta">
+               <span class="meta-label">2025</span>
+               <span class="meta-label">Experiment</span>
+             </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section frames-section" id="frames">
+      <div class="page-container">
+        <div class="section-header reveal">
+          <p class="text-overline">03 / Frames</p>
+          <h2 class="text-h2 split-reveal">Seen and collected.</h2>
+          <p class="text-body-large">The frame is waiting for what comes next. A record of landscape, field life, and roadside light.</p>
+        </div>
+        
+        <div class="frames-grid reveal">
+          <div class="frame-item frame-landscape" data-cursor="VIEW" aria-label="Photograph placeholder" role="img">
+            <div class="frame-image-placeholder">
+              <span class="text-overline">FRAME 001</span>
+            </div>
+            <div class="frame-caption">
+              <p>Roadside light.</p>
+              <span class="text-small">Bandung, 2026</span>
+            </div>
+          </div>
+          <div class="frame-item frame-portrait" data-cursor="VIEW" aria-label="Photograph placeholder" role="img">
+            <div class="frame-image-placeholder">
+              <span class="text-overline">FRAME 002</span>
+            </div>
+            <div class="frame-caption">
+              <p>I don't remember why I took this. I am glad I did.</p>
+              <span class="text-small">2025</span>
+            </div>
+          </div>
+          <div class="frame-item frame-square" data-cursor="VIEW" aria-label="Photograph placeholder" role="img">
+            <div class="frame-image-placeholder">
+              <span class="text-overline">FRAME 003</span>
+            </div>
+            <div class="frame-caption">
+              <p>Morning systems.</p>
+              <span class="text-small">2026</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section field-section" id="field">
+      <div class="page-container grid-asymmetric">
+        <div class="field-content reveal">
+          <p class="text-overline">04 / Field</p>
+          <h2 class="text-h2 split-reveal">Field notebook.</h2>
+          <p class="text-body-large">Observations of environmental systems, infrastructure, and the spaces where nature and engineering intersect.</p>
+          
+          <div class="field-notes">
+            <article class="field-note">
+              <div class="field-coords">06°54' S / 107°36' E</div>
+              <h3 class="text-h3">Observation 01</h3>
+              <p class="text-small">Water quality variations after heavy rainfall in urban watersheds. The system behaves predictably but the outcomes are chaotic.</p>
+            </article>
+          </div>
+        </div>
+        <div class="field-visual reveal" aria-hidden="true">
+          <div class="technical-diagram">
+            <div class="diagram-line"></div>
+            <div class="diagram-point" style="top: 20%; left: 30%;"><span>01</span></div>
+            <div class="diagram-point" style="top: 60%; left: 70%;"><span>02</span></div>
+            <div class="diagram-point" style="top: 80%; left: 40%;"><span>03</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section journal-section" id="journal">
+      <div class="page-container">
+        <div class="section-header reveal">
+          <p class="text-overline">05 / Journal</p>
+          <h2 class="text-h2 split-reveal">Small observations.</h2>
+        </div>
+        
+        <div class="journal-entries reveal" id="journal-container">
+          <p class="text-small" style="opacity: 0.5;">Loading field notes from GitHub API...</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section signals-section" id="signals">
+      <div class="page-container grid-asymmetric">
+        <div class="signals-content reveal">
+          <p class="text-overline">06 / Signals</p>
+          <h2 class="text-h2 split-reveal">Soundtrack.</h2>
+          <p class="text-body-large">A dark room for music. The albums and atmospheres that belong here.</p>
+          <a href="https://open.spotify.com/user/dav6z2wtexqello99ulntvsv9" target="_blank" rel="noreferrer noopener" class="text-overline spotify-link" data-cursor="LISTEN">Spotify Profile ↗</a>
+        </div>
+        
+        <div class="signals-records reveal">
+           <div class="main-record">
+             <a href="https://open.spotify.com/playlist/5TW8KqpDEQXYHAvGbSKM8b" target="_blank" rel="noreferrer noopener" class="record-item" data-cursor="LISTEN" data-magnetic id="spotify-live-link">
+                <div class="record-cover">
+                   <img src="https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da842f647f1d55692b51c1678afd" alt="anjing dada gw sakit playlist cover" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;" id="spotify-live-cover" />
+                </div>
+                <div class="record-info" style="margin-top: 1.5rem;">
+                   <span class="text-overline" style="color: var(--accent-gold);" id="spotify-live-status">Currently listening</span>
+                   <h3 class="text-h3" style="font-size: 1.5rem; margin: 0.5rem 0 0.2rem; transition: color 0.3s;" id="spotify-live-title">anjing dada gw sakit</h3>
+                   <p class="text-small" style="max-width: 250px; margin: 0 auto; line-height: 1.4; opacity: 0.7;" id="spotify-live-artist">ILYBMBIR IWYBTMWLM ITTBTPYE BINR INR</p>
+                </div>
+             </a>
+           </div>
+           
+           <div class="side-records">
+              <h4 class="text-overline" style="margin-bottom: 1.5rem; color: var(--text-soft); padding-bottom: 0.5rem; border-bottom: 1px solid var(--line-color);">Also on rotation</h4>
+              
+              <a href="https://open.spotify.com/playlist/3nLbZHz6IrUpO91tm63AoX" target="_blank" rel="noreferrer noopener" class="record-item-small" data-cursor="LISTEN">
+                 <div class="record-cover">
+                    <img src="https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84fc8f1932c4a15f305ba4f538" alt="7 kursi playlist cover" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;" />
+                 </div>
+                 <div class="record-info">
+                    <h3 class="text-h3">7 kursi, yang duduk sendiri</h3>
+                    <p class="text-small">rahasia menjadi nonchalant di tol Padaleunyi</p>
+                 </div>
+              </a>
+              
+              <a href="https://open.spotify.com/playlist/5KjSry7FPhVLx4tTMU4LN0" target="_blank" rel="noreferrer noopener" class="record-item-small" data-cursor="LISTEN">
+                 <div class="record-cover">
+                    <img src="https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84618a64736272b830002247b6" alt="lurus apa kiri playlist cover" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;" />
+                 </div>
+                 <div class="record-info">
+                    <h3 class="text-h3">lurus apa kiri?</h3>
+                    <p class="text-small">supir pusing, penumpang pusing, storage dia ga cukup buat Google Maps</p>
+                 </div>
+              </a>
+           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cabinet-section" id="cabinet">
+      <div class="page-container">
+        <div class="cabinet-header reveal">
+           <p class="text-overline">07 / Cabinet</p>
+           <h2 class="text-h2 split-reveal">Collected things.</h2>
+        </div>
+        <div class="cabinet-body reveal">
+           <div class="cabinet-item text-fragment">
+             <span class="text-overline">QUOTE</span>
+             <p class="text-body-large">"A harbor exists to be left."</p>
+             <span class="text-small">— Former iteration</span>
+           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact-section" id="contact">
+      <div class="page-container text-center reveal">
+        <p class="text-overline">08 / Depart</p>
+        <h2 class="text-h2 split-reveal" style="max-width: 800px; margin: 0 auto 1.5rem;">If you found something here worth talking about, you know where to find me.</h2>
+        
+        <div class="contact-links mt-4">
+          <a href="mailto:haga@hagapradiva.com" class="text-overline" data-magnetic>Email ↗</a>
+          <a href="https://instagram.com/hagapradiva" target="_blank" rel="noreferrer noopener" class="text-overline" data-magnetic>Instagram ↗</a>
+          <a href="https://www.linkedin.com/in/hagapradiva/" target="_blank" rel="noreferrer noopener" class="text-overline" data-magnetic>LinkedIn ↗</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- The Secret Archive (Easter Egg) -->
+  <div class="secret-archive" aria-hidden="true">
+    <div class="page-container">
+      <p class="text-overline" style="color: var(--accent-gold);">ARCHIVE / FRAGMENT</p>
+      <p class="text-body-large" style="margin-top: 1rem;">You found the quietest room in the house. Welcome.</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-horizon" aria-hidden="true"></div>
+    <div class="page-container footer-content">
+      <p class="text-overline">Freyja / <span data-year>2026</span></p>
+      <p class="text-overline">Still becoming.</p>
+    </div>
+  </footer>
+
+  <div id="image-viewer" class="image-viewer" aria-hidden="true" role="dialog">
+    <button class="viewer-close" aria-label="Close viewer" data-magnetic>×</button>
+    <div class="viewer-content">
+      <div class="viewer-image-container"></div>
+      <div class="viewer-caption"></div>
+    </div>
+  </div>
+
+  <!-- Libraries for $10k Polish Phase 1 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Core Logic -->
+  <script src="main.js"></script>
+  <script src="gl.js"></script>
+  <script src="audio.js"></script>
+</body>
+</html>
