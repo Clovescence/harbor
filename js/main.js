@@ -372,8 +372,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const offset = index - currentCfIndex;
         
         if (offset < 0) {
-          // Items passed (hide on the left)
-          item.style.transform = `translate3d(-100px, 0, 50px) rotateY(20deg) scale(0.8)`;
+          // Items passed (slide seamlessly behind the vinyl deck on the left)
+          // We translate it far left (-300px), push it back (-100px) and scale it down.
+          // Since the vinyl deck has z-index: 10, this will slide beautifully behind it before fading.
+          item.style.transform = `translate3d(-300px, 0, -100px) rotateY(20deg) scale(0.6)`;
           item.style.opacity = '0';
           item.style.pointerEvents = 'none';
         } else {
