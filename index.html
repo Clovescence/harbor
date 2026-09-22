@@ -197,8 +197,8 @@
               <span class="text-overline">FRAME 001</span>
             </div>
             <div class="frame-caption">
-              <p>Roadside light.</p>
-              <span class="text-small">Bandung, 2026</span>
+              <p>Water tension and ripples.</p>
+              <span class="text-small">Surface study, 2026</span>
             </div>
           </div>
           <div class="frame-item frame-portrait" data-cursor="VIEW" data-speed="1.08" aria-label="Photograph placeholder" role="img">
@@ -206,8 +206,8 @@
               <span class="text-overline">FRAME 002</span>
             </div>
             <div class="frame-caption">
-              <p>I don't remember why I took this. I am glad I did.</p>
-              <span class="text-small">2025</span>
+              <p>The concrete spillway.</p>
+              <span class="text-small">Flow control, 2025</span>
             </div>
           </div>
           <div class="frame-item frame-square" data-cursor="VIEW" data-speed="0.96" aria-label="Photograph placeholder" role="img">
@@ -215,8 +215,8 @@
               <span class="text-overline">FRAME 003</span>
             </div>
             <div class="frame-caption">
-              <p>Morning systems.</p>
-              <span class="text-small">2026</span>
+              <p>Steel veins and distribution.</p>
+              <span class="text-small">Infrastructure, 2026</span>
             </div>
           </div>
         </div>
@@ -240,10 +240,9 @@
         </div>
         <div class="field-visual reveal" aria-hidden="true">
           <div class="technical-diagram">
-            <div class="diagram-line"></div>
-            <div class="diagram-point" style="top: 20%; left: 30%;"><span>01</span></div>
-            <div class="diagram-point" style="top: 60%; left: 70%;"><span>02</span></div>
-            <div class="diagram-point" style="top: 80%; left: 40%;"><span>03</span></div>
+            <div class="diagram-point" style="left: 30%;"><span>DATA.01</span></div>
+            <div class="diagram-point" style="left: 70%;"><span>DATA.02</span></div>
+            <div class="diagram-point" style="left: 40%;"><span>DATA.03</span></div>
           </div>
         </div>
       </div>
@@ -341,6 +340,12 @@
              <p class="text-body-large">"A harbor exists to be left."</p>
              <span class="text-small">— Former iteration</span>
            </div>
+           
+           <div class="cabinet-item text-fragment">
+             <span class="text-overline">NOTE</span>
+             <p class="text-body-large">The shape of a system is defined by what it fails to contain.</p>
+             <span class="text-small">— Field Notebook</span>
+           </div>
         </div>
       </div>
     </section>
@@ -350,7 +355,7 @@
         <p class="text-overline">08 / Depart</p>
         <h2 class="text-h2 split-reveal" style="max-width: 800px; margin: 0 auto 1.5rem;">If you found something here worth talking about, you know where to find me.</h2>
         
-        <div class="contact-links mt-4">
+        <div class="contact-links" style="margin-top: 3rem;">
           <a href="mailto:haga@hagapradiva.com" class="text-overline" data-magnetic>Email ↗</a>
           <a href="https://instagram.com/hagapradiva" target="_blank" rel="noreferrer noopener" class="text-overline" data-magnetic>Instagram ↗</a>
           <a href="https://www.linkedin.com/in/hagapradiva/" target="_blank" rel="noreferrer noopener" class="text-overline" data-magnetic>LinkedIn ↗</a>
@@ -362,9 +367,15 @@
 
   <!-- The Secret Archive (Easter Egg) -->
   <div class="secret-archive" aria-hidden="true">
-    <div class="page-container">
-      <p class="text-overline" style="color: var(--accent-gold);">ARCHIVE / FRAGMENT</p>
-      <p class="text-body-large" style="margin-top: 1rem;">You found the quietest room in the house. Welcome.</p>
+    <div class="page-container" id="terminal-container" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%; padding-bottom: 2rem;">
+      <div id="terminal-output" style="overflow-y: auto; margin-bottom: 1rem; max-height: 80vh;">
+         <p class="text-overline" style="color: var(--accent-gold);">ARCHIVE / FRAGMENT</p>
+         <p class="text-body-large" style="margin-top: 1rem;">You found the quietest room in the house. Welcome.</p>
+      </div>
+      <div class="terminal-input-line" style="display: flex; align-items: center; opacity: 0;" id="terminal-input-wrapper">
+         <span style="color: var(--accent-teal); margin-right: 0.5rem; font-family: monospace;">></span>
+         <input type="text" id="terminal-input" style="background: transparent; border: none; color: var(--text-ivory); font-family: monospace; font-size: 1rem; flex: 1; outline: none;" autocomplete="off" spellcheck="false" autofocus>
+      </div>
     </div>
   </div>
 

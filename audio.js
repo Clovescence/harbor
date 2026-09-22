@@ -30,6 +30,59 @@ document.addEventListener('DOMContentLoaded', () => {
     osc.stop(t + 0.04);
   };
 
+  // Synthesize a terminal typing sound (higher pitch, tighter envelope)
+  const playTypingSound = () => {
+    if (audioCtx.state === 'suspended') return;
+    
+    const t = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(400 + Math.random() * 200, t); // Slight randomization
+    osc.frequency.exponentialRampToValueAtTime(50, t + 0.015);
+    
+    gain.gain.setValueAtTime(0.0, t);
+    gain.gain.linearRampToValueAtTime(0.02, t + 0.002);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.02);
+    
+    // Simple lowpass filter to make it sound muffled/retro
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = 1200;
+    
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(audioCtx.destination);
+    
+    osc.start(t);
+    osc.stop(t + 0.03);
+  };
+
+  // Synthesize an ethereal sweep for when the secret archive is unlocked
+  const playSweepSound = () => {
+    if (audioCtx.state === 'suspended') return;
+    
+    const t = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(100, t);
+    osc.frequency.exponentialRampToValueAtTime(800, t + 0.5);
+    osc.frequency.exponentialRampToValueAtTime(100, t + 1.5);
+    
+    gain.gain.setValueAtTime(0.0, t);
+    gain.gain.linearRampToValueAtTime(0.1, t + 0.5);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 1.5);
+    
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    
+    osc.start(t);
+    osc.stop(t + 2.0);
+  };
+
   // Synthesize a deep, breathing ambient drone
   const startAmbientDrone = () => {
     if (ambientStarted || audioCtx.state === 'suspended') return;
@@ -79,11 +132,17 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', initAudio);
 
   // Bind hover sound to ALL interactive elements using event delegation
-  // This ensures dynamically added elements (Spotify, Journal) also trigger sounds
   document.addEventListener('mouseenter', (e) => {
     const el = e.target.closest('a, button, [data-cursor], [data-magnetic]');
     if (el && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       playHoverSound();
     }
   }, true); // useCapture = true for delegation
+  
+  // Export functions to window for use in main.js
+  window.SequoiaAudio = {
+      playHoverSound,
+      playTypingSound,
+      playSweepSound
+  };
 });

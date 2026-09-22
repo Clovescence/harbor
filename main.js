@@ -25,22 +25,79 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
 document.addEventListener('DOMContentLoaded', () => {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // 1. Time of Day Atmosphere Shift
-  const setTimeOfDayAtmosphere = () => {
-    const hour = new Date().getHours();
-    const root = document.documentElement;
-    if (hour >= 20 || hour < 5) {
-      root.style.setProperty('--bg-deep', '#071510');
-      root.style.setProperty('--bg-secondary', '#0B1D14');
-    } else if (hour >= 5 && hour < 10) {
-      root.style.setProperty('--bg-deep', '#0C1E15');
-      root.style.setProperty('--bg-secondary', '#12271C');
-    } else if (hour >= 16 && hour < 20) {
-      root.style.setProperty('--bg-deep', '#0E2018');
-      root.style.setProperty('--bg-secondary', '#14291F');
+  // 1. Time of Day Atmosphere Shift & Theme Manager
+  class ThemeManager {
+    constructor() {
+      this.palettes = {
+        dawn: { bgDeep: [12, 30, 21], bgSec: [18, 39, 28], accent1: [212, 184, 122], textIvory: [240, 235, 225] },
+        day: { bgDeep: [10, 26, 18], bgSec: [15, 34, 24], accent1: [201, 169, 110], textIvory: [237, 232, 224] },
+        dusk: { bgDeep: [14, 32, 24], bgSec: [20, 41, 31], accent1: [217, 140, 90], textIvory: [245, 220, 200] },
+        night: { bgDeep: [7, 21, 16], bgSec: [11, 29, 20], accent1: [150, 160, 180], textIvory: [220, 230, 240] },
+        matrix: { bgDeep: [0, 15, 0], bgSec: [0, 25, 0], accent1: [0, 255, 0], textIvory: [150, 255, 150] } // Secret theme
+      };
+      this.tick();
+      setInterval(() => this.tick(), 60000); // Every minute
     }
-  };
-  setTimeOfDayAtmosphere();
+
+    lerp(c1, c2, t) {
+      return [
+        Math.round(c1[0] + (c2[0] - c1[0]) * t),
+        Math.round(c1[1] + (c2[1] - c1[1]) * t),
+        Math.round(c1[2] + (c2[2] - c1[2]) * t)
+      ];
+    }
+
+    tick() {
+      if (window.themeOverride) return;
+
+      const d = new Date();
+      const hour = d.getHours();
+      const min = d.getMinutes();
+      const totalHours = hour + min / 60;
+      
+      let p1, p2, t;
+      if (totalHours >= 5 && totalHours < 8) { // Dawn transition
+         p1 = this.palettes.night; p2 = this.palettes.dawn; t = (totalHours - 5) / 3;
+      } else if (totalHours >= 8 && totalHours < 16) { // Day
+         p1 = this.palettes.dawn; p2 = this.palettes.day; t = (totalHours - 8) / 8;
+      } else if (totalHours >= 16 && totalHours < 19) { // Dusk transition
+         p1 = this.palettes.day; p2 = this.palettes.dusk; t = (totalHours - 16) / 3;
+      } else if (totalHours >= 19 && totalHours < 21) { // Night transition
+         p1 = this.palettes.dusk; p2 = this.palettes.night; t = (totalHours - 19) / 2;
+      } else { // Deep Night
+         p1 = this.palettes.night; p2 = this.palettes.night; t = 1;
+      }
+
+      const curBgDeep = this.lerp(p1.bgDeep, p2.bgDeep, t);
+      const curBgSec = this.lerp(p1.bgSec, p2.bgSec, t);
+      const curAcc1 = this.lerp(p1.accent1, p2.accent1, t);
+      const curText = this.lerp(p1.textIvory, p2.textIvory, t);
+      
+      this.applyPalette(curBgDeep, curBgSec, curAcc1, curText);
+    }
+
+    applyPalette(bg, sec, acc, text) {
+       const root = document.documentElement;
+       root.style.setProperty('--bg-deep', `rgb(${bg.join(',')})`);
+       root.style.setProperty('--bg-secondary', `rgb(${sec.join(',')})`);
+       root.style.setProperty('--accent-gold', `rgb(${acc.join(',')})`);
+       root.style.setProperty('--text-ivory', `rgb(${text.join(',')})`);
+    }
+    
+    forceTheme(mode) {
+       if (mode === 'auto') {
+           window.themeOverride = false;
+           this.tick();
+           return;
+       }
+       const p = this.palettes[mode];
+       if (p) {
+           window.themeOverride = true;
+           this.applyPalette(p.bgDeep, p.bgSec, p.accent1, p.textIvory);
+       }
+    }
+  }
+  window.themeManager = new ThemeManager();
 
   // 1.5. Live Environment Sync (Weather API)
   window.isRaining = false;
@@ -84,42 +141,14 @@ document.addEventListener('DOMContentLoaded', () => {
   syncLiveWeather();
   setInterval(syncLiveWeather, 300000); // Refresh every 5 minutes
 
-  // 1.6. Live Spotify "Currently Playing" Sync
-  const SPOTIFY_CLIENT_ID = '86802d9c7f674439967ea56da49bae59';
-  const SPOTIFY_CLIENT_SECRET = '168e9f5de091488ca2b09612e1deec86';
-  const SPOTIFY_REFRESH_TOKEN = 'AQDj-CDV5syYk594fWP86VfGsj0lyHqgT9gjGU6dmBP28DvWISWsmdnLjFXFhy7tCmZ75AEgb3tc582R1s0NBuMB_LD2KUfy8j_QoxPS0PjgzqaOSXipD20v4gK1sKACEpg';
-
+  // 1.6. Live Spotify "Currently Playing" Sync (Backend Powered)
   const fetchCurrentlyPlaying = async () => {
     try {
-      // 1. Get a fresh access token
-      const authStr = btoa(`${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`);
-      const tokenRes = await fetch('https://accounts.spotify.com/api/token', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Basic ${authStr}`,
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: new URLSearchParams({
-          grant_type: 'refresh_token',
-          refresh_token: SPOTIFY_REFRESH_TOKEN
-        })
-      });
-      const tokenData = await tokenRes.json();
-      
-      if (!tokenData.access_token) return;
-
-      // 2. Get currently playing track
-      const trackRes = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
-        headers: { 'Authorization': `Bearer ${tokenData.access_token}` }
-      });
-
-      // 204 means nothing is playing right now
-      if (trackRes.status === 204 || trackRes.status > 400) return;
-
+      const trackRes = await fetch('http://localhost:8000/api/spotify/now-playing');
       const trackData = await trackRes.json();
-      if (!trackData.item) return;
+      
+      if (trackData.error) return;
 
-      // 3. Update DOM
       const titleEl = document.getElementById('spotify-live-title');
       const artistEl = document.getElementById('spotify-live-artist');
       const coverEl = document.getElementById('spotify-live-cover');
@@ -127,8 +156,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const statusEl = document.getElementById('spotify-live-status');
 
       if (titleEl && artistEl && coverEl && linkEl && statusEl) {
-        statusEl.textContent = trackData.is_playing ? 'Currently playing' : 'Last played';
-        statusEl.style.color = trackData.is_playing ? 'var(--accent-teal)' : 'var(--accent-gold)';
+        if (!trackData.is_playing) {
+            statusEl.textContent = 'Offline';
+            return;
+        }
+        statusEl.textContent = 'Currently playing';
+        statusEl.style.color = 'var(--accent-teal)';
         
         titleEl.textContent = trackData.item.name;
         artistEl.textContent = trackData.item.artists.map(a => a.name).join(', ');
@@ -141,11 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
           linkEl.href = trackData.item.external_urls.spotify;
         }
         
-        // Tab Presence: Live Spotify Status
-        if (trackData.is_playing && !document.hidden) {
+        if (!document.hidden) {
            document.title = `▶ ${trackData.item.name} — Sequoia`;
-        } else if (!document.hidden) {
-           document.title = `Sequoia / Haga Pradiva`;
         }
       }
     } catch (e) {
@@ -285,12 +315,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
-  // 7. Frames 3D Hover Parallax
+  // 7. Frames 3D Hover Parallax (Fallback if WebGL fails)
   const frames = document.querySelectorAll('.frame-item');
   if (!prefersReducedMotion) {
     frames.forEach(frame => {
       const placeholder = frame.querySelector('.frame-image-placeholder');
       frame.addEventListener('mousemove', (e) => {
+        if (frame.classList.contains('gl-active')) return;
         const rect = frame.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -306,6 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       
       frame.addEventListener('mouseleave', () => {
+        if (frame.classList.contains('gl-active')) return;
         placeholder.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
         placeholder.style.boxShadow = `0 10px 30px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.03)`;
       });
@@ -331,10 +363,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 9. Secret Layer (Easter Egg) Expansion -> ARG Terminal Mode
+  // 9. Secret Layer (Easter Egg) Expansion -> WebSocket Terminal
   const freyjaTrigger = document.getElementById('freyja-trigger');
   let clickCount = 0;
   let clickTimer;
+  let ws;
 
   if (freyjaTrigger) {
     freyjaTrigger.addEventListener('click', () => {
@@ -345,116 +378,118 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.add('secret-layer-active');
         clickCount = 0;
         
-        // Terminal Boot Sequence
-        const archive = document.querySelector('.secret-archive');
-        archive.innerHTML = '';
+        if (window.SequoiaAudio && window.SequoiaAudio.playSweepSound) {
+            window.SequoiaAudio.playSweepSound();
+        }
         
-        const sequence = [
-          "SEQUOIA OS v2.0.26 INIT...",
-          "LOADING KERNEL MODULES [OK]",
-          "MOUNTING /dev/sda1 [OK]",
-          "ESTABLISHING AUDIO LINK...",
-          "WARNING: WEATHER SYNC ACTIVE.",
-          "ACCESS GRANTED.",
-          "Welcome to the quiet room."
-        ];
+        const output = document.getElementById('terminal-output');
+        const inputLine = document.getElementById('terminal-input-wrapper');
+        const input = document.getElementById('terminal-input');
         
-        let i = 0;
-        const printLine = () => {
-          if (i < sequence.length) {
+        if (!output || !inputLine || !input) return;
+        
+        output.innerHTML = '';
+        inputLine.style.opacity = '0';
+        
+        const appendLine = (text, isSystem = true) => {
             const p = document.createElement('p');
             p.className = 'text-small';
             p.style.fontFamily = 'monospace';
             p.style.marginBottom = '0.5rem';
-            p.style.color = i === sequence.length - 1 ? 'var(--accent-gold)' : 'var(--accent-teal)';
-            p.textContent = sequence[i];
-            archive.appendChild(p);
-            i++;
-            setTimeout(printLine, 300 + Math.random() * 500);
-          } else {
-             const exitBtn = document.createElement('button');
-             exitBtn.textContent = 'EXIT';
-             exitBtn.style.marginTop = '2rem';
-             exitBtn.style.background = 'transparent';
-             exitBtn.style.color = 'var(--text-ivory)';
-             exitBtn.style.border = '1px solid var(--accent-gold)';
-             exitBtn.style.padding = '0.5rem 1rem';
-             exitBtn.style.cursor = 'pointer';
-             exitBtn.addEventListener('click', () => document.body.classList.remove('secret-layer-active'));
-             archive.appendChild(exitBtn);
-          }
+            p.style.color = isSystem ? 'var(--accent-teal)' : 'var(--text-ivory)';
+            p.textContent = text;
+            output.appendChild(p);
+            output.scrollTop = output.scrollHeight;
         };
-        setTimeout(printLine, 500);
+        
+        // Connect WS
+        if (ws) ws.close();
+        ws = new WebSocket('ws://localhost:8000/ws/terminal');
+        
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.type === 'boot') {
+               appendLine(data.message, true);
+               setTimeout(() => {
+                   inputLine.style.opacity = '1';
+                   input.focus();
+               }, 1000);
+            } else if (data.type === 'output') {
+               appendLine(data.message, true);
+            } else if (data.type === 'theme') {
+               if (window.themeManager) {
+                   window.themeManager.forceTheme(data.mode);
+               }
+            }
+        };
+        
+        ws.onclose = () => {
+            appendLine("Connection lost.", true);
+        };
+        
+        input.addEventListener('keydown', (e) => {
+            if (e.key !== 'Enter' && e.key !== 'Shift' && e.key !== 'Control' && e.key !== 'Alt') {
+                if (window.SequoiaAudio && window.SequoiaAudio.playTypingSound) {
+                    window.SequoiaAudio.playTypingSound();
+                }
+            }
+            if (e.key === 'Enter') {
+                const val = input.value.trim();
+                if (val === 'exit') {
+                    document.body.classList.remove('secret-layer-active');
+                    ws.close();
+                    return;
+                }
+                if (val) {
+                    appendLine(`> ${val}`, false);
+                    ws.send(val);
+                }
+                input.value = '';
+            }
+        });
       } else {
         clickTimer = setTimeout(() => { clickCount = 0; }, 1000);
       }
     });
   }
-  // 10. The Hacker CMS: GitHub Issues as Journal Entries
+  // 10. SQLite Database Journal Entries (Backend API)
   const fetchJournalEntries = async () => {
     const container = document.getElementById('journal-container');
     if (!container) return;
 
     try {
-      // Fetch open issues created by Clovescence in the harbor repo
-      const res = await fetch('https://api.github.com/repos/Clovescence/harbor/issues?state=open&creator=Clovescence');
+      const res = await fetch('http://localhost:8000/api/journal');
+      if (!res.ok) throw new Error('API returned ' + res.status);
       
-      if (!res.ok) throw new Error('GitHub API returned ' + res.status);
+      const data = await res.json();
+      const entries = data.entries;
       
-      const issues = await res.json();
-      
-      if (issues.length === 0) {
+      if (!entries || entries.length === 0) {
         container.innerHTML = '<p class="text-small" style="opacity: 0.5;">No field notes yet.</p>';
         return;
       }
 
-      container.innerHTML = ''; // Clear loading text
+      container.innerHTML = ''; 
 
-      // Render up to 5 most recent issues
-      issues.slice(0, 5).forEach(issue => {
-        // Date formatting
-        const date = new Date(issue.created_at);
-        const dateStr = `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getFullYear().toString().slice(2)}`;
-        
-        // Naive tag extraction (e.g. if title has [UNFINISHED])
-        let tag = 'THOUGHT';
-        let cleanTitle = issue.title;
-        const tagMatch = issue.title.match(/^\[(.*?)\]\s*(.*)$/);
-        if (tagMatch) {
-           tag = tagMatch[1].toUpperCase();
-           cleanTitle = tagMatch[2];
-        }
-
-        // Basic markdown to text strip for the body snippet (first 150 chars)
-        let bodySnippet = issue.body || 'No content provided.';
-        if (bodySnippet.length > 150) bodySnippet = bodySnippet.substring(0, 150) + '...';
-
+      entries.forEach(entry => {
         const article = document.createElement('article');
         article.className = 'journal-entry';
-        
         article.innerHTML = `
           <div class="entry-meta">
-            <span class="text-overline">${dateStr}</span>
-            <span class="text-overline">${tag}</span>
+            <span class="text-overline">${entry.date}</span>
+            <span class="text-overline">NOTE</span>
           </div>
-          <h3 class="text-h3">${cleanTitle}</h3>
-          <p class="text-small">${bodySnippet}</p>
+          <h3 class="text-h3">${entry.title}</h3>
+          <p class="text-small">${entry.content}</p>
         `;
-        
-        // Link to the actual GitHub issue if clicked
-        article.style.cursor = 'pointer';
-        article.addEventListener('click', () => window.open(issue.html_url, '_blank'));
-        
         container.appendChild(article);
       });
       
-      // Re-trigger ScrollTrigger refresh since DOM changed
       if (typeof ScrollTrigger !== 'undefined') {
         setTimeout(() => ScrollTrigger.refresh(), 200);
       }
-
     } catch (e) {
-      console.log('Failed to fetch journal from GitHub', e);
+      console.log('Failed to fetch journal from Backend API', e);
       container.innerHTML = '<p class="text-small" style="opacity: 0.5;">Field notes sync offline.</p>';
     }
   };
@@ -517,4 +552,37 @@ document.addEventListener('DOMContentLoaded', () => {
   tickClock();
   setInterval(tickClock, 1000);
 
+  // 16. Contact Form Submission
+  const contactForm = document.getElementById('contact-form');
+  const contactStatus = document.getElementById('contact-status');
+  if (contactForm && contactStatus) {
+      contactForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const name = document.getElementById('contact-name').value;
+          const email = document.getElementById('contact-email').value;
+          const message = document.getElementById('contact-message').value;
+          
+          contactStatus.style.display = 'block';
+          contactStatus.style.color = 'var(--text-ivory)';
+          contactStatus.textContent = 'Sending...';
+          
+          try {
+              const res = await fetch('http://localhost:8000/api/contact', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ name, email, message })
+              });
+              if (res.ok) {
+                  contactStatus.style.color = 'var(--accent-teal)';
+                  contactStatus.textContent = 'Message delivered.';
+                  contactForm.reset();
+              } else {
+                  throw new Error('Failed to send');
+              }
+          } catch (e) {
+              contactStatus.style.color = 'salmon';
+              contactStatus.textContent = 'System offline. Failed to send.';
+          }
+      });
+  }
 });
