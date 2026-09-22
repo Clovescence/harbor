@@ -58,7 +58,8 @@ body::after {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
   font-weight: 400;
-  line-height: 1.1;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
   color: var(--color-light);
 }
 
@@ -119,8 +120,8 @@ section {
 /* Editorial Watermarks */
 .watermark {
   position: absolute;
-  color: var(--color-light);
-  opacity: 0.02; /* Extremely faint */
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.04);
   user-select: none;
   pointer-events: none;
   z-index: 0;
@@ -177,6 +178,7 @@ section {
   width: 12px;
   height: 12px;
   background-color: var(--color-accent);
+  opacity: 0.8;
   border-radius: 50%;
   pointer-events: none;
   z-index: 10000;
@@ -184,12 +186,14 @@ section {
   transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1), 
               height 0.3s cubic-bezier(0.22, 1, 0.36, 1), 
               background-color 0.3s ease,
-              border 0.3s ease;
+              border 0.3s ease,
+              backdrop-filter 0.3s ease;
 }
 
 .custom-cursor.hovering {
-  width: 45px;
-  height: 45px;
+  width: 60px;
+  height: 60px;
   background-color: transparent;
-  border: 1px solid var(--color-accent);
+  backdrop-filter: invert(1) grayscale(1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }

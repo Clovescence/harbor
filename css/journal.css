@@ -4,15 +4,13 @@
 }
 
 .journal-container {
-  display: flex;
-  gap: 60px;
   align-items: flex-start;
   min-height: 500px;
+  margin-top: 60px;
 }
 
 /* Left Column: Main Feature */
 .journal-main {
-  flex: 7;
   display: flex;
   flex-direction: column;
   transition: opacity 0.4s ease;
@@ -44,7 +42,7 @@
   font-size: 1.15rem;
   line-height: 1.8;
   color: var(--color-neutral);
-  max-width: 700px;
+  max-width: 65ch; /* Optimal reading width */
 }
 
 .journal-body p {
@@ -78,7 +76,6 @@
 
 /* Right Column: Archive */
 .journal-archive {
-  flex: 3;
   display: flex;
   flex-direction: column;
   gap: 24px;

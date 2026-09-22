@@ -11,11 +11,12 @@
 }
 
 .nav-header.scrolled {
-  padding: 20px 0;
-  background-color: rgba(24, 57, 43, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  padding: 16px 0;
+  background-color: rgba(20, 20, 20, 0.7);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 
 .nav-container {
@@ -25,9 +26,9 @@
 }
 
 .nav-brand {
-  font-size: 1.5rem;
-  letter-spacing: 0.1em;
-  font-weight: 500;
+  font-size: 1.25rem;
+  letter-spacing: 0.15em;
+  font-weight: 400;
 }
 
 .nav-links {
