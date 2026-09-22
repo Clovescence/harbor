@@ -120,10 +120,12 @@
    3D ISOMETRIC GALLERY UI
    ========================================= */
 .playlists-container {
+  position: relative;
+  width: 100%;
+  min-height: 850px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 80px;
   margin-top: 60px;
   /* 3D Perspective Context */
   perspective: 1200px;
@@ -312,6 +314,8 @@
 @media (max-width: 900px) {
   .playlists-container {
     height: auto;
+    min-height: 0;
+    flex-direction: column;
     gap: 40px;
     perspective: none;
     transform-style: flat;
