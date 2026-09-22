@@ -358,14 +358,32 @@ document.addEventListener('DOMContentLoaded', () => {
         const playlists = await res.json();
         
         galleryGrid.innerHTML = '';
-        playlists.forEach((pl, index) => {
-          if (pl.id === 'placeholder') return;
+        
+        // Filter out placeholder
+        const validPlaylists = playlists.filter(pl => pl.id !== 'placeholder');
+        const total = validPlaylists.length;
+        const orbitRadius = window.innerWidth > 1200 ? 350 : 250; // Dynamic radius based on screen
+
+        validPlaylists.forEach((pl, index) => {
+          // Orbital Math
+          // Start at top (-90 degrees / -PI/2) and space evenly
+          const angle = (index / total) * (2 * Math.PI) - (Math.PI / 2);
+          const x = Math.cos(angle) * orbitRadius;
+          const y = Math.sin(angle) * orbitRadius;
 
           const item = document.createElement('a');
           item.href = pl.url;
           item.target = '_blank';
           item.className = 'gallery-item reveal';
+          // Stagger the animation delay so they bob out of sync
+          item.style.animationDelay = `${index * 0.5}s`; 
           item.style.transitionDelay = `${index * 0.1}s`;
+          
+          // Apply calculated positions
+          item.style.setProperty('--orbit-x', `${x}px`);
+          item.style.setProperty('--orbit-y', `${y}px`);
+          item.style.left = `calc(50% + var(--orbit-x))`;
+          item.style.top = `calc(50% + var(--orbit-y))`;
           
           item.innerHTML = `
             <div class="gallery-cover-wrapper">
