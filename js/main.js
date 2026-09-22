@@ -346,148 +346,122 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Old Parallax listener removed. Handled by Physics Engine above.
 
-  // Playlists: Live Spotify & Gallery Logic
-  const galleryGrid = document.getElementById('playlist-gallery-grid');
-  const playlistPrev = document.getElementById('playlist-prev');
-  const playlistNext = document.getElementById('playlist-next');
+  // ==========================================
+  // Premium Playlists & Cover Flow Engine
+  // ==========================================
+  const cfTrack = document.getElementById('cf-track');
+  const cfPrev = document.getElementById('cf-prev');
+  const cfNext = document.getElementById('cf-next');
+  const premiumDeck = document.getElementById('now-playing-deck');
   
-  if (galleryGrid) {
-    let currentPlaylistIndex = 0;
-    let playlistItems = [];
+  if (cfTrack && premiumDeck) {
+    
+    // --- 1. Cover Flow Carousel ---
+    let currentCfIndex = 0;
+    let cfItems = [];
 
-    const updatePlaylistCarousel = () => {
-      const isMobile = window.innerWidth <= 900;
-      playlistItems.forEach((item, index) => {
+    const updateCoverFlow = () => {
+      const isMobile = window.innerWidth <= 1000;
+      
+      cfItems.forEach((item, index) => {
         if (isMobile) {
-          item.style = ''; // clear inline variables on mobile fallback
+          item.style = '';
           return;
         }
 
-        const offset = index - currentPlaylistIndex;
+        const offset = index - currentCfIndex;
         
         if (offset < 0) {
-          // Items to the left (already passed)
-          item.style.setProperty('--orbit-x', `-150px`);
-          item.style.setProperty('--orbit-y', `0px`);
-          item.style.setProperty('--orbit-z', `50px`);
-          item.style.setProperty('--scale', `0.5`);
+          // Items passed (hide on the left)
+          item.style.transform = `translate3d(-100px, 0, 50px) rotateY(20deg) scale(0.8)`;
           item.style.opacity = '0';
           item.style.pointerEvents = 'none';
         } else {
-          // Active item and items to the right
-          const x = offset * 200; // 200px horizontal spacing
-          // We use pseudo-random but consistent staggering using the index
-          const y = (index % 3 === 0 ? 1 : -1) * (10 + (index % 15)); 
-          const z = offset * -180; // push deeper into the background
-          const scale = Math.max(0.6, 1 - (offset * 0.12)); // scale down as it goes back
+          // Active item (0) and future items (> 0)
+          const x = offset * 120; // Tight overlapping spacing
+          const z = offset * -200; // Deep push into background
+          const scale = Math.max(0.5, 1 - (offset * 0.1));
           
-          // Generate organic 3D tilts based on index
-          const rotX = ((index * 5) % 20) - 10;
-          const rotY = ((index * -8) % 30) - 15;
-          const rotZ = ((index * 3) % 10) - 5;
+          let transformStr = `translate3d(${x}px, 0, ${z}px) scale(${scale})`;
           
-          item.style.setProperty('--orbit-x', `${x}px`);
-          item.style.setProperty('--orbit-y', `${y}px`);
-          item.style.setProperty('--orbit-z', `${z}px`);
-          item.style.setProperty('--rot-x', `${rotX}deg`);
-          item.style.setProperty('--rot-y', `${rotY}deg`);
-          item.style.setProperty('--rot-z', `${rotZ}deg`);
-          item.style.setProperty('--scale', `${scale}`);
+          // Add a subtle perspective tilt if not active
+          if (offset > 0) {
+            transformStr += ` rotateY(-15deg)`;
+          } else {
+            transformStr += ` rotateY(0deg)`;
+          }
           
-          item.style.opacity = offset > 5 ? '0' : '1'; // hide if too far back
-          // Pointer events are allowed if it is active (0) or slightly behind, but hovering on background ones works nicely
-          item.style.pointerEvents = offset === 0 ? 'auto' : 'none'; 
+          item.style.transform = transformStr;
+          item.style.opacity = offset > 6 ? '0' : '1';
+          item.style.pointerEvents = offset === 0 ? 'auto' : 'none';
         }
       });
     };
 
-    if (playlistPrev && playlistNext) {
-      playlistPrev.addEventListener('click', () => {
-        if (currentPlaylistIndex > 0) {
-          currentPlaylistIndex--;
-          updatePlaylistCarousel();
+    if (cfPrev && cfNext) {
+      cfPrev.addEventListener('click', () => {
+        if (currentCfIndex > 0) {
+          currentCfIndex--;
+          updateCoverFlow();
         }
       });
-      playlistNext.addEventListener('click', () => {
-        if (currentPlaylistIndex < playlistItems.length - 1) {
-          currentPlaylistIndex++;
-          updatePlaylistCarousel();
+      cfNext.addEventListener('click', () => {
+        if (currentCfIndex < cfItems.length - 1) {
+          currentCfIndex++;
+          updateCoverFlow();
         }
       });
     }
 
-    // 1. Render Static Gallery
-    const fetchPlaylists = async () => {
+    const initPlaylists = async () => {
       try {
         const res = await fetch('./data/playlists.json');
         if (!res.ok) throw new Error("Could not load playlists");
         const playlists = await res.json();
         
-        galleryGrid.innerHTML = '';
+        cfTrack.innerHTML = '';
         
-        // Filter out placeholder
         const validPlaylists = playlists.filter(pl => pl.id !== 'placeholder');
         validPlaylists.forEach((pl, index) => {
           const item = document.createElement('a');
           item.href = pl.url;
           item.target = '_blank';
-          item.className = 'gallery-item reveal';
-          item.style.animationDelay = `${index * 0.7}s`; 
-          item.style.transitionDelay = `${index * 0.1}s`;
+          item.className = 'cf-item reveal';
+          item.style.animationDelay = `${index * 0.2}s`; 
 
-          
-          // Generate a random progress bar width for aesthetics (30% to 80%)
-          const progress = Math.floor(Math.random() * 50) + 30;
-          
           item.innerHTML = `
-            <div class="gallery-cover-wrapper">
-              <img class="gallery-cover" src="${pl.image || ''}" alt="${pl.name}">
+            <div class="cf-cover-wrapper">
+              <img class="cf-cover" src="${pl.image || ''}" alt="${pl.name}">
             </div>
-            <div class="gallery-info">
+            <div class="cf-info">
               <h3 class="text-serif">${pl.name}</h3>
               <p class="text-sans fw-300">Playlist • Spotify</p>
-              
-              <div class="player-controls">
-                <div class="progress-bar">
-                  <div class="progress-fill" style="width: ${progress}%"></div>
-                </div>
-                <div class="control-icons">
-                  <div class="icon-btn icon-skip" style="transform: scaleX(-1)"></div>
-                  <div class="icon-btn icon-play"></div>
-                  <div class="icon-btn icon-skip"></div>
-                </div>
-              </div>
             </div>
           `;
-          galleryGrid.appendChild(item);
-          playlistItems.push(item);
+          cfTrack.appendChild(item);
+          cfItems.push(item);
           
-          // Observe the dynamically added element so the reveal animation triggers
           if (typeof revealObserver !== 'undefined') {
             revealObserver.observe(item);
           }
         });
         
-        // Initial setup
-        setTimeout(updatePlaylistCarousel, 50);
+        setTimeout(updateCoverFlow, 50);
       } catch (err) {
         console.error("Playlists fetch error:", err);
       }
     };
-    fetchPlaylists();
+    initPlaylists();
 
-    // 2. Poll Live "Now Playing" Status
+    // --- 2. Premium Vinyl Deck API ---
     const vinylRecord = document.querySelector('.vinyl-record');
     const vinylImg = document.getElementById('now-playing-img');
     const statusText = document.getElementById('now-playing-status');
     const titleText = document.getElementById('now-playing-title');
     const artistText = document.getElementById('now-playing-artist');
-    const vinylContainer = document.getElementById('now-playing-vinyl');
 
-    const fetchNowPlaying = async () => {
+    const fetchPremiumNowPlaying = async () => {
       try {
-        // This will work when deployed to Vercel. 
-        // Locally in Vite it may 404 unless using a serverless proxy.
         const res = await fetch('/api/now-playing');
         if (!res.ok) throw new Error("Live endpoint not available");
         const data = await res.json();
@@ -498,30 +472,34 @@ document.addEventListener('DOMContentLoaded', () => {
           artistText.textContent = data.artist;
           
           if (data.songUrl) {
-            vinylContainer.style.cursor = 'pointer';
-            vinylContainer.onclick = () => window.open(data.songUrl, '_blank');
+            premiumDeck.style.cursor = 'pointer';
+            premiumDeck.onclick = (e) => {
+              if (!e.target.closest('a')) window.open(data.songUrl, '_blank');
+            };
           }
 
           if (data.isPlaying) {
             statusText.textContent = "Currently Playing";
             vinylRecord.classList.add('spinning');
+            premiumDeck.classList.add('playing'); // Triggers tonearm and green dot
           } else {
             statusText.textContent = "Last Played";
             vinylRecord.classList.remove('spinning');
+            premiumDeck.classList.remove('playing');
           }
         } else {
           statusText.textContent = "Offline";
           vinylRecord.classList.remove('spinning');
+          premiumDeck.classList.remove('playing');
         }
       } catch (err) {
-        // Fallback for local development if endpoint isn't running
         statusText.textContent = "Spotify API Offline";
         vinylRecord.classList.remove('spinning');
+        premiumDeck.classList.remove('playing');
       }
     };
 
-    // Fetch immediately, then poll every 15 seconds
-    fetchNowPlaying();
-    setInterval(fetchNowPlaying, 15000);
+    fetchPremiumNowPlaying();
+    setInterval(fetchPremiumNowPlaying, 15000);
   }
 });

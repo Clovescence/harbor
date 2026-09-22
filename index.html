@@ -156,29 +156,37 @@
     <section id="playlists" class="section-playlists container relative">
       <div class="watermark watermark-section text-serif">02</div>
       <h2 class="section-title text-serif offset-1 reveal">Playlists</h2>
-      <div class="playlists-container">
-        <!-- Center Vinyl -->
-        <div id="now-playing-vinyl" class="now-playing-vinyl reveal">
-          <div class="vinyl-record">
-            <div class="vinyl-grooves"></div>
-            <img id="now-playing-img" class="vinyl-label" src="" alt="Album Art">
+      <div class="playlists-showcase reveal reveal-delay-1">
+        
+        <!-- Premium Vinyl Deck -->
+        <div class="premium-vinyl-deck" id="now-playing-deck">
+          <div class="deck-platter">
+            <div class="vinyl-record">
+              <div class="vinyl-grooves"></div>
+              <img id="now-playing-img" class="vinyl-label" src="" alt="Album Art">
+            </div>
+            <div class="tonearm" id="tonearm"></div>
           </div>
-          <div class="now-playing-info">
-            <p id="now-playing-status" class="text-sans fw-300 text-accent uppercase">Loading...</p>
-            <h4 id="now-playing-title" class="text-serif text-light">---</h4>
-            <p id="now-playing-artist" class="text-sans text-muted">---</p>
+          
+          <div class="deck-info">
+            <div class="deck-status">
+              <span class="status-dot" id="now-playing-dot"></span>
+              <span id="now-playing-status" class="text-sans fw-500 uppercase">Connecting...</span>
+            </div>
+            <h4 id="now-playing-title" class="deck-title text-serif">---</h4>
+            <p id="now-playing-artist" class="deck-artist text-sans fw-300">---</p>
           </div>
         </div>
 
-        <!-- Surrounding Gallery -->
-        <div id="playlist-gallery-grid" class="playlist-gallery-grid">
-          <!-- Playlists will be injected here -->
-        </div>
-
-        <!-- Playlist Carousel Controls -->
-        <div class="playlist-controls text-sans">
-          <button id="playlist-prev" class="carousel-btn">&lt;</button>
-          <button id="playlist-next" class="carousel-btn">&gt;</button>
+        <!-- Cover Flow Carousel -->
+        <div class="cover-flow-container">
+          <div class="cover-flow-track" id="cf-track">
+            <!-- Playlists will be injected here -->
+          </div>
+          <div class="cover-flow-controls text-sans">
+            <button id="cf-prev" class="cf-btn">&lt;</button>
+            <button id="cf-next" class="cf-btn">&gt;</button>
+          </div>
         </div>
       </div>
     </section>
