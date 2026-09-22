@@ -1,0 +1,32 @@
+:root {
+  /* Primary */
+  --color-primary: #18392B; /* Deep Sequoia green */
+  
+  /* Secondary */
+  --color-secondary: #2F4938; /* Muted forest green */
+  
+  /* Dark */
+  --color-dark: #10231B; /* Almost-black green */
+  
+  /* Light */
+  --color-light: #E7E4D8; /* Warm parchment */
+  
+  /* Neutral */
+  --color-neutral: #C9C6B8; /* Warm stone */
+  
+  /* Accent */
+  --color-accent: #B19A62; /* Restrained antique brass */
+
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans: 'Inter', sans-serif;
+
+  /* Grid System Variables */
+  --grid-columns: 12;
+  --grid-gap-desktop: 24px;
+  --grid-gap-tablet: 16px;
+  --grid-gap-mobile: 12px;
+  --container-max-width: 1600px;
+  --page-padding: 4vw;
+  --section-spacing: 160px;
+}

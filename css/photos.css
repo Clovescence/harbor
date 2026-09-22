@@ -1,0 +1,155 @@
+/* Photos Section */
+.section-photos {
+  padding: var(--section-spacing) 0 60px;
+  position: relative;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-style: italic;
+  position: relative;
+  z-index: 20;
+}
+
+/* The Absolute Grid Container */
+.collage-grid {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Bounding box for percentages */
+  margin-top: 40px;
+  max-width: 1400px; 
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.collage-item {
+  position: absolute;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  will-change: transform, width, height, top, left;
+}
+
+.collage-item img,
+.collage-item .image-placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.bg-dark { background-color: var(--color-dark); }
+.bg-secondary { background-color: var(--color-secondary); }
+.bg-neutral { background-color: var(--color-neutral); }
+
+/* Carousel JS states */
+.is-main {
+  cursor: none;
+}
+
+.is-main img {
+  transition: transform 1.5s ease;
+}
+
+.is-main:hover img {
+  transform: scale(1.05);
+}
+
+/* Smooth Overlay */
+.photo-meta-overlay {
+  position: absolute;
+  bottom: -2px;
+  left: -2px;
+  right: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  background: linear-gradient(to top, rgba(16, 35, 27, 0.95) 0%, rgba(16, 35, 27, 0.6) 40%, transparent 100%);
+  transform: translateY(100%);
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: 20;
+  display: flex;
+  align-items: flex-end;
+  padding: 42px;
+  pointer-events: none; /* ensure it doesn't block hover when hidden */
+}
+
+/* Only activate overlay on the main item */
+.is-main:hover .photo-meta-overlay {
+  transform: translateY(0);
+}
+
+.meta-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.4s ease 0.2s, opacity 0.4s ease 0.2s;
+}
+
+.is-main:hover .meta-content {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.meta-date { font-size: 1.1rem; letter-spacing: 0.1em; }
+.meta-title { font-size: 1.5rem; letter-spacing: 0.05em; margin-bottom: 10px; }
+.meta-user { font-size: 0.9rem; letter-spacing: 0.1em; }
+
+
+/* Carousel Controls */
+.carousel-controls {
+  position: absolute;
+  bottom: 5%;
+  left: 30%;
+  z-index: 30;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.carousel-btn {
+  background: transparent;
+  border: 1px solid var(--color-neutral);
+  color: var(--color-light);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.carousel-btn:hover {
+  background-color: var(--color-accent);
+  color: var(--color-dark);
+  border-color: var(--color-accent);
+}
+
+/* Responsive Overrides */
+@media (max-width: 1024px) {
+  .photo-meta-overlay { padding: 22px; width: calc(100% + 4px); height: calc(100% + 4px); }
+}
+
+@media (max-width: 768px) {
+  .collage-grid { aspect-ratio: auto; height: 600px; }
+  
+  /* Simplify for mobile - stack them up instead of animating layout */
+  .collage-item { 
+    position: static; 
+    width: 100% !important; 
+    height: auto !important; 
+    aspect-ratio: 4/3; 
+    margin-bottom: 16px; 
+    filter: brightness(1) !important; 
+  }
+  
+  .pos-main { order: -1; aspect-ratio: 1/1; }
+  .carousel-controls { position: static; justify-content: flex-end; margin-bottom: 16px; }
+  .photo-meta-overlay { transform: translateY(0); width: calc(100% + 4px); height: calc(100% + 4px); padding: 22px; }
+  .meta-content { transform: translateY(0); opacity: 1; transition: none; }
+}

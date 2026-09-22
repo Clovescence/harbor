@@ -1,0 +1,94 @@
+/* Home Section (Asymmetrical Layout) */
+.section-home {
+  align-items: center;
+  min-height: 55vh;
+  padding-top: 180px;
+}
+
+.home-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Replacing negative margins with specific gaps */
+}
+
+.home-pretitle {
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  color: var(--color-accent);
+  text-transform: uppercase;
+}
+
+.home-title {
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  margin-top: -8px; /* Tighter optical alignment */
+}
+
+.home-subtitle {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-style: italic;
+  font-weight: 400;
+  margin-top: 8px;
+}
+
+.home-description {
+  font-size: 1.1rem;
+  max-width: 450px;
+  line-height: 1.8;
+  margin-top: 24px;
+}
+
+/* Weather & Clock Widget */
+.home-widget {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.weather-clock-widget {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  gap: 8px;
+}
+
+.widget-header {
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  display: flex;
+  gap: 16px;
+  text-transform: uppercase;
+}
+
+.widget-time {
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.widget-footer {
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .section-home {
+    padding-top: 120px;
+    min-height: auto;
+  }
+  
+  .home-widget {
+    justify-content: flex-start;
+    margin-top: 60px;
+  }
+  
+  .weather-clock-widget {
+    align-items: flex-start;
+    text-align: left;
+  }
+}

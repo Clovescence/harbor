@@ -3,441 +3,234 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sequoia | Haga Pradiva</title>
   
-  <title>Sequoia / Haga Pradiva</title>
-  <meta name="description" content="A place for things I make, things I notice, and things I haven't figured out yet.">
-  <meta name="theme-color" content="#061A1F">
+  <!-- SEO -->
+  <meta name="description" content="A quiet collection of photographs, music, ideas, and whatever else happens to matter.">
   
-  <meta property="og:title" content="Sequoia / Haga Pradiva">
-  <meta property="og:description" content="A living archive of environmental engineering, photography, visual design, and questions.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://hagapradiva.com">
-  <meta property="og:image" content="https://hagapradiva.com/assets/sequoia-social.jpg">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="style.css">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="./css/variables.css">
+  <link rel="stylesheet" href="./css/global.css">
+  <link rel="stylesheet" href="./css/grid.css">
+  <link rel="stylesheet" href="./css/navigation.css">
+  <link rel="stylesheet" href="./css/home.css">
+  <link rel="stylesheet" href="./css/photos.css">
+  <link rel="stylesheet" href="./css/playlists.css">
+  <link rel="stylesheet" href="./css/journal.css">
+  <link rel="stylesheet" href="./css/contact-footer.css">
 </head>
 <body>
-
-  <!-- Film Grain Overlay -->
-  <div id="film-grain"></div>
-
-  <!-- Scroll Progress -->
-  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
-
   <!-- Custom Cursor -->
-  <div id="custom-cursor" aria-hidden="true">
-    <span class="cursor-label"></span>
-  </div>
+  <div class="custom-cursor"></div>
 
-  <header class="site-header reveal">
-    <div class="page-container header-container">
-      <div class="freyja-mark" id="freyja-trigger" tabindex="0" role="button" aria-label="Sequoia hidden archive trigger" data-magnetic>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <path d="M7 4V20M7 4H16M7 11H13" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="15.5" cy="11.5" r="1.5" fill="currentColor" stroke="none" />
-        </svg>
-      </div>
-      <nav class="site-nav" aria-label="Main Navigation">
-        <ul class="nav-list">
-          <li><a href="#about" data-magnetic>About</a></li>
-          <li><a href="#work" data-magnetic>Work</a></li>
-          <li><a href="#frames" data-magnetic>Frames</a></li>
-          <li><a href="#field" data-magnetic>Field</a></li>
-          <li><a href="#journal" data-magnetic>Journal</a></li>
-          <li><a href="#signals" data-magnetic>Signals</a></li>
-        </ul>
-      </nav>
+  <!-- Navigation -->
+  <nav class="nav-header">
+    <div class="container nav-container">
+      <a href="#" class="nav-brand text-serif">SEQUOIA</a>
+      <ul class="nav-links text-sans">
+        <li><a href="#photos">Photos</a></li>
+        <li><a href="#playlists">Playlists</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
     </div>
-  </header>
+  </nav>
 
-  <main id="main-content">
+  <main class="main-content">
     
-    <section class="section hero" id="home">
-      <div class="page-container grid-asymmetric">
-        <div class="hero-content reveal">
-          <p class="text-overline">Haga Pradiva / <span data-year>2026</span></p>
-          <h1 class="text-hero split-reveal">Sequoia</h1>
-          <p class="text-body-large hero-statement split-reveal">A place for things I make, things I notice, and things I haven't figured out yet.</p>
-          
-          <div class="hero-meta">
-            <span class="meta-tag">Environmental Engineering</span>
-            <span class="meta-tag">Photography</span>
-            <span class="meta-tag">Visual Design</span>
-            <span class="meta-tag">Currently Becoming</span>
-          </div>
+    <!-- Home Section -->
+    <section id="home" class="section-home container grid relative">
+      <div class="watermark watermark-home text-serif">S</div>
+      <div class="home-intro col-span-5 offset-1 reveal">
+        <p class="home-pretitle text-sans text-muted fw-300">HAGA PRADIVA</p>
+        <h1 class="home-title text-serif">SEQUOIA</h1>
+        <h2 class="home-subtitle text-serif text-accent">A place for things worth keeping.</h2>
+        <p class="home-description text-sans text-light fw-300">
+          A quiet collection of photographs, music, ideas, and whatever else happens to matter.
+        </p>
+      </div>
 
-          <a href="#about" class="hero-invitation" data-magnetic>
-            Wander in
-            <span class="arrow" aria-hidden="true">↓</span>
-          </a>
+      <!-- Living Timepiece & Weather Widget -->
+      <div class="home-widget col-span-4 offset-8 reveal reveal-delay-2">
+        <div class="weather-clock-widget">
+          <div class="widget-header text-sans fw-300 text-muted">
+            <span id="local-city">Locating...</span>
+            <span id="local-temp">--°C</span>
+          </div>
+          <div class="widget-time text-serif text-light" id="live-clock">00:00:00</div>
+          <div class="widget-footer text-sans fw-300 text-muted" id="weather-desc">
+            Waiting for skies
+          </div>
         </div>
-        <div class="hero-visual reveal" aria-hidden="true">
-          <div class="hero-orb"></div>
-          <div class="weather-widget" id="weather-widget">
-            <p class="weather-location">Bandung, ID</p>
-            <p class="weather-temp" id="weather-temp">--°</p>
-            <p class="weather-condition" id="weather-condition">Syncing...</p>
-            <div class="weather-details">
-              <span id="weather-wind">-- km/h</span>
-              <span class="weather-divider">·</span>
-              <span id="weather-time-live">--:--:--</span>
+      </div>
+    </section>
+
+    <!-- Photos Section (Collage Layout) -->
+    <section id="photos" class="section-photos container relative">
+      <div class="watermark watermark-section text-serif">01</div>
+      <h2 class="section-title text-serif offset-1 reveal">My Photography</h2>
+      
+      <div class="collage-grid reveal reveal-delay-1">
+        <!-- Carousel Controls -->
+        <div class="carousel-controls text-sans">
+          <button id="carousel-prev" class="carousel-btn">&lt;</button>
+          <button id="carousel-next" class="carousel-btn">&gt;</button>
+        </div>
+
+        <!-- Item 1 (Starts Main) -->
+        <div class="collage-item rounded-image">
+          <img src="./public/assets/sequoia_hero.jpg" alt="Photo 1">
+          <div class="photo-meta-overlay">
+            <div class="meta-content text-sans">
+              <span class="meta-date text-accent fw-500">22/09/26</span>
+              <span class="meta-title text-light fw-300">THE STUDY</span>
+              <span class="meta-user text-muted fw-300">@hagapradiva</span>
             </div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <section class="section index-section reveal" aria-label="Sequoia Index">
-      <div class="page-container">
-         <ul class="freyja-index">
-            <li><a href="#about"><span class="index-num">01 /</span><span class="index-name">About</span><span class="index-preview">Who & Now</span></a></li>
-            <li><a href="#work"><span class="index-num">02 /</span><span class="index-name">Work</span><span class="index-preview">Practice</span></a></li>
-            <li><a href="#frames"><span class="index-num">03 /</span><span class="index-name">Frames</span><span class="index-preview">Seen</span></a></li>
-            <li><a href="#field"><span class="index-num">04 /</span><span class="index-name">Field</span><span class="index-preview">Systems</span></a></li>
-            <li><a href="#journal"><span class="index-num">05 /</span><span class="index-name">Journal</span><span class="index-preview">Notes</span></a></li>
-            <li><a href="#signals"><span class="index-num">06 /</span><span class="index-name">Signals</span><span class="index-preview">Soundtrack</span></a></li>
-            <li><a href="#cabinet"><span class="index-num">07 /</span><span class="index-name">Cabinet</span><span class="index-preview">Collected</span></a></li>
-            <li><a href="#contact"><span class="index-num">08 /</span><span class="index-name">Contact</span><span class="index-preview">Depart</span></a></li>
-         </ul>
-      </div>
-    </section>
-
-    <section class="section about-section" id="about">
-      <div class="page-container grid-asymmetric">
-        <div class="about-fragments reveal">
-          <p class="text-overline">01 / About</p>
-          <h2 class="text-h2 split-reveal">One person, several ways of paying attention.</h2>
-          
-          <div class="fragment fragment-a">
-            <p class="text-body-large">Environmental engineering student. Designer. Photographer. Someone interested in systems, places, images, music, and the strange overlap between technical and creative thinking.</p>
-          </div>
-          
-          <div class="fragment fragment-b now-state">
-            <h3 class="text-h3 split-reveal">Current state</h3>
-            <ul class="state-list">
-              <li><span class="state-label">STUDYING</span><span class="state-value">Environmental Engineering</span></li>
-              <li><span class="state-label">BUILDING</span><span class="state-value">Sequoia</span></li>
-              <li><span class="state-label">PHOTOGRAPHING</span><span class="state-value">Ordinary places</span></li>
-              <li><span class="state-label">LEARNING</span><span class="state-value">Web development</span></li>
-            </ul>
+        <!-- Item 2 (Starts BG 1) -->
+        <div class="collage-item rounded-image">
+          <img src="./public/assets/sequoia_hero.jpg" style="filter: sepia(0.3) hue-rotate(-30deg);" alt="Photo 2">
+          <div class="photo-meta-overlay">
+            <div class="meta-content text-sans">
+              <span class="meta-date text-accent fw-500">14/10/26</span>
+              <span class="meta-title text-light fw-300">MORNING LIGHT</span>
+              <span class="meta-user text-muted fw-300">@hagapradiva</span>
+            </div>
           </div>
         </div>
-        <div class="about-sidebar reveal">
-           <div class="fragment fragment-d small-facts">
-             <p class="text-overline">Small facts</p>
-             <ul class="facts-list">
-               <li>Currently in Bandung</li>
-               <li>Loves music</li>
-               <li>Obsessed with Skyrim</li>
-               <li>Drinks coffee</li>
-               <li>Fascinated by places</li>
-             </ul>
-           </div>
-           
-           <div class="things-care-about mt-4">
-             <p class="text-overline">Things I care about</p>
-             <dl class="care-list">
-               <dt>PLACES</dt><dd>Landscapes, cities, rooms, roads, coastlines.</dd>
-               <dt>SYSTEMS</dt><dd>Environment, infrastructure, engineering.</dd>
-               <dt>IMAGES</dt><dd>Photography, composition, color.</dd>
-             </dl>
-           </div>
+
+        <!-- Item 3 (Starts BG 2) -->
+        <div class="collage-item rounded-image">
+          <img src="./public/assets/sequoia_hero.jpg" style="filter: grayscale(0.8) contrast(1.2);" alt="Photo 3">
+          <div class="photo-meta-overlay">
+            <div class="meta-content text-sans">
+              <span class="meta-date text-accent fw-500">03/11/26</span>
+              <span class="meta-title text-light fw-300">EVENING SHADOWS</span>
+              <span class="meta-user text-muted fw-300">@hagapradiva</span>
+            </div>
+          </div>
         </div>
+
+        <!-- Item 4 (Starts BG 3) -->
+        <div class="collage-item rounded-image">
+          <div class="image-placeholder bg-dark"></div>
+          <div class="photo-meta-overlay">
+            <div class="meta-content text-sans">
+              <span class="meta-date text-accent fw-500">10/11/26</span>
+              <span class="meta-title text-light fw-300">MIDNIGHT</span>
+              <span class="meta-user text-muted fw-300">@hagapradiva</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 5 (Starts BG 4) -->
+        <div class="collage-item rounded-image">
+          <div class="image-placeholder bg-secondary"></div>
+          <div class="photo-meta-overlay">
+            <div class="meta-content text-sans">
+              <span class="meta-date text-accent fw-500">20/11/26</span>
+              <span class="meta-title text-light fw-300">FOREST PATH</span>
+              <span class="meta-user text-muted fw-300">@hagapradiva</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 6 (Starts BG 5) -->
+        <div class="collage-item rounded-image">
+          <div class="image-placeholder bg-neutral"></div>
+          <div class="photo-meta-overlay">
+            <div class="meta-content text-sans">
+              <span class="meta-date text-accent fw-500">01/12/26</span>
+              <span class="meta-title text-light fw-300">SILENCE</span>
+              <span class="meta-user text-muted fw-300">@hagapradiva</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <section class="section work-section" id="work">
-      <div class="page-container">
-        <div class="section-header reveal">
-          <p class="text-overline">02 / Work</p>
-          <h2 class="text-h2 split-reveal">Practice and projects.</h2>
-        </div>
+    <!-- Playlists Section -->
+    <section id="playlists" class="section-playlists container relative">
+      <div class="watermark watermark-section text-serif">02</div>
+      <h2 class="section-title text-serif offset-1 reveal">Playlists</h2>
+      <div class="playlists-grid grid">
         
-        <div class="work-grid reveal">
-          <article class="work-item technical">
-             <span class="work-icon" aria-hidden="true">∿</span>
-             <p class="text-overline">Environmental Engineering / Academic</p>
-             <h3 class="text-h3">Water as a way into systems.</h3>
-             <p class="text-small">Environmental engineering begins with attention to movement: where water gathers, what carries it, and what a place reveals when weather changes.</p>
-             <div class="work-meta">
-               <span class="meta-label">2026</span>
-               <span class="meta-label">Research</span>
-             </div>
-          </article>
-          
-          <article class="work-item visual">
-             <span class="work-icon" aria-hidden="true">✳</span>
-             <p class="text-overline">Visual Design / Digital</p>
-             <h3 class="text-h3">Making thought visible.</h3>
-             <p class="text-small">Interfaces, marks, and small systems for ideas that deserve a clearer shape. Exploring typography and atmospheric design.</p>
-             <div class="work-meta">
-               <span class="meta-label">2025</span>
-               <span class="meta-label">Experiment</span>
-             </div>
-          </article>
+        <div class="playlist-item col-span-4 offset-2 reveal reveal-delay-1">
+          <div class="playlist-cover bg-dark rounded-image"></div>
+          <div class="playlist-info">
+            <h3 class="text-serif">Autumn Leaves</h3>
+            <p class="text-sans text-muted fw-300">A quiet study mix.</p>
+            <a href="#" class="playlist-link text-sans text-accent">Listen →</a>
+          </div>
         </div>
+
+        <div class="playlist-item col-span-4 offset-1 staggered-down reveal reveal-delay-2">
+          <div class="playlist-cover bg-secondary rounded-image"></div>
+          <div class="playlist-info">
+            <h3 class="text-serif">Night Drive</h3>
+            <p class="text-sans text-muted fw-300">Movement and reflection.</p>
+            <a href="#" class="playlist-link text-sans text-accent">Listen →</a>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <section class="section frames-section" id="frames">
-      <div class="page-container">
-        <div class="section-header reveal">
-          <p class="text-overline">03 / Frames</p>
-          <h2 class="text-h2 split-reveal">Seen and collected.</h2>
-          <p class="text-body-large">The frame is waiting for what comes next. A record of landscape, field life, and roadside light.</p>
-        </div>
+    <!-- Journal Section -->
+    <section id="journal" class="section-journal container relative">
+      <div class="watermark watermark-section text-serif">03</div>
+      <h2 class="section-title text-serif offset-1 reveal">Thoughts</h2>
+      
+      <div class="journal-container reveal reveal-delay-1">
         
-        <div class="frames-grid reveal">
-          <div class="frame-item frame-landscape" data-cursor="VIEW" data-speed="0.92" aria-label="Photograph placeholder" role="img">
-            <div class="frame-image-placeholder">
-              <span class="text-overline">FRAME 001</span>
-            </div>
-            <div class="frame-caption">
-              <p>Water tension and ripples.</p>
-              <span class="text-small">Surface study, 2026</span>
-            </div>
+        <!-- Main Feature Area -->
+        <div class="journal-main" id="journal-main-view">
+          <div class="journal-header">
+            <span class="journal-date text-sans fw-500" id="featured-date">LOADING...</span>
+            <h3 class="journal-title text-serif" id="featured-title">Fetching Journal...</h3>
           </div>
-          <div class="frame-item frame-portrait" data-cursor="VIEW" data-speed="1.08" aria-label="Photograph placeholder" role="img">
-            <div class="frame-image-placeholder">
-              <span class="text-overline">FRAME 002</span>
-            </div>
-            <div class="frame-caption">
-              <p>The concrete spillway.</p>
-              <span class="text-small">Flow control, 2025</span>
-            </div>
-          </div>
-          <div class="frame-item frame-square" data-cursor="VIEW" data-speed="0.96" aria-label="Photograph placeholder" role="img">
-            <div class="frame-image-placeholder">
-              <span class="text-overline">FRAME 003</span>
-            </div>
-            <div class="frame-caption">
-              <p>Steel veins and distribution.</p>
-              <span class="text-small">Infrastructure, 2026</span>
-            </div>
+          <div class="journal-body text-sans fw-300" id="featured-body">
+            <p>Pulling the latest thoughts from GitHub Issues...</p>
           </div>
         </div>
-      </div>
-    </section>
 
-    <section class="section field-section" id="field">
-      <div class="page-container grid-asymmetric">
-        <div class="field-content reveal">
-          <p class="text-overline">04 / Field</p>
-          <h2 class="text-h2 split-reveal">Field notebook.</h2>
-          <p class="text-body-large">Observations of environmental systems, infrastructure, and the spaces where nature and engineering intersect.</p>
-          
-          <div class="field-notes">
-            <article class="field-note">
-              <div class="field-coords">06°54' S / 107°36' E</div>
-              <h3 class="text-h3">Observation 01</h3>
-              <p class="text-small">Water quality variations after heavy rainfall in urban watersheds. The system behaves predictably but the outcomes are chaotic.</p>
-            </article>
-          </div>
-        </div>
-        <div class="field-visual reveal" aria-hidden="true">
-          <div class="technical-diagram">
-            <div class="diagram-point" style="left: 30%;"><span>DATA.01</span></div>
-            <div class="diagram-point" style="left: 70%;"><span>DATA.02</span></div>
-            <div class="diagram-point" style="left: 40%;"><span>DATA.03</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section journal-section" id="journal">
-      <div class="page-container">
-        <div class="section-header reveal">
-          <p class="text-overline">05 / Journal</p>
-          <h2 class="text-h2 split-reveal">Small observations.</h2>
-        </div>
-        
-        <div class="journal-entries reveal" id="journal-container">
-          <p class="text-small" style="opacity: 0.5;">Loading field notes from GitHub API...</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section signals-section" id="signals">
-      <div class="page-container grid-asymmetric">
-        <div class="signals-content reveal">
-          <p class="text-overline">06 / Signals</p>
-          <h2 class="text-h2 split-reveal">Soundtrack.</h2>
-          <p class="text-body-large">A dark room for music. The albums and atmospheres that belong here.</p>
-          <a href="https://open.spotify.com/user/dav6z2wtexqello99ulntvsv9" target="_blank" rel="noreferrer noopener" class="text-overline spotify-link" data-cursor="LISTEN">Spotify Profile ↗</a>
-          
-          <div class="signals-philosophy" style="margin-top: 4rem; border-left: 1px solid var(--accent-gold); padding-left: 1.5rem;">
-            <p class="text-small" style="font-style: italic; line-height: 1.8; opacity: 0.8;">"I don't make playlists for moods. I make playlists for versions of myself I haven't met yet."</p>
-          </div>
-
-          <div class="signals-mood-tags" style="margin-top: 3rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
-            <span class="meta-tag">late night drives</span>
-            <span class="meta-tag">rain on windows</span>
-            <span class="meta-tag">2am thinking</span>
-            <span class="meta-tag">golden hour</span>
-            <span class="meta-tag">heartbreak era</span>
-            <span class="meta-tag">quietly hopeful</span>
+        <!-- Archive List -->
+        <div class="journal-archive">
+          <span class="archive-label text-sans fw-500">Archive</span>
+          <div id="archive-list">
+            <!-- Items injected by JS -->
           </div>
         </div>
         
-        <div class="signals-records reveal">
-           <div class="main-record">
-             <a href="https://open.spotify.com/playlist/5TW8KqpDEQXYHAvGbSKM8b" target="_blank" rel="noreferrer noopener" class="record-item" data-cursor="LISTEN" data-magnetic id="spotify-live-link">
-                <div class="record-cover">
-                   <img src="https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da842f647f1d55692b51c1678afd" alt="anjing dada gw sakit playlist cover" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;" id="spotify-live-cover" />
-                </div>
-                <div class="record-info" style="margin-top: 1.5rem;">
-                   <span class="text-overline" style="color: var(--accent-gold);" id="spotify-live-status">Currently listening</span>
-                   <h3 class="text-h3" style="font-size: 1.5rem; margin: 0.5rem 0 0.2rem; transition: color 0.3s;" id="spotify-live-title">anjing dada gw sakit</h3>
-                   <p class="text-small" style="max-width: 250px; margin: 0 auto; line-height: 1.4; opacity: 0.7;" id="spotify-live-artist">ILYBMBIR IWYBTMWLM ITTBTPYE BINR INR</p>
-                </div>
-             </a>
-           </div>
-           
-           <div class="side-records">
-              <h4 class="text-overline" style="margin-bottom: 1.5rem; color: var(--text-soft); padding-bottom: 0.5rem; border-bottom: 1px solid var(--line-color);">Also on rotation</h4>
-              
-              <a href="https://open.spotify.com/playlist/3nLbZHz6IrUpO91tm63AoX" target="_blank" rel="noreferrer noopener" class="record-item-small" data-cursor="LISTEN">
-                 <div class="record-cover">
-                    <img src="https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84fc8f1932c4a15f305ba4f538" alt="7 kursi playlist cover" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;" />
-                 </div>
-                 <div class="record-info">
-                    <h3 class="text-h3">7 kursi, yang duduk sendiri</h3>
-                    <p class="text-small">rahasia menjadi nonchalant di tol Padaleunyi</p>
-                 </div>
-              </a>
-              
-              <a href="https://open.spotify.com/playlist/5KjSry7FPhVLx4tTMU4LN0" target="_blank" rel="noreferrer noopener" class="record-item-small" data-cursor="LISTEN">
-                 <div class="record-cover">
-                    <img src="https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84618a64736272b830002247b6" alt="lurus apa kiri playlist cover" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;" />
-                 </div>
-                 <div class="record-info">
-                    <h3 class="text-h3">lurus apa kiri?</h3>
-                    <p class="text-small">supir pusing, penumpang pusing, storage dia ga cukup buat Google Maps</p>
-                 </div>
-              </a>
-
-              <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--line-color);">
-                <p class="text-small" style="opacity: 0.5; letter-spacing: 0.05em;">More playlists available on Spotify →</p>
-              </div>
-           </div>
-        </div>
       </div>
     </section>
 
-    <section class="section cabinet-section" id="cabinet">
-      <div class="page-container">
-        <div class="cabinet-header reveal">
-           <p class="text-overline">07 / Cabinet</p>
-           <h2 class="text-h2 split-reveal">Collected things.</h2>
-        </div>
-        <div class="cabinet-body reveal">
-           <div class="cabinet-item text-fragment">
-             <span class="text-overline">QUOTE</span>
-             <p class="text-body-large">"A harbor exists to be left."</p>
-             <span class="text-small">— Former iteration</span>
-           </div>
-           
-           <div class="cabinet-item text-fragment">
-             <span class="text-overline">NOTE</span>
-             <p class="text-body-large">The shape of a system is defined by what it fails to contain.</p>
-             <span class="text-small">— Field Notebook</span>
-           </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section contact-section" id="contact">
-      <div class="page-container text-center reveal">
-        <p class="text-overline">08 / Depart</p>
-        <h2 class="text-h2 split-reveal" style="max-width: 800px; margin: 0 auto 1.5rem;">If you found something here worth talking about, you know where to find me.</h2>
-        
-        <div class="contact-links" style="margin-top: 3rem;">
-          <a href="mailto:haga@hagapradiva.com" class="text-overline" data-magnetic>Email ↗</a>
-          <a href="https://instagram.com/hagapradiva" target="_blank" rel="noreferrer noopener" class="text-overline" data-magnetic>Instagram ↗</a>
-          <a href="https://www.linkedin.com/in/hagapradiva/" target="_blank" rel="noreferrer noopener" class="text-overline" data-magnetic>LinkedIn ↗</a>
-        </div>
+    <!-- Contact Section -->
+    <section id="contact" class="section-contact container grid relative">
+      <div class="contact-content col-span-6 offset-3 reveal">
+        <h2 class="text-serif">Stay a while.<br>Or write sometime.</h2>
+        <ul class="contact-links text-sans">
+          <li><a href="mailto:hello@example.com">Email</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">LinkedIn</a></li>
+        </ul>
       </div>
     </section>
 
   </main>
 
-  <!-- Live System Dashboard HUD -->
-  <div id="system-dashboard" class="system-dashboard" style="position: fixed; bottom: 2rem; left: 2rem; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); padding: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; z-index: 100; pointer-events: none; opacity: 0; transition: opacity 0.5s ease; color: var(--text-ivory); font-family: monospace; font-size: 0.8rem; width: 220px; display: none;">
-    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding-bottom: 0.5rem;">
-      <span style="color: var(--accent-gold);">SYS.MONITOR</span>
-      <span id="dash-status" style="color: var(--accent-teal);">ONLINE</span>
-    </div>
-    
-    <div style="margin-bottom: 0.5rem;">
-      <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-        <span>CPU</span>
-        <span id="dash-cpu-val">0%</span>
-      </div>
-      <div style="width: 100%; height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; overflow: hidden;">
-        <div id="dash-cpu-bar" style="height: 100%; width: 0%; background: var(--accent-teal); transition: width 0.3s ease;"></div>
-      </div>
-    </div>
-    
-    <div style="margin-bottom: 1rem;">
-      <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-        <span>RAM</span>
-        <span id="dash-ram-val">0%</span>
-      </div>
-      <div style="width: 100%; height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; overflow: hidden;">
-        <div id="dash-ram-bar" style="height: 100%; width: 0%; background: var(--accent-gold); transition: width 0.3s ease;"></div>
-      </div>
-    </div>
-    
-    <div style="display: flex; justify-content: space-between; opacity: 0.7; font-size: 0.7rem;">
-      <span>UPTIME</span>
-      <span id="dash-uptime">00:00:00</span>
-    </div>
-  </div>
-
-  <!-- The Secret Archive (Easter Egg) -->
-  <div class="secret-archive" aria-hidden="true">
-    <div class="page-container" id="terminal-container" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%; padding-bottom: 2rem;">
-      <div id="terminal-output" style="overflow-y: auto; margin-bottom: 1rem; max-height: 80vh;">
-         <p class="text-overline" style="color: var(--accent-gold);">ARCHIVE / FRAGMENT</p>
-         <p class="text-body-large" style="margin-top: 1rem;">You found the quietest room in the house. Welcome.</p>
-      </div>
-      <div class="terminal-input-line" style="display: flex; align-items: center; opacity: 0;" id="terminal-input-wrapper">
-         <span style="color: var(--accent-teal); margin-right: 0.5rem; font-family: monospace;">></span>
-         <input type="text" id="terminal-input" style="background: transparent; border: none; color: var(--text-ivory); font-family: monospace; font-size: 1rem; flex: 1; outline: none;" autocomplete="off" spellcheck="false" autofocus>
-      </div>
-    </div>
-  </div>
-
   <footer class="site-footer">
-    <div class="footer-horizon" aria-hidden="true"></div>
-    <div class="page-container footer-content">
-      <p class="text-overline">Sequoia / <span data-year>2026</span></p>
-      <p class="text-overline footer-clock" id="footer-clock">--:--:-- WIB</p>
-      <p class="text-overline">Still becoming.</p>
+    <div class="container footer-container">
+      <div class="footer-brand text-serif">SEQUOIA</div>
+      <div class="footer-info text-sans text-muted fw-300">
+        <span>Haga Pradiva</span>
+        <span>© 2026</span>
+      </div>
     </div>
   </footer>
 
-  <div id="image-viewer" class="image-viewer" aria-hidden="true" role="dialog">
-    <button class="viewer-close" aria-label="Close viewer" data-magnetic>×</button>
-    <div class="viewer-content">
-      <div class="viewer-image-container"></div>
-      <div class="viewer-caption"></div>
-    </div>
-  </div>
-
-  <!-- Libraries for $10k Polish Phase 1 -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-  <!-- Core Logic -->
-  <script src="main.js"></script>
-  <script src="gl.js"></script>
-  <script src="audio.js"></script>
+  <script src="./js/main.js"></script>
 </body>
 </html>
