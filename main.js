@@ -177,6 +177,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!document.hidden) {
            document.title = `▶ ${trackData.item.name} — Sequoia`;
         }
+        
+        if (trackData.audio_features) {
+           window.spotifyAudioFeatures = trackData.audio_features;
+        }
       }
     } catch (e) {
       console.log('Spotify sync offline.', e);
@@ -619,4 +623,53 @@ document.addEventListener('DOMContentLoaded', () => {
           }
       });
   }
+
+  // 17. Live System Dashboard WebSocket
+  const initDashboard = () => {
+    const dashStatus = document.getElementById('dash-status');
+    const dashCpuVal = document.getElementById('dash-cpu-val');
+    const dashCpuBar = document.getElementById('dash-cpu-bar');
+    const dashRamVal = document.getElementById('dash-ram-val');
+    const dashRamBar = document.getElementById('dash-ram-bar');
+    const dashUptime = document.getElementById('dash-uptime');
+    const dashboardContainer = document.getElementById('system-dashboard');
+
+    if (!dashStatus) return;
+
+    let dashWs = new WebSocket('ws://localhost:8000/ws/dashboard');
+
+    dashWs.onopen = () => {
+      dashStatus.textContent = 'ONLINE';
+      dashStatus.style.color = 'var(--accent-teal)';
+      dashboardContainer.style.display = 'block';
+      setTimeout(() => { dashboardContainer.style.opacity = '1'; }, 100);
+    };
+
+    dashWs.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      
+      dashCpuVal.textContent = data.cpu.toFixed(1) + '%';
+      dashCpuBar.style.width = data.cpu + '%';
+      if (data.cpu > 80) dashCpuBar.style.background = 'salmon';
+      else dashCpuBar.style.background = 'var(--accent-teal)';
+
+      dashRamVal.textContent = data.memory_percent.toFixed(1) + '%';
+      dashRamBar.style.width = data.memory_percent + '%';
+
+      const u = data.uptime;
+      const h = Math.floor(u / 3600).toString().padStart(2, '0');
+      const m = Math.floor((u % 3600) / 60).toString().padStart(2, '0');
+      const s = (u % 60).toString().padStart(2, '0');
+      dashUptime.textContent = `${h}:${m}:${s}`;
+    };
+
+    dashWs.onclose = () => {
+      dashStatus.textContent = 'OFFLINE';
+      dashStatus.style.color = 'salmon';
+      setTimeout(initDashboard, 5000); // Reconnect
+    };
+  };
+
+  initDashboard();
+
 });

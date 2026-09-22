@@ -191,6 +191,18 @@ if (typeof THREE !== 'undefined') {
          uniforms.uRainIntensity.value += (1.0 - uniforms.uRainIntensity.value) * 0.01;
       }
       
+      // Sync Spotify Audio Features
+      if (window.spotifyAudioFeatures) {
+         const feats = window.spotifyAudioFeatures;
+         const targetSpeed = (feats.tempo / 120.0) * 0.5;
+         const targetHeight = feats.energy * 2.0;
+         const targetColorShift = feats.valence * 1.5;
+         
+         uniforms.uWaveSpeed.value += (targetSpeed - uniforms.uWaveSpeed.value) * 0.02;
+         uniforms.uWaveHeight.value += (targetHeight - uniforms.uWaveHeight.value) * 0.02;
+         uniforms.uColorShift.value += (targetColorShift - uniforms.uColorShift.value) * 0.02;
+      }
+      
       renderer.render(scene, camera);
     };
 

@@ -11,6 +11,8 @@ import math
 import time
 import smtplib
 from email.message import EmailMessage
+import psutil
+import asyncio
 
 load_dotenv()
 
@@ -82,7 +84,18 @@ async def get_spotify_now_playing():
         if track_res.status_code == 204 or track_res.status_code > 400:
             return {"is_playing": False}
             
-        return track_res.json()
+        track_data = track_res.json()
+        
+        # 3. Get Audio Features
+        if track_data.get("item") and track_data["item"].get("id"):
+            features_res = await client.get(
+                f"https://api.spotify.com/v1/audio-features/{track_data['item']['id']}",
+                headers={"Authorization": f"Bearer {access_token}"}
+            )
+            if features_res.status_code == 200:
+                track_data["audio_features"] = features_res.json()
+                
+        return track_data
 
 @app.get("/api/gl-data")
 def get_gl_data():
@@ -127,23 +140,30 @@ def submit_contact(form: ContactForm, background_tasks: BackgroundTasks):
     background_tasks.add_task(send_email_background, form)
     return {"status": "success", "message": "Message received"}
 
-# --- VFS DEFINITION ---
-VFS = {
-    "/": {"type": "dir", "contents": ["archive", "system", "journal", "readme.txt"]},
-    "/archive": {"type": "dir", "contents": ["project_alpha.txt", "blueprint.dat"]},
-    "/system": {"type": "dir", "contents": ["config.sys", "kernel.log"]},
-    "/journal": {"type": "dir", "contents": ["entry_001.txt", "entry_002.txt"]}
-}
 
-FILE_CONTENTS = {
-    "/readme.txt": "Welcome to Sequoia OS. Navigate using 'ls', 'cd', and 'cat'. Try 'theme matrix'.",
-    "/archive/project_alpha.txt": "Project Alpha: A study on water as a way into systems. Abandoned 2025.",
-    "/archive/blueprint.dat": "01001000 01100001 01100111 01100001",
-    "/system/config.sys": "THEME=auto\nAUDIO=enabled\nGL=active",
-    "/system/kernel.log": "[OK] Boot sequence initialized.\n[WARN] Connection unstable.",
-    "/journal/entry_001.txt": "It started raining today. The system responds as expected.",
-    "/journal/entry_002.txt": "I found an old photograph. The frame is distorted."
-}
+
+# --- WEBSOCKET DASHBOARD ---
+@app.websocket("/ws/dashboard")
+async def dashboard_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    start_time = time.time()
+    try:
+        while True:
+            cpu = psutil.cpu_percent(interval=None)
+            mem = psutil.virtual_memory()
+            uptime = int(time.time() - start_time)
+            data = {
+                "cpu": cpu,
+                "memory_percent": mem.percent,
+                "memory_used": mem.used,
+                "memory_total": mem.total,
+                "uptime": uptime
+            }
+            await websocket.send_text(json.dumps(data))
+            await asyncio.sleep(1)
+    except WebSocketDisconnect:
+        print("Dashboard disconnected")
+
 
 # --- WEBSOCKET TERMINAL ---
 @app.websocket("/ws/terminal")
@@ -166,7 +186,7 @@ async def terminal_endpoint(websocket: WebSocket):
                 response = ""
                 
                 if cmd == "help":
-                    response = "Available commands: help, whoami, status, journal, ls, cd, cat, theme"
+                    response = "Available commands: help, whoami, status, journal, ls, cd, cat, mkdir, touch, write, theme"
                 elif cmd == "whoami":
                     response = "haga_pradiva // guest_user"
                 elif cmd == "status":
@@ -178,8 +198,9 @@ async def terminal_endpoint(websocket: WebSocket):
                     else:
                         response = "No entries found."
                 elif cmd == "ls":
-                    if cwd in VFS:
-                        response = "  ".join(VFS[cwd]["contents"])
+                    children = database.vfs_ls(cwd)
+                    if children is not None:
+                        response = "  ".join(children) if children else ""
                     else:
                         response = "Directory not found."
                 elif cmd == "cd":
@@ -197,7 +218,7 @@ async def terminal_endpoint(websocket: WebSocket):
                         else:
                             new_path = cwd if cwd == "/" else cwd + "/"
                             new_path += target
-                            if new_path in VFS and VFS[new_path]["type"] == "dir":
+                            if database.vfs_is_dir(new_path):
                                 cwd = new_path
                                 response = cwd
                             else:
@@ -209,10 +230,51 @@ async def terminal_endpoint(websocket: WebSocket):
                         target = args[0]
                         file_path = cwd if cwd == "/" else cwd + "/"
                         file_path += target
-                        if file_path in FILE_CONTENTS:
-                            response = FILE_CONTENTS[file_path]
+                        content = database.vfs_cat(file_path)
+                        if content is not None:
+                            response = content
                         else:
                             response = f"cat: {target}: No such file"
+                elif cmd == "mkdir":
+                    if not args:
+                        response = "mkdir: missing operand"
+                    else:
+                        target = args[0]
+                        new_path = cwd if cwd == "/" else cwd + "/"
+                        new_path += target
+                        if database.vfs_mkdir(new_path):
+                            response = ""
+                        else:
+                            response = f"mkdir: cannot create directory '{target}': File exists"
+                elif cmd == "touch":
+                    if not args:
+                        response = "touch: missing operand"
+                    else:
+                        target = args[0]
+                        new_path = cwd if cwd == "/" else cwd + "/"
+                        new_path += target
+                        if database.vfs_touch(new_path):
+                            response = ""
+                        else:
+                            response = f"touch: cannot touch '{target}': File exists"
+                elif cmd == "write":
+                    if len(args) < 2:
+                        response = "Usage: write <filename> <content...>"
+                    else:
+                        target = args[0]
+                        # Don't lower-case the content
+                        raw_parts = data.strip().split(maxsplit=2)
+                        if len(raw_parts) >= 3:
+                            content = raw_parts[2]
+                            content = content.replace("\\n", "\n")
+                            new_path = cwd if cwd == "/" else cwd + "/"
+                            new_path += target
+                            if database.vfs_write(new_path, content):
+                                response = f"Written to {target}"
+                            else:
+                                response = f"write: {target} is a directory"
+                        else:
+                            response = "Usage: write <filename> <content...>"
                 elif cmd == "theme":
                     if not args:
                         response = "Usage: theme [dawn|day|dusk|night|matrix|auto]"

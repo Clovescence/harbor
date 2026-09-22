@@ -365,6 +365,39 @@
 
   </main>
 
+  <!-- Live System Dashboard HUD -->
+  <div id="system-dashboard" class="system-dashboard" style="position: fixed; bottom: 2rem; left: 2rem; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); padding: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; z-index: 100; pointer-events: none; opacity: 0; transition: opacity 0.5s ease; color: var(--text-ivory); font-family: monospace; font-size: 0.8rem; width: 220px; display: none;">
+    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding-bottom: 0.5rem;">
+      <span style="color: var(--accent-gold);">SYS.MONITOR</span>
+      <span id="dash-status" style="color: var(--accent-teal);">ONLINE</span>
+    </div>
+    
+    <div style="margin-bottom: 0.5rem;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+        <span>CPU</span>
+        <span id="dash-cpu-val">0%</span>
+      </div>
+      <div style="width: 100%; height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; overflow: hidden;">
+        <div id="dash-cpu-bar" style="height: 100%; width: 0%; background: var(--accent-teal); transition: width 0.3s ease;"></div>
+      </div>
+    </div>
+    
+    <div style="margin-bottom: 1rem;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+        <span>RAM</span>
+        <span id="dash-ram-val">0%</span>
+      </div>
+      <div style="width: 100%; height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; overflow: hidden;">
+        <div id="dash-ram-bar" style="height: 100%; width: 0%; background: var(--accent-gold); transition: width 0.3s ease;"></div>
+      </div>
+    </div>
+    
+    <div style="display: flex; justify-content: space-between; opacity: 0.7; font-size: 0.7rem;">
+      <span>UPTIME</span>
+      <span id="dash-uptime">00:00:00</span>
+    </div>
+  </div>
+
   <!-- The Secret Archive (Easter Egg) -->
   <div class="secret-archive" aria-hidden="true">
     <div class="page-container" id="terminal-container" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%; padding-bottom: 2rem;">
