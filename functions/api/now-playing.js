@@ -1,14 +1,18 @@
-export default async function handler(req, res) {
-  const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
-  const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
-  const REFRESH_TOKEN = process.env.SPOTIFY_REFRESH_TOKEN;
+export async function onRequest(context) {
+  const CLIENT_ID = context.env.SPOTIFY_CLIENT_ID;
+  const CLIENT_SECRET = context.env.SPOTIFY_CLIENT_SECRET;
+  const REFRESH_TOKEN = context.env.SPOTIFY_REFRESH_TOKEN;
 
   if (!CLIENT_ID || !CLIENT_SECRET || !REFRESH_TOKEN) {
-    return res.status(500).json({ error: 'Missing Spotify Secrets' });
+    return new Response(JSON.stringify({ error: 'Missing Spotify Secrets in Cloudflare' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 
   try {
-    const auth = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64');
+    // Cloudflare Workers use btoa instead of Buffer for base64 encoding
+    const auth = btoa(`${CLIENT_ID}:${CLIENT_SECRET}`);
     
     // 1. Get Access Token
     const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
@@ -24,6 +28,9 @@ export default async function handler(req, res) {
     });
 
     const tokenData = await tokenResponse.json();
+    if (!tokenResponse.ok) {
+        throw new Error("Failed to refresh token from Spotify");
+    }
     const accessToken = tokenData.access_token;
 
     // 2. Fetch Currently Playing
@@ -39,34 +46,45 @@ export default async function handler(req, res) {
       });
       const data = await response.json();
       if (!data.items || data.items.length === 0) {
-         return res.status(200).json({ isPlaying: false });
+         return new Response(JSON.stringify({ isPlaying: false }), {
+           headers: { 'Content-Type': 'application/json' }
+         });
       }
       
       const track = data.items[0].track;
-      return res.status(200).json({
+      return new Response(JSON.stringify({
         isPlaying: false,
         title: track.name,
         artist: track.artists.map(a => a.name).join(', '),
         albumUrl: track.album.images[0]?.url,
         songUrl: track.external_urls.spotify
+      }), {
+        headers: { 'Content-Type': 'application/json' }
       });
     }
 
     const data = await response.json();
     if (!data.item) {
-      return res.status(200).json({ isPlaying: false });
+        return new Response(JSON.stringify({ isPlaying: false }), {
+          headers: { 'Content-Type': 'application/json' }
+        });
     }
 
     const track = data.item;
-    return res.status(200).json({
+    return new Response(JSON.stringify({
       isPlaying: data.is_playing,
       title: track.name,
       artist: track.artists.map(a => a.name).join(', '),
       albumUrl: track.album.images[0]?.url,
       songUrl: track.external_urls.spotify
+    }), {
+        headers: { 'Content-Type': 'application/json' }
     });
 
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return new Response(JSON.stringify({ error: err.message }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+    });
   }
 }
