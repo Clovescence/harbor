@@ -362,13 +362,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Filter out placeholder
         const validPlaylists = playlists.filter(pl => pl.id !== 'placeholder');
         const total = validPlaylists.length;
-        const orbitRadius = window.innerWidth > 1200 ? 350 : 250; // Dynamic radius based on screen
-
         validPlaylists.forEach((pl, index) => {
           // 3D Orbital Math
-          // Space them in a wider circle (ellipse feeling)
+          // Space them in a tighter circle to prevent overlapping other sections
           const angle = (index / total) * (2 * Math.PI) - (Math.PI / 2);
-          const x = Math.cos(angle) * (orbitRadius * 1.2); 
+          const orbitRadius = window.innerWidth > 1200 ? 300 : 200; // Tighter radius
+          const x = Math.cos(angle) * (orbitRadius * 1.1); 
           const y = Math.sin(angle) * orbitRadius;
           
           // Generate organic 3D tilts (like the reference)

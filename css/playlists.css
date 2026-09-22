@@ -26,6 +26,7 @@
   gap: 20px;
   text-align: center;
   margin-bottom: 40px;
+  pointer-events: none; /* Stop the wrapper from blocking the 3D cards below it */
 }
 
 .vinyl-record {
@@ -122,7 +123,7 @@
 .playlists-container {
   position: relative;
   width: 100%;
-  min-height: 850px;
+  min-height: 800px; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -141,6 +142,7 @@
   transform: translate(-50%, -50%);
   pointer-events: none;
   transform-style: preserve-3d;
+  z-index: 50; /* Ensure the orbiting cards are always clickable above the vinyl */
 }
 
 .gallery-item {
