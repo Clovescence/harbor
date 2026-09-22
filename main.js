@@ -469,6 +469,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      // Save to cache for offline sync
+      localStorage.setItem('fieldNotesCache', JSON.stringify(entries));
+
       container.innerHTML = ''; 
 
       entries.forEach(entry => {
@@ -490,6 +493,37 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (e) {
       console.log('Failed to fetch journal from Backend API', e);
+      
+      // Fallback to offline cache
+      const cached = localStorage.getItem('fieldNotesCache');
+      if (cached) {
+        try {
+          const entries = JSON.parse(cached);
+          container.innerHTML = '<p class="text-small" style="opacity: 0.5; margin-bottom: 1rem;">Viewing offline cached notes.</p>'; 
+          
+          entries.forEach(entry => {
+            const article = document.createElement('article');
+            article.className = 'journal-entry';
+            article.innerHTML = `
+              <div class="entry-meta">
+                <span class="text-overline">${entry.date}</span>
+                <span class="text-overline">OFFLINE NOTE</span>
+              </div>
+              <h3 class="text-h3">${entry.title}</h3>
+              <p class="text-small">${entry.content}</p>
+            `;
+            container.appendChild(article);
+          });
+          
+          if (typeof ScrollTrigger !== 'undefined') {
+            setTimeout(() => ScrollTrigger.refresh(), 200);
+          }
+          return;
+        } catch (err) {
+          console.error('Failed to parse offline cache', err);
+        }
+      }
+
       container.innerHTML = '<p class="text-small" style="opacity: 0.5;">Field notes sync offline.</p>';
     }
   };
