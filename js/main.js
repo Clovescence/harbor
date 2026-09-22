@@ -377,6 +377,11 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           `;
           galleryGrid.appendChild(item);
+          
+          // Observe the dynamically added element so the reveal animation triggers
+          if (typeof revealObserver !== 'undefined') {
+            revealObserver.observe(item);
+          }
         });
       } catch (err) {
         console.error("Playlists fetch error:", err);
