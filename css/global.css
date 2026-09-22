@@ -90,7 +90,16 @@ img {
 
 /* Base structural containers */
 .main-content {
-  padding-top: 120px; /* Space for fixed nav if needed, or just generous top spacing */
+  padding-top: 100px;
+}
+
+section {
+  padding-top: 120px;
+  padding-bottom: 120px;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* Utility classes */
