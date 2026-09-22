@@ -345,4 +345,65 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Old Parallax listener removed. Handled by Physics Engine above.
+
+  // Playlists Hover Logic
+  const playlistBgContainer = document.getElementById('playlist-bg-container');
+  const playlistListContainer = document.getElementById('playlist-list-container');
+
+  if (playlistBgContainer && playlistListContainer) {
+    const fetchPlaylists = async () => {
+      try {
+        const res = await fetch('./public/data/playlists.json');
+        if (!res.ok) throw new Error("Could not load playlists");
+        const playlists = await res.json();
+        
+        // Remove placeholders
+        playlistBgContainer.innerHTML = '';
+        playlistListContainer.innerHTML = '';
+
+        playlists.forEach((pl, index) => {
+          if (pl.id === 'placeholder') return; // skip placeholder if actual data exists
+
+          // Create Background Image
+          const bgImg = document.createElement('img');
+          bgImg.src = pl.image || '';
+          bgImg.className = 'playlist-bg';
+          bgImg.alt = pl.name;
+          bgImg.id = `bg-${pl.id}`;
+          playlistBgContainer.appendChild(bgImg);
+
+          // Create Text Item
+          const item = document.createElement('a');
+          item.href = pl.url;
+          item.target = '_blank';
+          item.className = 'playlist-list-item reveal';
+          item.style.transitionDelay = `${index * 0.1}s`;
+          
+          item.innerHTML = `
+            <h3 class="text-serif">${pl.name}</h3>
+            <p class="text-sans fw-500">${pl.tracks} Tracks</p>
+          `;
+
+          // Add Hover Listeners for Atmospheric Fade
+          item.addEventListener('mouseenter', () => {
+            document.querySelectorAll('.playlist-bg').forEach(bg => bg.classList.remove('active'));
+            bgImg.classList.add('active');
+            
+            // Trigger hover effect on global cursor if available
+            if (cursor) cursor.classList.add('hovering');
+          });
+
+          item.addEventListener('mouseleave', () => {
+            bgImg.classList.remove('active');
+            if (cursor) cursor.classList.remove('hovering');
+          });
+
+          playlistListContainer.appendChild(item);
+        });
+      } catch (err) {
+        console.error("Playlists fetch error:", err);
+      }
+    };
+    fetchPlaylists();
+  }
 });
