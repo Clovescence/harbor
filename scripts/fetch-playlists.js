@@ -79,8 +79,8 @@ async function run() {
           id: playlist.id,
           name: cleanName,
           description: playlist.description || '',
-          url: playlist.external_urls.spotify,
-          tracks: playlist.tracks.total,
+          url: playlist.external_urls?.spotify || '',
+          tracks: playlist.tracks?.total || 0,
           image: imageUrl
         };
       });
