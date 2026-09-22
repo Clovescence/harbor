@@ -1,10 +1,34 @@
 [
   {
-    "id": "placeholder",
-    "name": "Focus",
-    "description": "Waiting for Spotify sync...",
-    "url": "#",
+    "id": "2TqCh93D9jpkot4GwRfaB2",
+    "name": "arc snare",
+    "description": "",
+    "url": "https://open.spotify.com/playlist/2TqCh93D9jpkot4GwRfaB2",
     "tracks": 0,
-    "image": null
+    "image": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da843b1621d8dedad72c5face0bb"
+  },
+  {
+    "id": "5KjSry7FPhVLx4tTMU4LN0",
+    "name": "lurus apa kiri?",
+    "description": "supir pusing, penumpang pusing, storage dia ga cukup buat Google Maps",
+    "url": "https://open.spotify.com/playlist/5KjSry7FPhVLx4tTMU4LN0",
+    "tracks": 0,
+    "image": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84618a64736272b830002247b6"
+  },
+  {
+    "id": "3nLbZHz6IrUpO91tm63AoX",
+    "name": "7 kursi, yang duduk sendiri",
+    "description": "rahasia menjadi nonchalant di tol Padaleunyi",
+    "url": "https://open.spotify.com/playlist/3nLbZHz6IrUpO91tm63AoX",
+    "tracks": 0,
+    "image": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84fc8f1932c4a15f305ba4f538"
+  },
+  {
+    "id": "5TW8KqpDEQXYHAvGbSKM8b",
+    "name": "anjing dada gw sakit",
+    "description": "ILYBMBIR IWYBTMWLM ITTBTPYE BINR INR",
+    "url": "https://open.spotify.com/playlist/5TW8KqpDEQXYHAvGbSKM8b",
+    "tracks": 0,
+    "image": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da842f647f1d55692b51c1678afd"
   }
 ]
