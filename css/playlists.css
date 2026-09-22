@@ -180,33 +180,25 @@
     translate3d(var(--orbit-x, 0), var(--orbit-y, 0), var(--orbit-z, 0))
     rotateX(var(--rot-x, 0)) 
     rotateY(var(--rot-y, 0)) 
-    rotateZ(var(--rot-z, 0));
+    rotateZ(var(--rot-z, 0))
+    scale(var(--scale, 1));
     
-  transition: opacity 1s ease, filter 0.3s ease, transform 0.4s ease;
+  transition: opacity 0.6s ease, filter 0.3s ease, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
   box-shadow: 0 15px 35px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
 }
 
 .gallery-item.visible {
   opacity: 1;
-  /* Add float animation after becoming visible */
-  animation: float3D 6s ease-in-out infinite;
 }
 
-@keyframes float3D {
-  0%, 100% { 
-    transform: 
-      translate3d(var(--orbit-x, 0), var(--orbit-y, 0), var(--orbit-z, 0))
-      rotateX(var(--rot-x, 0)) 
-      rotateY(var(--rot-y, 0)) 
-      rotateZ(var(--rot-z, 0));
-  }
-  50% { 
-    transform: 
-      translate3d(var(--orbit-x, 0), calc(var(--orbit-y, 0) - 15px), var(--orbit-z, 0))
-      rotateX(calc(var(--rot-x, 0) + 2deg)) 
-      rotateY(calc(var(--rot-y, 0) - 2deg)) 
-      rotateZ(var(--rot-z, 0));
-  }
+/* Added Controls Styling */
+.playlist-controls {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  display: flex;
+  gap: 12px;
+  z-index: 100;
 }
 
 .gallery-cover-wrapper {
@@ -230,11 +222,11 @@
   filter: brightness(1.2);
   /* Pull slightly forward on hover */
   transform: 
-    translate3d(var(--orbit-x, 0), var(--orbit-y, 0), calc(var(--orbit-z, 0) + 50px))
+    translate3d(var(--orbit-x, 0), var(--orbit-y, 0), calc(var(--orbit-z, 0) + 30px))
     rotateX(0deg) 
     rotateY(0deg) 
-    rotateZ(0deg) !important; 
-  animation: none !important;
+    rotateZ(0deg)
+    scale(calc(var(--scale, 1) * 1.05)) !important; 
   z-index: 100;
 }
 

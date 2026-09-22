@@ -348,8 +348,74 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Playlists: Live Spotify & Gallery Logic
   const galleryGrid = document.getElementById('playlist-gallery-grid');
+  const playlistPrev = document.getElementById('playlist-prev');
+  const playlistNext = document.getElementById('playlist-next');
   
   if (galleryGrid) {
+    let currentPlaylistIndex = 0;
+    let playlistItems = [];
+
+    const updatePlaylistCarousel = () => {
+      const isMobile = window.innerWidth <= 900;
+      playlistItems.forEach((item, index) => {
+        if (isMobile) {
+          item.style = ''; // clear inline variables on mobile fallback
+          return;
+        }
+
+        const offset = index - currentPlaylistIndex;
+        
+        if (offset < 0) {
+          // Items to the left (already passed)
+          item.style.setProperty('--orbit-x', `-150px`);
+          item.style.setProperty('--orbit-y', `0px`);
+          item.style.setProperty('--orbit-z', `50px`);
+          item.style.setProperty('--scale', `0.5`);
+          item.style.opacity = '0';
+          item.style.pointerEvents = 'none';
+        } else {
+          // Active item and items to the right
+          const x = offset * 200; // 200px horizontal spacing
+          // We use pseudo-random but consistent staggering using the index
+          const y = (index % 3 === 0 ? 1 : -1) * (10 + (index % 15)); 
+          const z = offset * -180; // push deeper into the background
+          const scale = Math.max(0.6, 1 - (offset * 0.12)); // scale down as it goes back
+          
+          // Generate organic 3D tilts based on index
+          const rotX = ((index * 5) % 20) - 10;
+          const rotY = ((index * -8) % 30) - 15;
+          const rotZ = ((index * 3) % 10) - 5;
+          
+          item.style.setProperty('--orbit-x', `${x}px`);
+          item.style.setProperty('--orbit-y', `${y}px`);
+          item.style.setProperty('--orbit-z', `${z}px`);
+          item.style.setProperty('--rot-x', `${rotX}deg`);
+          item.style.setProperty('--rot-y', `${rotY}deg`);
+          item.style.setProperty('--rot-z', `${rotZ}deg`);
+          item.style.setProperty('--scale', `${scale}`);
+          
+          item.style.opacity = offset > 5 ? '0' : '1'; // hide if too far back
+          // Pointer events are allowed if it is active (0) or slightly behind, but hovering on background ones works nicely
+          item.style.pointerEvents = offset === 0 ? 'auto' : 'none'; 
+        }
+      });
+    };
+
+    if (playlistPrev && playlistNext) {
+      playlistPrev.addEventListener('click', () => {
+        if (currentPlaylistIndex > 0) {
+          currentPlaylistIndex--;
+          updatePlaylistCarousel();
+        }
+      });
+      playlistNext.addEventListener('click', () => {
+        if (currentPlaylistIndex < playlistItems.length - 1) {
+          currentPlaylistIndex++;
+          updatePlaylistCarousel();
+        }
+      });
+    }
+
     // 1. Render Static Gallery
     const fetchPlaylists = async () => {
       try {
@@ -362,31 +428,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Filter out placeholder
         const validPlaylists = playlists.filter(pl => pl.id !== 'placeholder');
         validPlaylists.forEach((pl, index) => {
-          // Linear 3D Math
-          // Space them horizontally to the right
-          const x = index * 240; // 240px horizontal spacing
-          const y = (Math.random() * 60) - 30; // slight vertical staggering
-          const z = (Math.random() * 100) - 50; // depth scattering
-          
-          // Generate organic 3D tilts
-          const rotX = Math.random() * 20 - 10; // -10 to +10 deg
-          const rotY = Math.random() * 30 - 15; // -15 to +15 deg
-          const rotZ = Math.random() * 10 - 5; // -5 to +5 deg
-
           const item = document.createElement('a');
           item.href = pl.url;
           item.target = '_blank';
           item.className = 'gallery-item reveal';
           item.style.animationDelay = `${index * 0.7}s`; 
           item.style.transitionDelay = `${index * 0.1}s`;
-          
-          // Apply 3D transform variables
-          item.style.setProperty('--orbit-x', `${x}px`);
-          item.style.setProperty('--orbit-y', `${y}px`);
-          item.style.setProperty('--orbit-z', `${z}px`);
-          item.style.setProperty('--rot-x', `${rotX}deg`);
-          item.style.setProperty('--rot-y', `${rotY}deg`);
-          item.style.setProperty('--rot-z', `${rotZ}deg`);
+
           
           // Generate a random progress bar width for aesthetics (30% to 80%)
           const progress = Math.floor(Math.random() * 50) + 30;
@@ -412,12 +460,16 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           `;
           galleryGrid.appendChild(item);
+          playlistItems.push(item);
           
           // Observe the dynamically added element so the reveal animation triggers
           if (typeof revealObserver !== 'undefined') {
             revealObserver.observe(item);
           }
         });
+        
+        // Initial setup
+        setTimeout(updatePlaylistCarousel, 50);
       } catch (err) {
         console.error("Playlists fetch error:", err);
       }
