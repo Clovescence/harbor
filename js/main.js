@@ -361,21 +361,17 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Filter out placeholder
         const validPlaylists = playlists.filter(pl => pl.id !== 'placeholder');
-        const total = validPlaylists.length;
         validPlaylists.forEach((pl, index) => {
-          // 3D Orbital Math
-          // Space them in a tighter circle to prevent overlapping other sections
-          const angle = (index / total) * (2 * Math.PI) - (Math.PI / 2);
-          const orbitRadius = window.innerWidth > 1200 ? 300 : 200; // Tighter radius
-          const x = Math.cos(angle) * (orbitRadius * 1.1); 
-          const y = Math.sin(angle) * orbitRadius;
+          // Linear 3D Math
+          // Space them horizontally to the right
+          const x = index * 240; // 240px horizontal spacing
+          const y = (Math.random() * 60) - 30; // slight vertical staggering
+          const z = (Math.random() * 100) - 50; // depth scattering
           
-          // Generate organic 3D tilts (like the reference)
-          // We want them facing slightly inwards or randomly tilted
-          const rotX = Math.random() * 30 - 15; // -15 to +15 deg
-          const rotY = Math.random() * 40 - 20; // -20 to +20 deg
-          const rotZ = Math.random() * 20 - 10; // -10 to +10 deg
-          const z = Math.random() * 100 - 50;   // depth scattering
+          // Generate organic 3D tilts
+          const rotX = Math.random() * 20 - 10; // -10 to +10 deg
+          const rotY = Math.random() * 30 - 15; // -15 to +15 deg
+          const rotZ = Math.random() * 10 - 5; // -5 to +5 deg
 
           const item = document.createElement('a');
           item.href = pl.url;
