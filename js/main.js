@@ -365,25 +365,36 @@ document.addEventListener('DOMContentLoaded', () => {
         const orbitRadius = window.innerWidth > 1200 ? 350 : 250; // Dynamic radius based on screen
 
         validPlaylists.forEach((pl, index) => {
-          // Orbital Math
-          // Start at top (-90 degrees / -PI/2) and space evenly
+          // 3D Orbital Math
+          // Space them in a wider circle (ellipse feeling)
           const angle = (index / total) * (2 * Math.PI) - (Math.PI / 2);
-          const x = Math.cos(angle) * orbitRadius;
+          const x = Math.cos(angle) * (orbitRadius * 1.2); 
           const y = Math.sin(angle) * orbitRadius;
+          
+          // Generate organic 3D tilts (like the reference)
+          // We want them facing slightly inwards or randomly tilted
+          const rotX = Math.random() * 30 - 15; // -15 to +15 deg
+          const rotY = Math.random() * 40 - 20; // -20 to +20 deg
+          const rotZ = Math.random() * 20 - 10; // -10 to +10 deg
+          const z = Math.random() * 100 - 50;   // depth scattering
 
           const item = document.createElement('a');
           item.href = pl.url;
           item.target = '_blank';
           item.className = 'gallery-item reveal';
-          // Stagger the animation delay so they bob out of sync
-          item.style.animationDelay = `${index * 0.5}s`; 
+          item.style.animationDelay = `${index * 0.7}s`; 
           item.style.transitionDelay = `${index * 0.1}s`;
           
-          // Apply calculated positions
+          // Apply 3D transform variables
           item.style.setProperty('--orbit-x', `${x}px`);
           item.style.setProperty('--orbit-y', `${y}px`);
-          item.style.left = `calc(50% + var(--orbit-x))`;
-          item.style.top = `calc(50% + var(--orbit-y))`;
+          item.style.setProperty('--orbit-z', `${z}px`);
+          item.style.setProperty('--rot-x', `${rotX}deg`);
+          item.style.setProperty('--rot-y', `${rotY}deg`);
+          item.style.setProperty('--rot-z', `${rotZ}deg`);
+          
+          // Generate a random progress bar width for aesthetics (30% to 80%)
+          const progress = Math.floor(Math.random() * 50) + 30;
           
           item.innerHTML = `
             <div class="gallery-cover-wrapper">
@@ -391,7 +402,18 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="gallery-info">
               <h3 class="text-serif">${pl.name}</h3>
-              <p class="text-sans text-muted fw-300">${pl.description}</p>
+              <p class="text-sans fw-300">Playlist • Spotify</p>
+              
+              <div class="player-controls">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: ${progress}%"></div>
+                </div>
+                <div class="control-icons">
+                  <div class="icon-btn icon-skip" style="transform: scaleX(-1)"></div>
+                  <div class="icon-btn icon-play"></div>
+                  <div class="icon-btn icon-skip"></div>
+                </div>
+              </div>
             </div>
           `;
           galleryGrid.appendChild(item);
