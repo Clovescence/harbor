@@ -155,11 +155,24 @@
     <section id="playlists" class="section-playlists container relative">
       <div class="watermark watermark-section text-serif">02</div>
       <h2 class="section-title text-serif offset-1 reveal">Playlists</h2>
-      <div id="playlist-bg-container" class="playlist-bg-container">
-        <!-- Background images will be injected here -->
-      </div>
-      <div id="playlist-list-container" class="playlist-list-container grid">
-        <!-- Text list will be injected here -->
+      <div class="playlists-container">
+        <!-- Center Vinyl -->
+        <div id="now-playing-vinyl" class="now-playing-vinyl reveal">
+          <div class="vinyl-record">
+            <div class="vinyl-grooves"></div>
+            <img id="now-playing-img" class="vinyl-label" src="" alt="Album Art">
+          </div>
+          <div class="now-playing-info">
+            <p id="now-playing-status" class="text-sans fw-300 text-accent uppercase">Loading...</p>
+            <h4 id="now-playing-title" class="text-serif text-light">---</h4>
+            <p id="now-playing-artist" class="text-sans text-muted">---</p>
+          </div>
+        </div>
+
+        <!-- Surrounding Gallery -->
+        <div id="playlist-gallery-grid" class="playlist-gallery-grid">
+          <!-- Playlists will be injected here -->
+        </div>
       </div>
     </section>
 

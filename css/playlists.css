@@ -1,117 +1,172 @@
-/* Playlists Section - Atmospheric Hover */
+/* Playlists Section - Vinyl & Gallery */
 
 .section-playlists {
-  padding: 100px 0; /* Huge padding for dramatic effect */
-  min-height: 100vh; /* Make sure it takes up screen real estate */
+  padding: 100px 0;
+  min-height: 100vh;
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  transition: background-color 0.8s ease;
 }
 
-.section-playlists .section-title {
-  z-index: 10; /* Above the backgrounds */
+.playlists-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 80px;
+  margin-top: 60px;
 }
 
-/* Background Image Container */
-.playlist-bg-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.playlist-bg {
-  position: absolute;
-  top: -10%;
-  left: -10%;
-  width: 120%;
-  height: 120%;
-  object-fit: cover;
-  opacity: 0;
-  transform: scale(1.05);
-  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 2s cubic-bezier(0.25, 1, 0.5, 1);
-  filter: blur(40px) brightness(0.4) saturate(1.2);
-  mix-blend-mode: multiply;
-}
-
-.playlist-bg.active {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* The Typographic List */
-.playlist-list-container {
-  position: relative;
-  z-index: 10;
+/* =========================================
+   VINYL RECORD UI
+   ========================================= */
+.now-playing-vinyl {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  width: 100%;
-  margin-top: 60px;
-}
-
-.playlist-list-item {
-  display: block;
-  text-decoration: none;
   text-align: center;
-  position: relative;
-  padding: 10px 0;
-  color: var(--color-light);
-  opacity: 0.6;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  cursor: none; /* Relies on custom cursor */
+  margin-bottom: 40px;
 }
 
-.playlist-list-item:hover {
-  opacity: 1;
+.vinyl-record {
+  width: 250px;
+  height: 250px;
+  background-color: #111;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Start paused, we add .spinning via JS when active */
+  animation: spin 10s linear infinite;
+  animation-play-state: paused;
+}
+
+.vinyl-record.spinning {
+  animation-play-state: running;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Vinyl Grooves (the glossy lines on a record) */
+.vinyl-grooves {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 
+    inset 0 0 0 10px #111,
+    inset 0 0 0 11px rgba(255,255,255,0.05),
+    inset 0 0 0 20px #111,
+    inset 0 0 0 21px rgba(255,255,255,0.05),
+    inset 0 0 0 30px #111,
+    inset 0 0 0 31px rgba(255,255,255,0.05);
+  pointer-events: none;
+}
+
+/* The Center Label (Album Art) */
+.vinyl-label {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  z-index: 2;
+  border: 2px solid #222;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  background-color: #222;
+}
+
+/* The physical hole in the center of the record */
+.vinyl-label::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background-color: var(--color-bg); /* Matches background to look like a hole */
+  border-radius: 50%;
+  z-index: 3;
+}
+
+.now-playing-info {
+  max-width: 300px;
+}
+
+.now-playing-info p.uppercase {
+  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+
+.now-playing-info h4 {
+  font-size: 1.5rem;
+  margin-bottom: 4px;
+}
+
+.now-playing-info p.text-muted {
+  font-size: 0.9rem;
+}
+
+/* =========================================
+   GALLERY GRID UI
+   ========================================= */
+.playlist-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 30px;
+  width: 100%;
+}
+
+.gallery-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-decoration: none;
+  group: playlist-hover;
+}
+
+.gallery-cover-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.gallery-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s ease;
+  background-color: var(--color-dark);
+}
+
+.gallery-item:hover .gallery-cover {
   transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
+.gallery-info h3 {
+  font-size: 1.2rem;
+  color: var(--color-light);
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.gallery-item:hover .gallery-info h3 {
   color: var(--color-accent);
 }
 
-.playlist-list-item h3 {
-  font-size: clamp(3rem, 6vw, 7rem);
-  line-height: 1;
-  margin: 0;
-  letter-spacing: -0.02em;
-  font-style: italic;
-  font-weight: 300;
-  text-transform: lowercase;
-}
-
-.playlist-list-item p {
-  font-size: 1rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-top: 8px;
-  opacity: 0.7;
-}
-
-/* Subtle line separator */
-.playlist-list-item::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 1px;
-  background-color: var(--color-accent);
-  transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.playlist-list-item:hover::after {
-  width: 40px;
-}
-
-/* Optional state when hovering over ANY item (dims the others) */
-.playlist-list-container:hover .playlist-list-item:not(:hover) {
-  opacity: 0.2;
-  filter: blur(2px);
+.gallery-info p {
+  font-size: 0.85rem;
+  margin-top: 4px;
 }

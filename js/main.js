@@ -346,64 +346,90 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Old Parallax listener removed. Handled by Physics Engine above.
 
-  // Playlists Hover Logic
-  const playlistBgContainer = document.getElementById('playlist-bg-container');
-  const playlistListContainer = document.getElementById('playlist-list-container');
-
-  if (playlistBgContainer && playlistListContainer) {
+  // Playlists: Live Spotify & Gallery Logic
+  const galleryGrid = document.getElementById('playlist-gallery-grid');
+  
+  if (galleryGrid) {
+    // 1. Render Static Gallery
     const fetchPlaylists = async () => {
       try {
-        const res = await fetch('./public/data/playlists.json');
+        const res = await fetch('./data/playlists.json');
         if (!res.ok) throw new Error("Could not load playlists");
         const playlists = await res.json();
         
-        // Remove placeholders
-        playlistBgContainer.innerHTML = '';
-        playlistListContainer.innerHTML = '';
-
+        galleryGrid.innerHTML = '';
         playlists.forEach((pl, index) => {
-          if (pl.id === 'placeholder') return; // skip placeholder if actual data exists
+          if (pl.id === 'placeholder') return;
 
-          // Create Background Image
-          const bgImg = document.createElement('img');
-          bgImg.src = pl.image || '';
-          bgImg.className = 'playlist-bg';
-          bgImg.alt = pl.name;
-          bgImg.id = `bg-${pl.id}`;
-          playlistBgContainer.appendChild(bgImg);
-
-          // Create Text Item
           const item = document.createElement('a');
           item.href = pl.url;
           item.target = '_blank';
-          item.className = 'playlist-list-item reveal';
+          item.className = 'gallery-item reveal';
           item.style.transitionDelay = `${index * 0.1}s`;
           
           item.innerHTML = `
-            <h3 class="text-serif">${pl.name}</h3>
-            <p class="text-sans fw-500">${pl.tracks} Tracks</p>
+            <div class="gallery-cover-wrapper">
+              <img class="gallery-cover" src="${pl.image || ''}" alt="${pl.name}">
+            </div>
+            <div class="gallery-info">
+              <h3 class="text-serif">${pl.name}</h3>
+              <p class="text-sans text-muted fw-300">${pl.description}</p>
+            </div>
           `;
-
-          // Add Hover Listeners for Atmospheric Fade
-          item.addEventListener('mouseenter', () => {
-            document.querySelectorAll('.playlist-bg').forEach(bg => bg.classList.remove('active'));
-            bgImg.classList.add('active');
-            
-            // Trigger hover effect on global cursor if available
-            if (cursor) cursor.classList.add('hovering');
-          });
-
-          item.addEventListener('mouseleave', () => {
-            bgImg.classList.remove('active');
-            if (cursor) cursor.classList.remove('hovering');
-          });
-
-          playlistListContainer.appendChild(item);
+          galleryGrid.appendChild(item);
         });
       } catch (err) {
         console.error("Playlists fetch error:", err);
       }
     };
     fetchPlaylists();
+
+    // 2. Poll Live "Now Playing" Status
+    const vinylRecord = document.querySelector('.vinyl-record');
+    const vinylImg = document.getElementById('now-playing-img');
+    const statusText = document.getElementById('now-playing-status');
+    const titleText = document.getElementById('now-playing-title');
+    const artistText = document.getElementById('now-playing-artist');
+    const vinylContainer = document.getElementById('now-playing-vinyl');
+
+    const fetchNowPlaying = async () => {
+      try {
+        // This will work when deployed to Vercel. 
+        // Locally in Vite it may 404 unless using a serverless proxy.
+        const res = await fetch('/api/now-playing');
+        if (!res.ok) throw new Error("Live endpoint not available");
+        const data = await res.json();
+
+        if (data.title) {
+          vinylImg.src = data.albumUrl || '';
+          titleText.textContent = data.title;
+          artistText.textContent = data.artist;
+          
+          if (data.songUrl) {
+            vinylContainer.style.cursor = 'pointer';
+            vinylContainer.onclick = () => window.open(data.songUrl, '_blank');
+          }
+
+          if (data.isPlaying) {
+            statusText.textContent = "Currently Playing";
+            vinylRecord.classList.add('spinning');
+          } else {
+            statusText.textContent = "Last Played";
+            vinylRecord.classList.remove('spinning');
+          }
+        } else {
+          statusText.textContent = "Offline";
+          vinylRecord.classList.remove('spinning');
+        }
+      } catch (err) {
+        // Fallback for local development if endpoint isn't running
+        statusText.textContent = "Spotify API Offline";
+        vinylRecord.classList.remove('spinning');
+      }
+    };
+
+    // Fetch immediately, then poll every 15 seconds
+    fetchNowPlaying();
+    setInterval(fetchNowPlaying, 15000);
   }
 });

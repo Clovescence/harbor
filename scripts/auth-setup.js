@@ -23,7 +23,7 @@ async function run() {
   }
 
   const redirectUri = 'http://127.0.0.1:8888/callback';
-  const scope = 'playlist-read-private playlist-read-collaborative';
+  const scope = 'playlist-read-private playlist-read-collaborative user-read-currently-playing user-read-recently-played';
 
   const server = http.createServer(async (req, res) => {
     const reqUrl = new URL(req.url, `http://${req.headers.host}`);
