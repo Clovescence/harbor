@@ -24,42 +24,31 @@
   --content-spacing: clamp(32px, 4vw, 64px);
 }
 
-[data-theme="light"] {
-  --color-primary: #E7E4D8; /* Warm parchment as background */
-  --color-secondary: #C9C6B8; /* Warm stone */
-  --color-dark: #FFFFFF; /* Pure white for contrast areas */
-  --color-light: #18392B; /* Deep Sequoia green for text */
-  --color-neutral: #2F4938; /* Muted forest green */
-  --color-accent: #D4AF37; /* Brighter gold/brass for light mode */
-  --color-text: var(--color-light);
-  --color-bg: var(--color-primary);
-}
-
 /* Ambient Weather Theme Modifiers */
 html {
   transition: background-color 2s ease, color 2s ease;
 }
 
 html[data-weather="rain"] {
-  /* Cooler, moodier green */
-  --color-primary: #15332C;
-  --color-bg: #15332C;
+  /* Darker, moodier blue-green */
+  --color-primary: #0F2923;
+  --color-bg: #0F2923;
 }
 
 html[data-weather="clear"] {
-  /* Warmer, slightly brighter green */
-  --color-primary: #1E3B26;
-  --color-bg: #1E3B26;
+  /* Brighter, warmer sunlit green */
+  --color-primary: #244C35;
+  --color-bg: #244C35;
 }
 
 html[data-weather="snow"] {
-  /* Icy, desaturated green */
-  --color-primary: #203A3D;
-  --color-bg: #203A3D;
+  /* Stronger icy teal tint */
+  --color-primary: #22454A;
+  --color-bg: #22454A;
 }
 
 html[data-weather="storm"] {
-  /* Darker, thunderous green */
-  --color-primary: #132624;
-  --color-bg: #132624;
+  /* Near pitch-black forest */
+  --color-primary: #081312;
+  --color-bg: #081312;
 }

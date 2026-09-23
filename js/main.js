@@ -8,7 +8,6 @@ import '../css/playlists.css';
 import '../css/journal.css';
 import '../css/contact-footer.css';
 
-import { initThemeSwitcher } from './theme.js';
 import { initWebGL } from './gl.js';
 import { initAnimations } from './animations.js';
 import { initAudioVisualizer } from './audio.js';
@@ -17,7 +16,6 @@ import { initGuestbook } from './guestbook.js';
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 document.addEventListener('DOMContentLoaded', () => {
-  initThemeSwitcher();
   initWebGL();
   initAnimations();
   initAudioVisualizer();
