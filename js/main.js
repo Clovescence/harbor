@@ -397,14 +397,25 @@ function initNowPlaying() {
       artist.textContent = data.artist || 'Spotify is quiet';
       status.textContent = data.isPlaying ? 'Currently playing' : 'Last played';
       if (data.albumUrl) image.src = data.albumUrl;
-      // Let initAudioVisualizer handle the deck click and spinning state manually
-      // deck.onclick = () => window.open(data.songUrl, '_blank', 'noopener');
+      
+      // Auto-animate vinyl based on actual Spotify playback status
+      if (data.isPlaying) {
+        deck.classList.add('playing');
+        record.classList.add('spinning');
+      } else {
+        deck.classList.remove('playing');
+        record.classList.remove('spinning');
+      }
+      
+      // Click opens the actual song in Spotify
+      deck.onclick = () => window.open(data.songUrl, '_blank', 'noopener');
     } catch {
       status.textContent = 'Spotify API offline';
       title.textContent = '---';
       artist.textContent = '---';
       record.classList.remove('spinning');
       deck.classList.remove('playing');
+      deck.onclick = null;
     }
   };
 

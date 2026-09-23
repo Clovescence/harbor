@@ -39,6 +39,8 @@ export function initAudioVisualizer() {
     oscillator2.start();
   };
 
+  // Removed conflicting click listener — Spotify API in main.js now handles the vinyl animation automatically.
+  /*
   deck.addEventListener('click', () => {
     if (!audioCtx) initAudioContext();
     
@@ -60,6 +62,7 @@ export function initAudioVisualizer() {
     }
     isPlaying = !isPlaying;
   });
+  */
 
   function drawVisualizer() {
     if (!isPlaying) return;
