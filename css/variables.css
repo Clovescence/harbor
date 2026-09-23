@@ -1,21 +1,13 @@
 :root {
-  /* Primary */
+  /* Primary (Default Dark) */
   --color-primary: #18392B; /* Deep Sequoia green */
-  
-  /* Secondary */
   --color-secondary: #2F4938; /* Muted forest green */
-  
-  /* Dark */
   --color-dark: #10231B; /* Almost-black green */
-  
-  /* Light */
   --color-light: #E7E4D8; /* Warm parchment */
-  
-  /* Neutral */
   --color-neutral: #C9C6B8; /* Warm stone */
-  
-  /* Accent */
   --color-accent: #B19A62; /* Restrained antique brass */
+  --color-text: var(--color-light);
+  --color-bg: var(--color-primary);
 
   /* Typography */
   --font-serif: 'Cormorant Garamond', serif;
@@ -30,4 +22,15 @@
   --page-padding: clamp(24px, 4vw, 72px);
   --section-spacing: clamp(56px, 7vw, 112px);
   --content-spacing: clamp(32px, 4vw, 64px);
+}
+
+[data-theme="light"] {
+  --color-primary: #E7E4D8; /* Warm parchment as background */
+  --color-secondary: #C9C6B8; /* Warm stone */
+  --color-dark: #FFFFFF; /* Pure white for contrast areas */
+  --color-light: #18392B; /* Deep Sequoia green for text */
+  --color-neutral: #2F4938; /* Muted forest green */
+  --color-accent: #D4AF37; /* Brighter gold/brass for light mode */
+  --color-text: var(--color-light);
+  --color-bg: var(--color-primary);
 }

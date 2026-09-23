@@ -8,18 +8,26 @@ import '../css/playlists.css';
 import '../css/journal.css';
 import '../css/contact-footer.css';
 
+import { initThemeSwitcher } from './theme.js';
+import { initWebGL } from './gl.js';
+import { initAnimations } from './animations.js';
+import { initAudioVisualizer } from './audio.js';
+import { initGuestbook } from './guestbook.js';
+
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 document.addEventListener('DOMContentLoaded', () => {
-  const revealObserver = createRevealObserver();
-
+  initThemeSwitcher();
+  initWebGL();
+  initAnimations();
+  initAudioVisualizer();
+  initGuestbook();
   initNavigation();
   initPhotoCarousel();
-  initReveal(revealObserver);
   initClockAndWeather();
   initCustomCursor();
-  initJournal(revealObserver);
-  initPlaylistCarousel(revealObserver);
+  initJournal();
+  initPlaylistCarousel();
   initNowPlaying();
   initMagneticLinks();
 });
@@ -156,26 +164,7 @@ function getParallaxOffset(item) {
   return `${progress * depth * 42}px`;
 }
 
-function createRevealObserver() {
-  if (!('IntersectionObserver' in window)) return null;
 
-  return new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    });
-  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
-}
-
-function initReveal(observer) {
-  const elements = document.querySelectorAll('.reveal');
-  if (!observer || prefersReducedMotion.matches) {
-    elements.forEach(element => element.classList.add('visible'));
-    return;
-  }
-  elements.forEach(element => observer.observe(element));
-}
 
 function initClockAndWeather() {
   const clock = document.getElementById('live-clock');
@@ -209,9 +198,13 @@ function initClockAndWeather() {
     .then(([geo, weather]) => {
       const code = weather.current_weather.weathercode;
       const conditions = code >= 95 ? 'Thunderstorm' : code >= 80 ? 'Rain showers' : code >= 71 ? 'Snowing' : code >= 51 ? 'Raining' : code >= 45 ? 'Foggy' : code >= 1 ? 'Partly cloudy' : 'Clear skies';
-      city.textContent = (geo.city || 'LOCAL').toUpperCase();
+      const cityName = (geo.city || 'LOCAL').toUpperCase();
+      city.textContent = cityName;
       temperature.textContent = `${Math.round(weather.current_weather.temperature)}°C`;
       description.textContent = conditions;
+      // Also update the hero bottom bar city label
+      const heroCityLabel = document.getElementById('hero-city-label');
+      if (heroCityLabel) heroCityLabel.textContent = `— ${cityName}`;
     })
     .catch(() => {
       city.textContent = 'UNKNOWN';
@@ -237,7 +230,7 @@ function initCustomCursor() {
   });
 }
 
-function initJournal(revealObserver) {
+function initJournal() {
   const main = document.getElementById('journal-main-view');
   const date = document.getElementById('featured-date');
   const title = document.getElementById('featured-title');
@@ -293,7 +286,6 @@ function initJournal(revealObserver) {
         archive.appendChild(button);
       });
       renderIssue(journalIssues[0], false);
-      if (revealObserver) revealObserver.observe(archive);
     })
     .catch(() => {
       title.textContent = 'Journal unavailable';
@@ -314,7 +306,7 @@ function sanitizeHtml(html) {
   return template.content;
 }
 
-function initPlaylistCarousel(revealObserver) {
+function initPlaylistCarousel() {
   const track = document.getElementById('cf-track');
   const previous = document.getElementById('cf-prev');
   const next = document.getElementById('cf-next');
@@ -377,7 +369,6 @@ function initPlaylistCarousel(revealObserver) {
         item.append(cover, info);
         track.appendChild(item);
         items.push(item);
-        if (revealObserver) revealObserver.observe(item);
       });
       update();
     })
@@ -406,9 +397,8 @@ function initNowPlaying() {
       artist.textContent = data.artist || 'Spotify is quiet';
       status.textContent = data.isPlaying ? 'Currently playing' : 'Last played';
       if (data.albumUrl) image.src = data.albumUrl;
-      record.classList.toggle('spinning', Boolean(data.isPlaying));
-      deck.classList.toggle('playing', Boolean(data.isPlaying));
-      if (data.songUrl) deck.onclick = () => window.open(data.songUrl, '_blank', 'noopener');
+      // Let initAudioVisualizer handle the deck click and spinning state manually
+      // deck.onclick = () => window.open(data.songUrl, '_blank', 'noopener');
     } catch {
       status.textContent = 'Spotify API offline';
       title.textContent = '---';

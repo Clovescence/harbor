@@ -1,5 +1,8 @@
 /* Home Section (Asymmetrical Layout) */
 .section-home {
+  height: calc(100dvh - 72px); /* 72px = .main-content padding-top for the fixed nav */
+  min-height: 560px;
+  padding-block: 0;
   align-items: center;
 }
 
@@ -93,4 +96,91 @@
     align-items: flex-start;
     text-align: left;
   }
+
+  .hero-rail { display: none; }
+  .hero-motto { display: none; }
+  .hero-bottom { padding-inline: var(--page-padding); }
 }
+
+/* ─── Hero Decorative Elements ─────────────────────────────── */
+
+/* Faint italic motto above the content cluster */
+.hero-motto {
+  position: absolute;
+  top: clamp(90px, 14vh, 160px);
+  left: calc(var(--page-padding) + 8.33%);
+  font-size: clamp(0.9rem, 1.6vw, 1.4rem);
+  font-style: italic;
+  color: var(--color-light);
+  opacity: 0.07;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* Vertical left rail text */
+.hero-rail {
+  position: absolute;
+  left: clamp(10px, 1.5vw, 20px);
+  top: 50%;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;   /* text flows top→bottom, element is naturally narrow */
+  text-orientation: mixed;
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  color: var(--color-neutral);
+  opacity: 0.3;
+  pointer-events: none;
+  user-select: none;
+  text-transform: uppercase;
+}
+
+/* Bottom anchored bar */
+.hero-bottom {
+  position: absolute;
+  bottom: clamp(24px, 4vh, 48px);
+  left: 0;
+  right: 0;
+  padding-inline: calc(var(--page-padding) + 8.33%);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+.hero-bottom-stat {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  color: var(--color-neutral);
+  opacity: 0.5;
+  text-transform: uppercase;
+}
+
+.hero-scroll-cue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-neutral);
+  opacity: 0.45;
+}
+
+.scroll-line {
+  display: block;
+  width: 1px;
+  height: 52px;
+  background: linear-gradient(to bottom, transparent, var(--color-accent));
+  animation: scrollPulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  transform-origin: top center;
+}
+
+@keyframes scrollPulse {
+  0%   { opacity: 0; transform: scaleY(0.2); }
+  40%  { opacity: 1; transform: scaleY(1); }
+  100% { opacity: 0; transform: scaleY(1) translateY(12px); }
+}
+

@@ -14,6 +14,8 @@
   
 </head>
 <body>
+  <!-- WebGL Background -->
+  <canvas id="webgl-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none;"></canvas>
   <!-- Custom Cursor -->
   <div class="custom-cursor"></div>
 
@@ -29,6 +31,11 @@
         <li><a href="#playlists">Playlists</a></li>
         <li><a href="#journal">Journal</a></li>
         <li><a href="#contact">Contact</a></li>
+        <li>
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" style="background: none; border: none; color: inherit; cursor: pointer;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="theme-icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+        </li>
       </ul>
     </div>
   </nav>
@@ -38,6 +45,15 @@
     <!-- Home Section -->
     <section id="home" class="section-home container grid relative">
       <div class="watermark watermark-home text-serif">S</div>
+
+      <!-- Vertical left rail (editorial) -->
+      <div class="hero-rail text-sans fw-300" aria-hidden="true">
+        PHOTOGRAPH&nbsp;&nbsp;·&nbsp;&nbsp;MUSIC&nbsp;&nbsp;·&nbsp;&nbsp;IDEAS&nbsp;&nbsp;·&nbsp;&nbsp;WORDS
+      </div>
+
+      <!-- Faint top motto -->
+      <p class="hero-motto text-serif" aria-hidden="true">collected carefully, shared quietly.</p>
+
       <div class="home-intro col-span-5 offset-1 reveal">
         <p class="home-pretitle text-sans text-muted fw-300">HAGA PRADIVA</p>
         <h1 class="home-title text-serif">SEQUOIA</h1>
@@ -60,12 +76,24 @@
           </div>
         </div>
       </div>
+
+      <!-- Bottom anchored bar -->
+      <div class="hero-bottom" aria-hidden="true">
+        <span class="hero-bottom-stat text-sans fw-300">
+          <span id="hero-city-label">— —</span>
+        </span>
+        <div class="hero-scroll-cue">
+          <span class="scroll-line"></span>
+          <span class="text-sans fw-300">Scroll</span>
+        </div>
+        <span class="hero-bottom-stat text-sans fw-300">04&thinsp;/&thinsp;chapters</span>
+      </div>
     </section>
 
     <!-- Photos Section (Collage Layout) -->
     <section id="photos" class="section-photos container relative">
       <div class="watermark watermark-section text-serif">01</div>
-      <h2 class="section-title text-serif offset-1 reveal">My Photography</h2>
+      <h2 class="section-title text-serif offset-1 reveal">Visual Archives</h2>
       
       <div class="collage-grid reveal reveal-delay-1">
         <!-- Carousel Controls -->
@@ -152,7 +180,10 @@
     <!-- Playlists Section -->
     <section id="playlists" class="section-playlists container relative">
       <div class="watermark watermark-section text-serif">02</div>
-      <h2 class="section-title text-serif offset-1 reveal">Playlists</h2>
+      <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 20px;" class="offset-1 reveal">
+        <h2 class="section-title text-serif" style="margin: 0;">Sonic Landscapes</h2>
+        <a href="https://open.spotify.com/user/dav6z2wtexqello99ulntvsv9" target="_blank" rel="noreferrer" class="text-sans fw-500 text-accent" style="margin-right: max(4vw, 24px); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--color-accent); padding-bottom: 2px;">Visit Profile</a>
+      </div>
       <div class="playlists-showcase reveal reveal-delay-1">
         
         <!-- Premium Vinyl Deck -->
@@ -161,6 +192,7 @@
             <div class="vinyl-record">
               <div class="vinyl-grooves"></div>
               <img id="now-playing-img" class="vinyl-label" src="./assets/sequoia_hero.jpg" alt="Current album artwork">
+              <canvas id="audio-visualizer" width="300" height="300" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; mix-blend-mode: screen; opacity: 0.7;"></canvas>
             </div>
             <div class="tonearm" id="tonearm"></div>
           </div>
@@ -191,7 +223,7 @@
     <!-- Journal Section -->
     <section id="journal" class="section-journal container relative">
       <div class="watermark watermark-section text-serif">03</div>
-      <h2 class="section-title text-serif offset-1 reveal">Thoughts</h2>
+      <h2 class="section-title text-serif offset-1 reveal">Written Reflections</h2>
       
       <div class="journal-container grid reveal reveal-delay-1">
         
@@ -217,15 +249,39 @@
       </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="section-contact container grid relative">
-      <div class="contact-content col-span-6 offset-3 reveal">
-        <h2 class="text-serif">Stay a while.<br>Or write sometime.</h2>
-        <ul class="contact-links text-sans">
-          <li><a href="mailto:hello@example.com">Email</a></li>
-          <li><a href="https://www.instagram.com/" rel="noreferrer">Instagram</a></li>
-          <li><a href="https://www.linkedin.com/" rel="noreferrer">LinkedIn</a></li>
-        </ul>
+    <!-- Guestbook Section -->
+    <section id="contact" class="section-guestbook container reveal">
+      <div class="guestbook-layout">
+
+        <!-- Left: Heading + Form + Contact Links -->
+        <div class="gb-left">
+          <p class="section-eyebrow text-sans text-accent">04</p>
+          <h2 class="text-serif gb-heading">Stay a while.<br>Sign the guestbook.</h2>
+
+          <form id="guestbook-form" class="gb-form">
+            <input type="text" id="gb-name" placeholder="Your Name" required aria-label="Your Name" class="gb-input text-sans">
+            <textarea id="gb-message" placeholder="Leave a message..." required aria-label="Your Message" rows="3" class="gb-input gb-textarea text-sans"></textarea>
+            <button type="submit" class="gb-submit text-sans">Sign Book</button>
+          </form>
+
+          <div class="gb-contact-links">
+            <p class="text-sans text-muted fw-300" style="font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px;">Or find me elsewhere</p>
+            <div class="gb-links">
+              <a href="mailto:hagapradiva05@gmail.com" class="gb-link text-sans">Email</a>
+              <a href="https://www.instagram.com/hagapradiva" target="_blank" rel="noreferrer" class="gb-link text-sans">Instagram</a>
+              <a href="https://www.linkedin.com/in/hagapradiva" target="_blank" rel="noreferrer" class="gb-link text-sans">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Messages Feed -->
+        <div class="gb-right">
+          <p class="text-sans text-accent fw-500" style="font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 24px;">Recent Messages</p>
+          <div id="gb-list" class="gb-list">
+            <!-- Entries injected here -->
+          </div>
+        </div>
+
       </div>
     </section>
 
