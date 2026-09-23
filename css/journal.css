@@ -107,12 +107,12 @@
   gap: 8px;
   cursor: none;
   opacity: 0.6;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .archive-item:hover {
   opacity: 1;
-  transform: translateX(5px);
+  transform: translateX(8px);
 }
 
 .archive-item.active {

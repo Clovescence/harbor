@@ -50,7 +50,13 @@
   font-size: 0.95rem;
   padding: 12px 0;
   outline: none;
-  transition: border-color 0.3s ease;
+  
+  /* Animated underline using background-image */
+  background-image: linear-gradient(var(--color-accent), var(--color-accent));
+  background-position: bottom left;
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  transition: background-size 0.4s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.4s ease;
 }
 
 .gb-input::placeholder {
@@ -59,7 +65,8 @@
 }
 
 .gb-input:focus {
-  border-bottom-color: var(--color-accent);
+  background-size: 100% 1px;
+  border-bottom-color: transparent;
 }
 
 .gb-textarea {
@@ -77,12 +84,16 @@
   font-size: 0.85rem;
   letter-spacing: 0.08em;
   cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .gb-submit:hover {
   background: var(--color-accent);
   color: var(--color-dark);
+}
+
+.gb-submit:active {
+  transform: scale(0.96);
 }
 
 /* Contact Links */

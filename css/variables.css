@@ -1,8 +1,8 @@
 :root {
   /* Primary (Default Dark) */
-  --color-primary: #18392B; /* Deep Sequoia green */
-  --color-secondary: #2F4938; /* Muted forest green */
-  --color-dark: #10231B; /* Almost-black green */
+  --color-primary: #0A1611; /* Extremely dark green, almost black */
+  --color-secondary: #1C2D22; /* Muted deep forest green */
+  --color-dark: #070F0C; /* True black green */
   --color-light: #E7E4D8; /* Warm parchment */
   --color-neutral: #C9C6B8; /* Warm stone */
   --color-accent: #B19A62; /* Restrained antique brass */
@@ -31,24 +31,24 @@ html {
 
 html[data-weather="rain"] {
   /* Darker, moodier blue-green */
-  --color-primary: #0F2923;
-  --color-bg: #0F2923;
+  --color-primary: #0A1A16;
+  --color-bg: #0A1A16;
 }
 
 html[data-weather="clear"] {
-  /* Brighter, warmer sunlit green */
-  --color-primary: #244C35;
-  --color-bg: #244C35;
+  /* Brighter, but still very dark and moody sunlit green */
+  --color-primary: #12291C;
+  --color-bg: #12291C;
 }
 
 html[data-weather="snow"] {
-  /* Stronger icy teal tint */
-  --color-primary: #22454A;
-  --color-bg: #22454A;
+  /* Very dark icy teal tint */
+  --color-primary: #0F1E20;
+  --color-bg: #0F1E20;
 }
 
 html[data-weather="storm"] {
-  /* Near pitch-black forest */
-  --color-primary: #081312;
-  --color-bg: #081312;
+  /* Absolute pitch-black forest */
+  --color-primary: #040A09;
+  --color-bg: #040A09;
 }

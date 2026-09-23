@@ -24,10 +24,15 @@ export function initGuestbook() {
     // Render newest first (if not already sorted newest-first by the backend, we reverse it)
     // The backend sorts oldest -> newest, so we reverse it for display
     [...messages].reverse().forEach(msg => {
-      const el = document.createElement('div');
-      el.style.cssText = 'padding: 20px 0; border-bottom: 1px solid rgba(201, 198, 184, 0.1);';
+      const msgDate = new Date(msg.date);
+      const ageDays = (Date.now() - msgDate.getTime()) / (1000 * 60 * 60 * 24);
+      // Decay opacity linearly over 7 days, max opacity 1, min opacity 0.15
+      const decayOpacity = Math.max(0.15, 1 - (ageDays / 7));
 
-      const dateStr = new Date(msg.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+      const el = document.createElement('div');
+      el.style.cssText = `padding: 20px 0; border-bottom: 1px solid rgba(201, 198, 184, 0.1); opacity: ${decayOpacity.toFixed(3)}; transition: opacity 1s ease;`;
+
+      const dateStr = msgDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 
       el.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">

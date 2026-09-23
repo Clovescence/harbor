@@ -44,6 +44,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: box-shadow 0.5s ease;
+}
+
+@keyframes deck-glow {
+  0%, 100% { box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 0px rgba(177, 154, 98, 0), inset 0 2px 5px rgba(255,255,255,0.1); }
+  50% { box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 40px rgba(177, 154, 98, 0.15), inset 0 2px 5px rgba(255,255,255,0.1); }
+}
+
+.premium-vinyl-deck.playing .deck-platter {
+  animation: deck-glow 4s infinite ease-in-out;
 }
 
 .vinyl-record {

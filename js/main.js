@@ -200,6 +200,8 @@ function initClockAndWeather() {
       // Apply ambient weather theme
       const weatherTheme = code >= 95 ? 'storm' : (code >= 51 && code <= 67) || code >= 80 ? 'rain' : code >= 71 && code <= 77 ? 'snow' : code <= 3 ? 'clear' : 'cloudy';
       document.documentElement.setAttribute('data-weather', weatherTheme);
+      
+      window.dispatchEvent(new CustomEvent('weather-changed', { detail: { weather: weatherTheme } }));
 
       const cityName = (geo.city || 'LOCAL').toUpperCase();
       city.textContent = cityName;
@@ -222,6 +224,9 @@ function initCustomCursor() {
 
   document.addEventListener('mousemove', event => {
     cursor.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0) translate(-50%, -50%)`;
+    // Update global CSS variables for spotlight effect
+    document.documentElement.style.setProperty('--mouse-x', `${event.clientX}px`);
+    document.documentElement.style.setProperty('--mouse-y', `${event.clientY}px`);
   });
 
   document.addEventListener('mouseover', event => {
@@ -341,8 +346,21 @@ function initPlaylistCarousel() {
     next.disabled = mobile || activeIndex >= items.length - 1;
   };
 
-  previous.addEventListener('click', () => { activeIndex = Math.max(0, activeIndex - 1); update(); });
-  next.addEventListener('click', () => { activeIndex = Math.min(items.length - 1, activeIndex + 1); update(); });
+  let isAnimating = false;
+  
+  const navigate = (direction) => {
+    if (isAnimating) return;
+    const newIndex = activeIndex + direction;
+    if (newIndex < 0 || newIndex > items.length - 1) return;
+    
+    isAnimating = true;
+    activeIndex = newIndex;
+    update();
+    setTimeout(() => { isAnimating = false; }, 400); // Prevents overlapping CSS transitions
+  };
+
+  previous.addEventListener('click', () => navigate(-1));
+  next.addEventListener('click', () => navigate(1));
   window.addEventListener('resize', update);
 
   fetch(SITE_CONFIG.playlistsUrl)
@@ -417,9 +435,11 @@ function initNowPlaying() {
       if (data.isPlaying) {
         deck.classList.add('playing');
         record.classList.add('spinning');
+        document.body.classList.add('audio-reactive');
       } else {
         deck.classList.remove('playing');
         record.classList.remove('spinning');
+        document.body.classList.remove('audio-reactive');
       }
       
       // Click opens the actual song in Spotify
@@ -430,6 +450,7 @@ function initNowPlaying() {
       artist.textContent = '---';
       record.classList.remove('spinning');
       deck.classList.remove('playing');
+      document.body.classList.remove('audio-reactive');
       deck.onclick = null;
     }
   };
