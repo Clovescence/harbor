@@ -44,10 +44,14 @@ export function initGuestbook() {
     try {
       const res = await fetch('/api/guestbook');
       if (res.ok) {
-        messages = await res.json();
-        renderMessages();
-      } else {
-        // Fallback to empty if not configured yet
+        const newData = await res.json();
+        // Only re-render if data has changed (simple JSON stringify comparison)
+        if (JSON.stringify(messages) !== JSON.stringify(newData)) {
+          messages = newData;
+          renderMessages();
+        }
+      } else if (messages.length === 0) {
+        // Fallback to empty if not configured yet, only if we have nothing
         renderMessages();
       }
     } catch (err) {
@@ -55,8 +59,9 @@ export function initGuestbook() {
     }
   }
 
-  // Load initial messages
+  // Load initial messages and start polling every 30s
   fetchMessages();
+  setInterval(fetchMessages, 30000);
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();

@@ -198,6 +198,11 @@ function initClockAndWeather() {
     .then(([geo, weather]) => {
       const code = weather.current_weather.weathercode;
       const conditions = code >= 95 ? 'Thunderstorm' : code >= 80 ? 'Rain showers' : code >= 71 ? 'Snowing' : code >= 51 ? 'Raining' : code >= 45 ? 'Foggy' : code >= 1 ? 'Partly cloudy' : 'Clear skies';
+      
+      // Apply ambient weather theme
+      const weatherTheme = code >= 95 ? 'storm' : (code >= 51 && code <= 67) || code >= 80 ? 'rain' : code >= 71 && code <= 77 ? 'snow' : code <= 3 ? 'clear' : 'cloudy';
+      document.documentElement.setAttribute('data-weather', weatherTheme);
+
       const cityName = (geo.city || 'LOCAL').toUpperCase();
       city.textContent = cityName;
       temperature.textContent = `${Math.round(weather.current_weather.temperature)}°C`;
@@ -222,11 +227,23 @@ function initCustomCursor() {
   });
 
   document.addEventListener('mouseover', event => {
-    if (event.target.closest('a, button, .cf-item')) cursor.classList.add('hovering');
+    const target = event.target.closest('a, button, .cf-item, [data-cursor]');
+    if (target) {
+      cursor.classList.add('hovering');
+      if (target.dataset.cursor) {
+        cursor.classList.add(`cursor-${target.dataset.cursor}`);
+      }
+    }
   });
 
   document.addEventListener('mouseout', event => {
-    if (event.target.closest('a, button, .cf-item')) cursor.classList.remove('hovering');
+    const target = event.target.closest('a, button, .cf-item, [data-cursor]');
+    if (target) {
+      cursor.classList.remove('hovering');
+      if (target.dataset.cursor) {
+        cursor.classList.remove(`cursor-${target.dataset.cursor}`);
+      }
+    }
   });
 }
 

@@ -6,34 +6,52 @@ gsap.registerPlugin(ScrollTrigger);
 export function initAnimations() {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  const cinematicIntro = document.getElementById('cinematic-intro');
+
   // Reduced motion: show everything immediately
   if (prefersReducedMotion) {
+    if (cinematicIntro) cinematicIntro.style.display = 'none';
     document.querySelectorAll('section:not(#home)').forEach(el => gsap.set(el, { opacity: 1, y: 0 }));
     return;
   }
 
+  // ─── Cinematic Intro Sequence ────────────────────────────────────────────────
+  const tl = gsap.timeline();
+  
+  if (cinematicIntro) {
+    tl.to('.intro-title', { opacity: 1, duration: 1.2, ease: 'power2.out' })
+      .to('.intro-title', { opacity: 0, duration: 0.8, ease: 'power2.in', delay: 0.5 })
+      .to('#cinematic-intro', { opacity: 0, duration: 0.8, ease: 'power2.inOut' }, '-=0.4')
+      .set('#cinematic-intro', { display: 'none' });
+  }
+
   // ─── Nav entrance (once on load) ────────────────────────────────────────────
-  gsap.fromTo('.nav-brand',
+  tl.fromTo('.nav-brand',
     { opacity: 0, y: -16 },
-    { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out', delay: 0.3 }
+    { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' },
+    '-=0.2'
   );
-  gsap.fromTo('.nav-links li',
+  tl.fromTo('.nav-links li',
     { opacity: 0, y: -16 },
-    { opacity: 1, y: 0, duration: 1, stagger: 0.08, ease: 'power3.out', delay: 0.5 }
+    { opacity: 1, y: 0, duration: 1, stagger: 0.08, ease: 'power3.out' },
+    '<0.2'
   );
 
   // ─── Hero: animate in once, stays visible forever ───────────────────────────
-  gsap.fromTo('.watermark-home',
+  tl.fromTo('.watermark-home',
     { opacity: 0, scale: 0.92 },
-    { opacity: 1, scale: 1, duration: 2.5, ease: 'power2.out', delay: 0.2 }
+    { opacity: 1, scale: 1, duration: 2.5, ease: 'power2.out' },
+    '<'
   );
-  gsap.fromTo('.home-intro',
+  tl.fromTo('.home-intro',
     { opacity: 0, y: 40 },
-    { opacity: 1, y: 0, duration: 1.4, ease: 'power3.out', delay: 0.4 }
+    { opacity: 1, y: 0, duration: 1.4, ease: 'power3.out' },
+    '<0.2'
   );
-  gsap.fromTo('.home-widget',
+  tl.fromTo('.home-widget',
     { opacity: 0, y: 40 },
-    { opacity: 1, y: 0, duration: 1.4, ease: 'power3.out', delay: 0.7 }
+    { opacity: 1, y: 0, duration: 1.4, ease: 'power3.out' },
+    '<0.3'
   );
 
   // ─── All non-hero sections ───────────────────────────────────────────────────

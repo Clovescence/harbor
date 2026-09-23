@@ -34,3 +34,32 @@
   --color-text: var(--color-light);
   --color-bg: var(--color-primary);
 }
+
+/* Ambient Weather Theme Modifiers */
+html {
+  transition: background-color 2s ease, color 2s ease;
+}
+
+html[data-weather="rain"] {
+  /* Cooler, moodier green */
+  --color-primary: #15332C;
+  --color-bg: #15332C;
+}
+
+html[data-weather="clear"] {
+  /* Warmer, slightly brighter green */
+  --color-primary: #1E3B26;
+  --color-bg: #1E3B26;
+}
+
+html[data-weather="snow"] {
+  /* Icy, desaturated green */
+  --color-primary: #203A3D;
+  --color-bg: #203A3D;
+}
+
+html[data-weather="storm"] {
+  /* Darker, thunderous green */
+  --color-primary: #132624;
+  --color-bg: #132624;
+}

@@ -14,6 +14,12 @@
   
 </head>
 <body>
+  
+  <!-- Cinematic Intro Overlay -->
+  <div id="cinematic-intro" class="cinematic-intro">
+    <h1 class="text-serif intro-title">SEQUOIA</h1>
+  </div>
+
   <!-- WebGL Background -->
   <canvas id="webgl-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none;"></canvas>
   <!-- Custom Cursor -->
@@ -102,8 +108,8 @@
           <button id="carousel-next" class="carousel-btn" aria-label="Next photograph">&gt;</button>
         </div>
 
-        <!-- Item 1 (Starts Main) -->
-        <div class="collage-item rounded-image">
+        <!-- Item -->
+        <div class="collage-item rounded-image" data-cursor="view">
           <img src="./assets/sequoia_hero.jpg" alt="A dark green reading room with a fireplace">
           <div class="photo-meta-overlay">
             <div class="meta-content text-sans">
@@ -114,8 +120,8 @@
           </div>
         </div>
 
-        <!-- Item 2 (Starts BG 1) -->
-        <div class="collage-item rounded-image">
+        <!-- Item -->
+        <div class="collage-item rounded-image" data-cursor="view">
           <img class="photo-tone-warm" src="./assets/sequoia_hero.jpg" alt="Morning light across a quiet reading room">
           <div class="photo-meta-overlay">
             <div class="meta-content text-sans">
@@ -126,8 +132,8 @@
           </div>
         </div>
 
-        <!-- Item 3 (Starts BG 2) -->
-        <div class="collage-item rounded-image">
+        <!-- Item -->
+        <div class="collage-item rounded-image" data-cursor="view">
           <img class="photo-tone-cool" src="./assets/sequoia_hero.jpg" alt="Evening shadows in a quiet reading room">
           <div class="photo-meta-overlay">
             <div class="meta-content text-sans">
@@ -138,8 +144,8 @@
           </div>
         </div>
 
-        <!-- Item 4 (Starts BG 3) -->
-        <div class="collage-item rounded-image">
+        <!-- Item -->
+        <div class="collage-item rounded-image" data-cursor="view">
           <div class="image-placeholder bg-dark"></div>
           <div class="photo-meta-overlay">
             <div class="meta-content text-sans">
@@ -187,7 +193,7 @@
       <div class="playlists-showcase reveal reveal-delay-1">
         
         <!-- Premium Vinyl Deck -->
-        <div class="premium-vinyl-deck" id="now-playing-deck">
+        <div class="premium-vinyl-deck" id="now-playing-deck" data-cursor="play">
           <div class="deck-platter">
             <div class="vinyl-record">
               <div class="vinyl-grooves"></div>
@@ -254,7 +260,7 @@
       <div class="guestbook-layout">
 
         <!-- Left: Heading + Form + Contact Links -->
-        <div class="gb-left">
+        <div class="gb-left" data-cursor="pen">
           <p class="section-eyebrow text-sans text-accent">04</p>
           <h2 class="text-serif gb-heading">Stay a while.<br>Sign the guestbook.</h2>
 
