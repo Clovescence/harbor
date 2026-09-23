@@ -2,13 +2,14 @@
   width: 100%;
   max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 0 var(--page-padding);
+  padding-inline: var(--page-padding);
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(var(--grid-columns), 1fr);
   gap: var(--grid-gap-desktop);
+  align-items: start;
 }
 
 /* Standard Spans */
@@ -47,7 +48,15 @@
   }
   
   /* Reset spans for mobile */
-  .col-span-12, .col-span-10, .col-span-8, .col-span-6, .col-span-4, .col-span-3, .col-span-2 {
+  .col-span-12, .col-span-10, .col-span-8, .col-span-6, .col-span-5, .col-span-4, .col-span-3, .col-span-2, .col-span-1 {
     grid-column: span 4;
+  }
+
+  .offset-1, .offset-2, .offset-3, .offset-4, .offset-5, .offset-6, .offset-7, .offset-8, .offset-9 {
+    grid-column-start: auto;
+  }
+
+  .grid > [class*="offset-"] {
+    grid-column-start: auto;
   }
 }

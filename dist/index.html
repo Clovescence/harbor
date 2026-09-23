@@ -7,9 +7,13 @@
   
   <!-- SEO -->
   <meta name="description" content="A quiet collection of photographs, music, ideas, and whatever else happens to matter.">
+  <meta name="theme-color" content="#18392B">
+  <meta property="og:title" content="Sequoia | Haga Pradiva">
+  <meta property="og:description" content="A quiet collection of photographs, music, ideas, and whatever else happens to matter.">
+  <meta property="og:type" content="website">
   
-  <!-- Stylesheets -->
-  <link rel="stylesheet" crossorigin href="/assets/index-zxkCx-Mq.css">
+  <script type="module" crossorigin src="/assets/index-8LYzDR7U.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-K4NGgrD3.css">
 </head>
 <body>
   <!-- Custom Cursor -->
@@ -18,10 +22,14 @@
   <!-- Navigation -->
   <nav class="nav-header">
     <div class="container nav-container">
-      <a href="#" class="nav-brand text-serif">SEQUOIA</a>
-      <ul class="nav-links text-sans">
+      <a href="#home" class="nav-brand text-serif">SEQUOIA</a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+      <ul class="nav-links text-sans" id="site-navigation">
         <li><a href="#photos">Photos</a></li>
         <li><a href="#playlists">Playlists</a></li>
+        <li><a href="#journal">Journal</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
@@ -64,13 +72,13 @@
       <div class="collage-grid reveal reveal-delay-1">
         <!-- Carousel Controls -->
         <div class="carousel-controls text-sans">
-          <button id="carousel-prev" class="carousel-btn">&lt;</button>
-          <button id="carousel-next" class="carousel-btn">&gt;</button>
+          <button id="carousel-prev" class="carousel-btn" aria-label="Previous photograph">&lt;</button>
+          <button id="carousel-next" class="carousel-btn" aria-label="Next photograph">&gt;</button>
         </div>
 
         <!-- Item 1 (Starts Main) -->
         <div class="collage-item rounded-image">
-          <img src="/assets/sequoia_hero-BMNfRHOy.jpg" alt="Photo 1">
+          <img src="./assets/sequoia_hero.jpg" alt="A dark green reading room with a fireplace">
           <div class="photo-meta-overlay">
             <div class="meta-content text-sans">
               <span class="meta-date text-accent fw-500">22/09/26</span>
@@ -82,7 +90,7 @@
 
         <!-- Item 2 (Starts BG 1) -->
         <div class="collage-item rounded-image">
-          <img src="/assets/sequoia_hero-BMNfRHOy.jpg" style="filter: sepia(0.3) hue-rotate(-30deg);" alt="Photo 2">
+          <img class="photo-tone-warm" src="./assets/sequoia_hero.jpg" alt="Morning light across a quiet reading room">
           <div class="photo-meta-overlay">
             <div class="meta-content text-sans">
               <span class="meta-date text-accent fw-500">14/10/26</span>
@@ -94,7 +102,7 @@
 
         <!-- Item 3 (Starts BG 2) -->
         <div class="collage-item rounded-image">
-          <img src="/assets/sequoia_hero-BMNfRHOy.jpg" style="filter: grayscale(0.8) contrast(1.2);" alt="Photo 3">
+          <img class="photo-tone-cool" src="./assets/sequoia_hero.jpg" alt="Evening shadows in a quiet reading room">
           <div class="photo-meta-overlay">
             <div class="meta-content text-sans">
               <span class="meta-date text-accent fw-500">03/11/26</span>
@@ -147,23 +155,37 @@
     <section id="playlists" class="section-playlists container relative">
       <div class="watermark watermark-section text-serif">02</div>
       <h2 class="section-title text-serif offset-1 reveal">Playlists</h2>
-      <div class="playlists-container">
-        <!-- Center Vinyl -->
-        <div id="now-playing-vinyl" class="now-playing-vinyl reveal">
-          <div class="vinyl-record">
-            <div class="vinyl-grooves"></div>
-            <img id="now-playing-img" class="vinyl-label" src="" alt="Album Art">
+      <div class="playlists-showcase reveal reveal-delay-1">
+        
+        <!-- Premium Vinyl Deck -->
+        <div class="premium-vinyl-deck" id="now-playing-deck">
+          <div class="deck-platter">
+            <div class="vinyl-record">
+              <div class="vinyl-grooves"></div>
+              <img id="now-playing-img" class="vinyl-label" src="./assets/sequoia_hero.jpg" alt="Current album artwork">
+            </div>
+            <div class="tonearm" id="tonearm"></div>
           </div>
-          <div class="now-playing-info">
-            <p id="now-playing-status" class="text-sans fw-300 text-accent uppercase">Loading...</p>
-            <h4 id="now-playing-title" class="text-serif text-light">---</h4>
-            <p id="now-playing-artist" class="text-sans text-muted">---</p>
+          
+          <div class="deck-info">
+            <div class="deck-status">
+              <span class="status-dot" id="now-playing-dot"></span>
+              <span id="now-playing-status" class="text-sans fw-500 uppercase" aria-live="polite">Connecting...</span>
+            </div>
+            <h4 id="now-playing-title" class="deck-title text-serif">---</h4>
+            <p id="now-playing-artist" class="deck-artist text-sans fw-300">---</p>
           </div>
         </div>
 
-        <!-- Surrounding Gallery -->
-        <div id="playlist-gallery-grid" class="playlist-gallery-grid">
-          <!-- Playlists will be injected here -->
+        <!-- Cover Flow Carousel -->
+        <div class="cover-flow-container">
+          <div class="cover-flow-track" id="cf-track">
+            <!-- Playlists will be injected here -->
+          </div>
+          <div class="cover-flow-controls text-sans">
+            <button id="cf-prev" class="cf-btn" aria-label="Previous playlist">&lt;</button>
+            <button id="cf-next" class="cf-btn" aria-label="Next playlist">&gt;</button>
+          </div>
         </div>
       </div>
     </section>
@@ -173,10 +195,10 @@
       <div class="watermark watermark-section text-serif">03</div>
       <h2 class="section-title text-serif offset-1 reveal">Thoughts</h2>
       
-      <div class="journal-container reveal reveal-delay-1">
+      <div class="journal-container grid reveal reveal-delay-1">
         
         <!-- Main Feature Area -->
-        <div class="journal-main" id="journal-main-view">
+        <div class="journal-main col-span-8" id="journal-main-view">
           <div class="journal-header">
             <span class="journal-date text-sans fw-500" id="featured-date">LOADING...</span>
             <h3 class="journal-title text-serif" id="featured-title">Fetching Journal...</h3>
@@ -187,7 +209,7 @@
         </div>
 
         <!-- Archive List -->
-        <div class="journal-archive">
+        <div class="journal-archive col-span-4">
           <span class="archive-label text-sans fw-500">Archive</span>
           <div id="archive-list">
             <!-- Items injected by JS -->
@@ -203,8 +225,8 @@
         <h2 class="text-serif">Stay a while.<br>Or write sometime.</h2>
         <ul class="contact-links text-sans">
           <li><a href="mailto:hello@example.com">Email</a></li>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">LinkedIn</a></li>
+          <li><a href="https://www.instagram.com/" rel="noreferrer">Instagram</a></li>
+          <li><a href="https://www.linkedin.com/" rel="noreferrer">LinkedIn</a></li>
         </ul>
       </div>
     </section>
@@ -220,7 +242,6 @@
       </div>
     </div>
   </footer>
-
-  <script src="./js/main.js"></script>
+
 </body>
 </html>

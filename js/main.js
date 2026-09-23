@@ -1,507 +1,438 @@
+import { SITE_CONFIG } from './config.js';
+import '../css/variables.css';
+import '../css/global.css';
+import '../css/grid.css';
+import '../css/home.css';
+import '../css/photos.css';
+import '../css/playlists.css';
+import '../css/journal.css';
+import '../css/contact-footer.css';
+
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Navigation scroll effect
+  const revealObserver = createRevealObserver();
+
+  initNavigation();
+  initPhotoCarousel();
+  initReveal(revealObserver);
+  initClockAndWeather();
+  initCustomCursor();
+  initJournal(revealObserver);
+  initPlaylistCarousel(revealObserver);
+  initNowPlaying();
+  initMagneticLinks();
+});
+
+function initNavigation() {
   const nav = document.querySelector('.nav-header');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
-    }
+  const toggle = document.querySelector('.nav-toggle');
+  if (!nav) return;
+
+  const updateNav = () => nav.classList.toggle('scrolled', window.scrollY > 50);
+  updateNav();
+  window.addEventListener('scroll', updateNav, { passive: true });
+
+  toggle?.addEventListener('click', () => {
+    const open = nav.classList.toggle('nav-open');
+    toggle.setAttribute('aria-expanded', String(open));
   });
 
-  // Smooth scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      document.querySelector(this.getAttribute('href')).scrollIntoView({
-        behavior: 'smooth'
-      });
-    });
-  });
-
-  // Unified Physics Carousel Engine (Lerp)
-  const btnPrev = document.getElementById('carousel-prev');
-  const btnNext = document.getElementById('carousel-next');
-  
-  if (btnNext && btnPrev) {
-    const items = Array.from(document.querySelectorAll('.collage-grid .collage-item'));
-    
-    // The exact positional matrix for the 6 slots
-    const targets = [
-      { top: 15, left: 30, width: 45, height: 70, zIndex: 10, brightness: 1, depth: 1 }, // main
-      { top: 0, left: 0, width: 25, height: 35, zIndex: 1, brightness: 0.5, depth: 2 },  // bg1
-      { top: 10, left: 28, width: 20, height: 25, zIndex: 2, brightness: 0.4, depth: 3 }, // bg2
-      { top: 60, left: 8, width: 25, height: 35, zIndex: 1, brightness: 0.6, depth: 2 },  // bg3
-      { top: 15, left: 75, width: 25, height: 40, zIndex: 1, brightness: 0.4, depth: 3 }, // bg4
-      { top: 65, left: 80, width: 20, height: 30, zIndex: 2, brightness: 0.5, depth: 1 }  // bg5
-    ];
-
-    // Maps each DOM element to its target index in the matrix
-    let itemTargets = [0, 1, 2, 3, 4, 5];
-    
-    // Initial physics states
-    let states = items.map((_, i) => ({
-      top: targets[i].top,
-      left: targets[i].left,
-      width: targets[i].width,
-      height: targets[i].height,
-      brightness: targets[i].brightness,
-      parallax: 0
-    }));
-
-    const lerp = (start, end, factor) => start + (end - start) * factor;
-
-    // The unified physics loop
-    function physicsLoop() {
-      const scrollY = window.scrollY;
-      const isMobile = window.innerWidth <= 768; // simple check to disable physics on mobile stack
-
-      items.forEach((item, i) => {
-        const targetIdx = itemTargets[i];
-        const target = targets[targetIdx];
-        const state = states[i];
-        
-        // Calculate the parallax offset for this specific target position
-        let targetParallax = 0;
-        if (targetIdx !== 0 && !isMobile) {
-          targetParallax = scrollY * 0.15 / target.depth;
-        }
-
-        if (!isMobile) {
-          // Smooth glide for all properties
-          state.top = lerp(state.top, target.top, 0.08);
-          state.left = lerp(state.left, target.left, 0.08);
-          state.width = lerp(state.width, target.width, 0.08);
-          state.height = lerp(state.height, target.height, 0.08);
-          state.brightness = lerp(state.brightness, target.brightness, 0.08);
-          state.parallax = lerp(state.parallax, targetParallax, 0.08);
-          
-          item.style.top = `${state.top}%`;
-          item.style.left = `${state.left}%`;
-          item.style.width = `${state.width}%`;
-          item.style.height = `${state.height}%`;
-          item.style.filter = `brightness(${state.brightness})`;
-          item.style.zIndex = target.zIndex;
-          item.style.transform = `translateY(${state.parallax}px)`;
-        } else {
-          // Mobile stack styles (clearing inline styles)
-          item.style = '';
-        }
-
-        // Manage interaction class
-        if (targetIdx === 0) {
-          item.classList.add('is-main');
-        } else {
-          item.classList.remove('is-main');
-        }
-      });
-
-      requestAnimationFrame(physicsLoop);
-    }
-    
-    physicsLoop();
-
-    btnNext.addEventListener('click', () => {
-      itemTargets.unshift(itemTargets.pop());
-    });
-
-    btnPrev.addEventListener('click', () => {
-      itemTargets.push(itemTargets.shift());
-    });
-  }
-
-  // Scroll Reveal Observer
-  const revealOptions = {
-    threshold: 0.15,
-    rootMargin: "0px 0px -50px 0px"
-  };
-
-  const revealObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) {
+    anchor.addEventListener('click', event => {
+      const hash = anchor.getAttribute('href');
+      if (!hash || hash === '#') {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion.matches ? 'auto' : 'smooth' });
         return;
       }
+
+      const target = document.querySelector(hash);
+      if (!target) return;
+
+      event.preventDefault();
+      target.scrollIntoView({ behavior: prefersReducedMotion.matches ? 'auto' : 'smooth' });
+      nav.classList.remove('nav-open');
+      toggle?.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
+
+function initPhotoCarousel() {
+  const collage = document.querySelector('.collage-grid');
+  const previous = document.getElementById('carousel-prev');
+  const next = document.getElementById('carousel-next');
+  if (!collage || !previous || !next) return;
+
+  const items = [...collage.querySelectorAll('.collage-item')];
+  const slots = ['slot-main', 'slot-back-left', 'slot-mid-left', 'slot-bottom-left', 'slot-back-right', 'slot-bottom-right'];
+  let order = items.map((_, index) => index);
+  let touchStartX = 0;
+
+  const render = () => {
+    items.forEach((item, index) => {
+      const slotIndex = order[index];
+      item.classList.remove(...slots);
+      item.classList.toggle('is-main', slotIndex === 0);
+      item.classList.add(slots[slotIndex]);
+      item.style.setProperty('--parallax-y', getParallaxOffset(item));
+    });
+  };
+
+  const updateParallax = () => {
+    items.forEach(item => item.style.setProperty('--parallax-y', getParallaxOffset(item)));
+  };
+
+  previous.addEventListener('click', () => {
+    order.push(order.shift());
+    render();
+  });
+
+  next.addEventListener('click', () => {
+    order.unshift(order.pop());
+    render();
+  });
+
+  const move = direction => {
+    if (direction > 0) order.unshift(order.pop());
+    else order.push(order.shift());
+    render();
+  };
+
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    const active = document.activeElement;
+    if (active && /input|textarea|select/i.test(active.tagName)) return;
+    move(event.key === 'ArrowRight' ? 1 : -1);
+  });
+
+  collage.addEventListener('touchstart', event => {
+    touchStartX = event.changedTouches[0].clientX;
+  }, { passive: true });
+
+  collage.addEventListener('touchend', event => {
+    const distance = event.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(distance) < 40) return;
+    move(distance < 0 ? 1 : -1);
+  }, { passive: true });
+
+  window.addEventListener('scroll', updateParallax, { passive: true });
+  window.addEventListener('resize', updateParallax);
+  render();
+
+  fetch(SITE_CONFIG.photosUrl)
+    .then(response => response.ok ? response.json() : Promise.reject(new Error('Photos unavailable')))
+    .then(photos => {
+      items.forEach((item, index) => {
+        const photo = photos[index];
+        if (!photo) return;
+
+        let image = item.querySelector('img');
+        if (!image) {
+          image = document.createElement('img');
+          item.prepend(image);
+          item.querySelector('.image-placeholder')?.remove();
+        }
+        image.src = photo.src;
+        image.alt = photo.alt;
+        image.className = photo.tone || '';
+        item.querySelector('.meta-date').textContent = photo.date;
+        item.querySelector('.meta-title').textContent = photo.title;
+        item.querySelector('.meta-user').textContent = photo.user;
+      });
+    })
+    .catch(() => {});
+}
+
+function getParallaxOffset(item) {
+  if (prefersReducedMotion.matches || window.innerWidth <= 768) return '0px';
+
+  const collage = item.closest('.collage-grid');
+  if (!collage) return '0px';
+
+  const bounds = collage.getBoundingClientRect();
+  const progress = Math.max(-1, Math.min(1, (window.innerHeight / 2 - (bounds.top + bounds.height / 2)) / Math.max(bounds.height, 1)));
+  const depth = Number.parseFloat(getComputedStyle(item).getPropertyValue('--slot-depth')) || 0;
+  return `${progress * depth * 42}px`;
+}
+
+function createRevealObserver() {
+  if (!('IntersectionObserver' in window)) return null;
+
+  return new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
       entry.target.classList.add('visible');
       observer.unobserve(entry.target);
     });
-  }, revealOptions);
+  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+}
 
-  document.querySelectorAll('.reveal').forEach(el => {
-    revealObserver.observe(el);
+function initReveal(observer) {
+  const elements = document.querySelectorAll('.reveal');
+  if (!observer || prefersReducedMotion.matches) {
+    elements.forEach(element => element.classList.add('visible'));
+    return;
+  }
+  elements.forEach(element => observer.observe(element));
+}
+
+function initClockAndWeather() {
+  const clock = document.getElementById('live-clock');
+  const city = document.getElementById('local-city');
+  const temperature = document.getElementById('local-temp');
+  const description = document.getElementById('weather-desc');
+  if (!clock) return;
+
+  const updateClock = () => {
+    clock.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+  };
+  updateClock();
+  window.setInterval(updateClock, 1000);
+
+  if (!city || !temperature || !description) return;
+
+  const fetchJson = async url => {
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), SITE_CONFIG.weatherTimeoutMs);
+    try {
+      const response = await fetch(url, { signal: controller.signal });
+      if (!response.ok) throw new Error(`Request failed: ${response.status}`);
+      return await response.json();
+    } finally {
+      window.clearTimeout(timeout);
+    }
+  };
+
+  fetchJson('https://get.geojs.io/v1/ip/geo.json')
+    .then(geo => Promise.all([geo, fetchJson(`https://api.open-meteo.com/v1/forecast?latitude=${geo.latitude}&longitude=${geo.longitude}&current_weather=true`)]))
+    .then(([geo, weather]) => {
+      const code = weather.current_weather.weathercode;
+      const conditions = code >= 95 ? 'Thunderstorm' : code >= 80 ? 'Rain showers' : code >= 71 ? 'Snowing' : code >= 51 ? 'Raining' : code >= 45 ? 'Foggy' : code >= 1 ? 'Partly cloudy' : 'Clear skies';
+      city.textContent = (geo.city || 'LOCAL').toUpperCase();
+      temperature.textContent = `${Math.round(weather.current_weather.temperature)}°C`;
+      description.textContent = conditions;
+    })
+    .catch(() => {
+      city.textContent = 'UNKNOWN';
+      temperature.textContent = '--°C';
+      description.textContent = 'Weather unavailable';
+    });
+}
+
+function initCustomCursor() {
+  const cursor = document.querySelector('.custom-cursor');
+  if (!cursor || !window.matchMedia('(pointer: fine)').matches || prefersReducedMotion.matches) return;
+
+  document.addEventListener('mousemove', event => {
+    cursor.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0) translate(-50%, -50%)`;
   });
 
-  // Weather & Clock Widget
-  const clockElement = document.getElementById('live-clock');
-  const cityElement = document.getElementById('local-city');
-  const tempElement = document.getElementById('local-temp');
-  const descElement = document.getElementById('weather-desc');
+  document.addEventListener('mouseover', event => {
+    if (event.target.closest('a, button, .cf-item')) cursor.classList.add('hovering');
+  });
 
-  if (clockElement) {
-    // 1. Live Clock
-    function updateClock() {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
-    }
-    updateClock();
-    setInterval(updateClock, 1000);
+  document.addEventListener('mouseout', event => {
+    if (event.target.closest('a, button, .cf-item')) cursor.classList.remove('hovering');
+  });
+}
 
-    // 2. Weather Fetching
-    async function fetchWeather() {
-      try {
-        // Free IP Geolocation (No API key needed)
-        const geoRes = await fetch('https://get.geojs.io/v1/ip/geo.json');
-        if (!geoRes.ok) throw new Error('Geo API failed');
-        const geoData = await geoRes.json();
-        
-        const lat = geoData.latitude;
-        const lon = geoData.longitude;
-        const city = geoData.city ? geoData.city.toUpperCase() : 'LOCAL';
-        
-        cityElement.textContent = city;
+function initJournal(revealObserver) {
+  const main = document.getElementById('journal-main-view');
+  const date = document.getElementById('featured-date');
+  const title = document.getElementById('featured-title');
+  const body = document.getElementById('featured-body');
+  const archive = document.getElementById('archive-list');
+  if (!main || !date || !title || !body || !archive) return;
 
-        // Free Weather API (Open-Meteo, No API key needed)
-        const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
-        const weatherRes = await fetch(weatherUrl);
-        if (!weatherRes.ok) throw new Error('Weather API failed');
-        const weatherData = await weatherRes.json();
-        
-        const temp = Math.round(weatherData.current_weather.temperature);
-        const code = weatherData.current_weather.weathercode;
-        
-        tempElement.textContent = `${temp}°C`;
-        
-        // Simple WMO Weather code mapping
-        let condition = "Clear skies";
-        if (code >= 1 && code <= 3) condition = "Partly cloudy";
-        if (code >= 45 && code <= 48) condition = "Foggy";
-        if (code >= 51 && code <= 67) condition = "Raining";
-        if (code >= 71 && code <= 77) condition = "Snowing";
-        if (code >= 80 && code <= 82) condition = "Rain showers";
-        if (code >= 95) condition = "Thunderstorm";
-        
-        descElement.textContent = condition;
-
-      } catch (err) {
-        console.error('Weather fetch error:', err);
-        cityElement.textContent = 'UNKNOWN';
-        tempElement.textContent = '--°C';
-        descElement.textContent = 'Weather unavailable';
-      }
-    }
-    
-    fetchWeather();
-  }
-
-  // Custom Cursor Logic
-  const cursor = document.querySelector('.custom-cursor');
-  
-  if (cursor && window.matchMedia("(pointer: fine)").matches) {
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let cursorX = mouseX;
-    let cursorY = mouseY;
-    
-    // Smooth lerping for cursor
-    function animateCursor() {
-      let dx = mouseX - cursorX;
-      let dy = mouseY - cursorY;
-      cursorX += dx * 0.2;
-      cursorY += dy * 0.2;
-      cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%)`;
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
-    // Hover effects on interactive elements via delegation
-    document.addEventListener('mouseover', (e) => {
-      const interactive = e.target.closest('a, button, .pos-main, .playlist-item, [role="button"]');
-      if (interactive) {
-        cursor.classList.add('hovering');
-      }
-    });
-
-    document.addEventListener('mouseout', (e) => {
-      const interactive = e.target.closest('a, button, .pos-main, .playlist-item, [role="button"]');
-      if (interactive) {
-        cursor.classList.remove('hovering');
-      }
-    });
-
-    // GitHub Journal Logic
-  const journalMainView = document.getElementById('journal-main-view');
-  const featuredDate = document.getElementById('featured-date');
-  const featuredTitle = document.getElementById('featured-title');
-  const featuredBody = document.getElementById('featured-body');
-  const archiveList = document.getElementById('archive-list');
-
-  if (journalMainView && archiveList) {
-    let journalIssues = [];
-    
-    // Simple date formatter
-    const formatDate = (dateStr) => {
-      const date = new Date(dateStr);
-      return date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' }).replace(/\//g, '/');
+  const formatDate = value => new Date(value).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' });
+  const renderIssue = (issue, animate = true) => {
+    const update = () => {
+      date.textContent = formatDate(issue.created_at);
+      title.textContent = issue.title || 'Untitled thought';
+      body.replaceChildren(sanitizeHtml(issue.body_html || '<p>No content provided.</p>'));
+      main.classList.remove('loading');
     };
+    if (!animate || prefersReducedMotion.matches) update();
+    else {
+      main.classList.add('loading');
+      window.setTimeout(update, 220);
+    }
+  };
 
-    const renderMainFeature = (issue, animate = true) => {
-      if (animate) {
-        journalMainView.classList.add('loading');
-        setTimeout(() => {
-          featuredDate.textContent = formatDate(issue.created_at);
-          featuredTitle.textContent = issue.title;
-          featuredBody.innerHTML = issue.body_html || '<p>No content provided.</p>';
-          journalMainView.classList.remove('loading');
-        }, 300);
-      } else {
-        featuredDate.textContent = formatDate(issue.created_at);
-        featuredTitle.textContent = issue.title;
-        featuredBody.innerHTML = issue.body_html || '<p>No content provided.</p>';
+  fetch(SITE_CONFIG.githubIssuesUrl, { headers: { Accept: 'application/vnd.github.html+json' } })
+    .then(response => {
+      if (!response.ok) throw new Error('Journal request failed');
+      return response.json();
+    })
+    .then(issues => {
+      const journalIssues = issues.filter(issue => !issue.pull_request);
+      if (!journalIssues.length) {
+        title.textContent = 'No thoughts recorded yet.';
+        body.textContent = 'Check back later.';
+        return;
       }
-    };
 
-    const fetchJournal = async () => {
-      try {
-        const response = await fetch('https://api.github.com/repos/Clovescence/harbor/issues?creator=Clovescence&state=open', {
-          headers: {
-            'Accept': 'application/vnd.github.html+json'
-          }
+      archive.replaceChildren();
+      journalIssues.forEach((issue, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = `archive-item text-sans ${index === 0 ? 'active' : ''}`;
+        const dateSpan = document.createElement('span');
+        dateSpan.className = 'archive-date fw-300';
+        dateSpan.textContent = formatDate(issue.created_at);
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'archive-title fw-500 text-serif';
+        titleSpan.textContent = issue.title || 'Untitled thought';
+        button.append(dateSpan, titleSpan);
+        button.addEventListener('click', () => {
+          archive.querySelectorAll('.archive-item').forEach(item => item.classList.remove('active'));
+          button.classList.add('active');
+          renderIssue(issue);
         });
-        
-        if (!response.ok) throw new Error('Failed to fetch issues');
-        
-        journalIssues = await response.json();
-        
-        // Filter out Pull Requests (which are returned in the Issues API)
-        journalIssues = journalIssues.filter(issue => !issue.pull_request);
-
-        if (journalIssues.length === 0) {
-          featuredTitle.textContent = "No thoughts recorded yet.";
-          featuredBody.innerHTML = "<p>Check back later.</p>";
-          return;
-        }
-
-        // Render first issue immediately
-        renderMainFeature(journalIssues[0], false);
-        
-        // Render archive list
-        journalIssues.forEach((issue, index) => {
-          const item = document.createElement('div');
-          item.className = `archive-item text-sans ${index === 0 ? 'active' : ''}`;
-          
-          const dateSpan = document.createElement('span');
-          dateSpan.className = 'archive-date fw-300';
-          dateSpan.textContent = formatDate(issue.created_at);
-          
-          const titleSpan = document.createElement('span');
-          titleSpan.className = 'archive-title fw-500 text-serif';
-          titleSpan.textContent = issue.title;
-          
-          item.appendChild(dateSpan);
-          item.appendChild(titleSpan);
-          
-          item.addEventListener('click', () => {
-            // Remove active from all
-            document.querySelectorAll('.archive-item').forEach(el => el.classList.remove('active'));
-            // Add active to clicked
-            item.classList.add('active');
-            // Render
-            renderMainFeature(issue);
-          });
-          
-          archiveList.appendChild(item);
-        });
-        
-      } catch (err) {
-        console.error("Journal Error:", err);
-        featuredTitle.textContent = "Journal Unavailable";
-        featuredBody.innerHTML = "<p>Could not connect to GitHub repository.</p>";
-      }
-    };
-
-    fetchJournal();
-  }
-
-  // Magnetic Links in Footer
-    const magneticLinks = document.querySelectorAll('.contact-links a');
-    magneticLinks.forEach(link => {
-      link.addEventListener('mousemove', (e) => {
-        const rect = link.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        link.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        archive.appendChild(button);
       });
-      link.addEventListener('mouseleave', () => {
-        link.style.transform = 'translate(0px, 0px)';
-      });
+      renderIssue(journalIssues[0], false);
+      if (revealObserver) revealObserver.observe(archive);
+    })
+    .catch(() => {
+      title.textContent = 'Journal unavailable';
+      body.textContent = 'Could not connect to the journal.';
     });
-  }
+}
 
-  // Old Parallax listener removed. Handled by Physics Engine above.
+function sanitizeHtml(html) {
+  const template = document.createElement('template');
+  template.innerHTML = html;
+  template.content.querySelectorAll('script, style, iframe, object, embed, form').forEach(node => node.remove());
+  template.content.querySelectorAll('*').forEach(node => {
+    [...node.attributes].forEach(attribute => {
+      if (attribute.name.startsWith('on')) node.removeAttribute(attribute.name);
+    });
+    if (node.matches('a') && !/^(https?:|mailto:|#)/i.test(node.getAttribute('href') || '')) node.removeAttribute('href');
+  });
+  return template.content;
+}
 
-  // ==========================================
-  // Premium Playlists & Cover Flow Engine
-  // ==========================================
-  const cfTrack = document.getElementById('cf-track');
-  const cfPrev = document.getElementById('cf-prev');
-  const cfNext = document.getElementById('cf-next');
-  const premiumDeck = document.getElementById('now-playing-deck');
-  
-  if (cfTrack && premiumDeck) {
-    
-    // --- 1. Cover Flow Carousel ---
-    let currentCfIndex = 0;
-    let cfItems = [];
+function initPlaylistCarousel(revealObserver) {
+  const track = document.getElementById('cf-track');
+  const previous = document.getElementById('cf-prev');
+  const next = document.getElementById('cf-next');
+  if (!track || !previous || !next) return;
 
-    const updateCoverFlow = () => {
-      const isMobile = window.innerWidth <= 1000;
-      
-      cfItems.forEach((item, index) => {
-        if (isMobile) {
-          item.style = '';
-          return;
-        }
+  let items = [];
+  let activeIndex = 0;
 
-        const offset = index - currentCfIndex;
-        
-        if (offset < 0) {
-          // Items passed (slide seamlessly behind the vinyl deck on the left)
-          // We translate it far left (-300px), push it back (-100px) and scale it down.
-          // Since the vinyl deck has z-index: 10, this will slide beautifully behind it before fading.
-          item.style.transform = `translate3d(-300px, 0, -100px) rotateY(20deg) scale(0.6)`;
-          item.style.opacity = '0';
-          item.style.pointerEvents = 'none';
-        } else {
-          // Active item (0) and future items (> 0)
-          const x = offset * 120; // Tight overlapping spacing
-          const z = offset * -200; // Deep push into background
-          const scale = Math.max(0.5, 1 - (offset * 0.1));
-          
-          let transformStr = `translate3d(${x}px, 0, ${z}px) scale(${scale})`;
-          
-          // Add a subtle perspective tilt if not active
-          if (offset > 0) {
-            transformStr += ` rotateY(-15deg)`;
-          } else {
-            transformStr += ` rotateY(0deg)`;
-          }
-          
-          item.style.transform = transformStr;
-          item.style.opacity = offset > 6 ? '0' : '1';
-          item.style.pointerEvents = offset === 0 ? 'auto' : 'none';
-        }
+  const update = () => {
+    const mobile = window.innerWidth <= 1000;
+    items.forEach((item, index) => {
+      const offset = index - activeIndex;
+      item.dataset.position = mobile ? 'mobile' : offset < 0 ? 'past' : `offset-${Math.min(offset, 6)}`;
+      item.tabIndex = mobile || offset === 0 ? 0 : -1;
+    });
+    previous.disabled = mobile || activeIndex === 0;
+    next.disabled = mobile || activeIndex >= items.length - 1;
+  };
+
+  previous.addEventListener('click', () => { activeIndex = Math.max(0, activeIndex - 1); update(); });
+  next.addEventListener('click', () => { activeIndex = Math.min(items.length - 1, activeIndex + 1); update(); });
+  window.addEventListener('resize', update);
+
+  fetch(SITE_CONFIG.playlistsUrl)
+    .then(response => {
+      if (!response.ok) throw new Error('Playlist request failed');
+      return response.json();
+    })
+    .then(playlists => {
+      playlists.filter(playlist => playlist.id !== 'placeholder').forEach((playlist, index) => {
+        const item = document.createElement('a');
+        item.className = 'cf-item reveal';
+        item.href = playlist.url;
+        item.target = '_blank';
+        item.rel = 'noreferrer';
+        item.style.setProperty('--reveal-delay', `${index * 0.08}s`);
+
+        const image = document.createElement('img');
+        image.className = 'cf-cover';
+        image.src = playlist.image || '';
+        image.alt = `${playlist.name} cover`;
+        const cover = document.createElement('div');
+        cover.className = 'cf-cover-wrapper';
+        cover.appendChild(image);
+
+        const info = document.createElement('div');
+        info.className = 'cf-info';
+        const name = document.createElement('h3');
+        name.className = 'text-serif';
+        name.textContent = playlist.name;
+        const type = document.createElement('p');
+        type.className = 'text-sans fw-300';
+        type.textContent = playlist.tracks ? `${playlist.tracks} tracks • Spotify` : 'Playlist • Spotify';
+        const description = document.createElement('small');
+        description.className = 'cf-description text-sans';
+        description.textContent = playlist.description || 'A collection of songs.';
+        info.append(name, type);
+        info.appendChild(description);
+
+        item.append(cover, info);
+        track.appendChild(item);
+        items.push(item);
+        if (revealObserver) revealObserver.observe(item);
       });
-    };
+      update();
+    })
+    .catch(() => {
+      track.textContent = 'Playlists unavailable.';
+      previous.disabled = true;
+      next.disabled = true;
+    });
+}
 
-    if (cfPrev && cfNext) {
-      cfPrev.addEventListener('click', () => {
-        if (currentCfIndex > 0) {
-          currentCfIndex--;
-          updateCoverFlow();
-        }
-      });
-      cfNext.addEventListener('click', () => {
-        if (currentCfIndex < cfItems.length - 1) {
-          currentCfIndex++;
-          updateCoverFlow();
-        }
-      });
+function initNowPlaying() {
+  const deck = document.getElementById('now-playing-deck');
+  const record = document.querySelector('.vinyl-record');
+  const image = document.getElementById('now-playing-img');
+  const status = document.getElementById('now-playing-status');
+  const title = document.getElementById('now-playing-title');
+  const artist = document.getElementById('now-playing-artist');
+  if (!deck || !record || !image || !status || !title || !artist) return;
+
+  const update = async () => {
+    try {
+      const response = await fetch(SITE_CONFIG.nowPlayingUrl);
+      if (!response.ok) throw new Error('Now playing unavailable');
+      const data = await response.json();
+      title.textContent = data.title || 'Nothing playing';
+      artist.textContent = data.artist || 'Spotify is quiet';
+      status.textContent = data.isPlaying ? 'Currently playing' : 'Last played';
+      if (data.albumUrl) image.src = data.albumUrl;
+      record.classList.toggle('spinning', Boolean(data.isPlaying));
+      deck.classList.toggle('playing', Boolean(data.isPlaying));
+      if (data.songUrl) deck.onclick = () => window.open(data.songUrl, '_blank', 'noopener');
+    } catch {
+      status.textContent = 'Spotify API offline';
+      title.textContent = '---';
+      artist.textContent = '---';
+      record.classList.remove('spinning');
+      deck.classList.remove('playing');
     }
+  };
 
-    const initPlaylists = async () => {
-      try {
-        const res = await fetch('./data/playlists.json');
-        if (!res.ok) throw new Error("Could not load playlists");
-        const playlists = await res.json();
-        
-        cfTrack.innerHTML = '';
-        
-        const validPlaylists = playlists.filter(pl => pl.id !== 'placeholder');
-        validPlaylists.forEach((pl, index) => {
-          const item = document.createElement('a');
-          item.href = pl.url;
-          item.target = '_blank';
-          item.className = 'cf-item reveal';
-          item.style.animationDelay = `${index * 0.2}s`; 
+  update();
+  window.setInterval(update, SITE_CONFIG.nowPlayingRefreshMs);
+}
 
-          item.innerHTML = `
-            <div class="cf-cover-wrapper">
-              <img class="cf-cover" src="${pl.image || ''}" alt="${pl.name}">
-            </div>
-            <div class="cf-info">
-              <h3 class="text-serif">${pl.name}</h3>
-              <p class="text-sans fw-300">Playlist • Spotify</p>
-            </div>
-          `;
-          cfTrack.appendChild(item);
-          cfItems.push(item);
-          
-          if (typeof revealObserver !== 'undefined') {
-            revealObserver.observe(item);
-          }
-        });
-        
-        setTimeout(updateCoverFlow, 50);
-      } catch (err) {
-        console.error("Playlists fetch error:", err);
-      }
-    };
-    initPlaylists();
-
-    // --- 2. Premium Vinyl Deck API ---
-    const vinylRecord = document.querySelector('.vinyl-record');
-    const vinylImg = document.getElementById('now-playing-img');
-    const statusText = document.getElementById('now-playing-status');
-    const titleText = document.getElementById('now-playing-title');
-    const artistText = document.getElementById('now-playing-artist');
-
-    const fetchPremiumNowPlaying = async () => {
-      try {
-        const res = await fetch('/api/now-playing');
-        if (!res.ok) throw new Error("Live endpoint not available");
-        const data = await res.json();
-
-        if (data.title) {
-          vinylImg.src = data.albumUrl || '';
-          titleText.textContent = data.title;
-          artistText.textContent = data.artist;
-          
-          if (data.songUrl) {
-            premiumDeck.style.cursor = 'pointer';
-            premiumDeck.onclick = (e) => {
-              if (!e.target.closest('a')) window.open(data.songUrl, '_blank');
-            };
-          }
-
-          if (data.isPlaying) {
-            statusText.textContent = "Currently Playing";
-            vinylRecord.classList.add('spinning');
-            premiumDeck.classList.add('playing'); // Triggers tonearm and green dot
-          } else {
-            statusText.textContent = "Last Played";
-            vinylRecord.classList.remove('spinning');
-            premiumDeck.classList.remove('playing');
-          }
-        } else {
-          statusText.textContent = "Offline";
-          vinylRecord.classList.remove('spinning');
-          premiumDeck.classList.remove('playing');
-        }
-      } catch (err) {
-        statusText.textContent = "Spotify API Offline";
-        vinylRecord.classList.remove('spinning');
-        premiumDeck.classList.remove('playing');
-      }
-    };
-
-    fetchPremiumNowPlaying();
-    setInterval(fetchPremiumNowPlaying, 15000);
-  }
-});
+function initMagneticLinks() {
+  if (prefersReducedMotion.matches || !window.matchMedia('(pointer: fine)').matches) return;
+  document.querySelectorAll('.contact-links a').forEach(link => {
+    link.addEventListener('mousemove', event => {
+      const bounds = link.getBoundingClientRect();
+      link.style.setProperty('--magnetic-x', `${(event.clientX - bounds.left - bounds.width / 2) * 0.25}px`);
+      link.style.setProperty('--magnetic-y', `${(event.clientY - bounds.top - bounds.height / 2) * 0.25}px`);
+    });
+    link.addEventListener('mouseleave', () => {
+      link.style.setProperty('--magnetic-x', '0px');
+      link.style.setProperty('--magnetic-y', '0px');
+    });
+  });
+}

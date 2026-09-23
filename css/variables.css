@@ -23,10 +23,11 @@
 
   /* Grid System Variables */
   --grid-columns: 12;
-  --grid-gap-desktop: 24px;
-  --grid-gap-tablet: 16px;
-  --grid-gap-mobile: 12px;
+  --grid-gap-desktop: 28px;
+  --grid-gap-tablet: 20px;
+  --grid-gap-mobile: 16px;
   --container-max-width: 1600px;
-  --page-padding: 4vw;
-  --section-spacing: 160px;
+  --page-padding: clamp(24px, 4vw, 72px);
+  --section-spacing: clamp(56px, 7vw, 112px);
+  --content-spacing: clamp(32px, 4vw, 64px);
 }

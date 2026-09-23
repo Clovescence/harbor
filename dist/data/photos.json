@@ -1,0 +1,50 @@
+[
+  {
+    "src": "/assets/sequoia_hero.jpg",
+    "title": "THE STUDY",
+    "date": "22/09/26",
+    "user": "@hagapradiva",
+    "alt": "A dark green reading room with a fireplace",
+    "tone": ""
+  },
+  {
+    "src": "/assets/sequoia_hero.jpg",
+    "title": "MORNING LIGHT",
+    "date": "14/10/26",
+    "user": "@hagapradiva",
+    "alt": "Morning light across a quiet reading room",
+    "tone": "photo-tone-warm"
+  },
+  {
+    "src": "/assets/sequoia_hero.jpg",
+    "title": "EVENING SHADOWS",
+    "date": "03/11/26",
+    "user": "@hagapradiva",
+    "alt": "Evening shadows in a quiet reading room",
+    "tone": "photo-tone-cool"
+  },
+  {
+    "src": "/assets/sequoia_hero.jpg",
+    "title": "MIDNIGHT",
+    "date": "10/11/26",
+    "user": "@hagapradiva",
+    "alt": "A quiet room after dark",
+    "tone": "photo-tone-night"
+  },
+  {
+    "src": "/assets/sequoia_hero.jpg",
+    "title": "FOREST PATH",
+    "date": "20/11/26",
+    "user": "@hagapradiva",
+    "alt": "A shadowed path beneath tall trees",
+    "tone": "photo-tone-forest"
+  },
+  {
+    "src": "/assets/sequoia_hero.jpg",
+    "title": "SILENCE",
+    "date": "01/12/26",
+    "user": "@hagapradiva",
+    "alt": "An empty room held in soft evening light",
+    "tone": "photo-tone-muted"
+  }
+]

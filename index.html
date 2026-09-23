@@ -7,17 +7,11 @@
   
   <!-- SEO -->
   <meta name="description" content="A quiet collection of photographs, music, ideas, and whatever else happens to matter.">
+  <meta name="theme-color" content="#18392B">
+  <meta property="og:title" content="Sequoia | Haga Pradiva">
+  <meta property="og:description" content="A quiet collection of photographs, music, ideas, and whatever else happens to matter.">
+  <meta property="og:type" content="website">
   
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="./css/variables.css">
-  <link rel="stylesheet" href="./css/global.css">
-  <link rel="stylesheet" href="./css/grid.css">
-  <link rel="stylesheet" href="./css/navigation.css">
-  <link rel="stylesheet" href="./css/home.css">
-  <link rel="stylesheet" href="./css/photos.css">
-  <link rel="stylesheet" href="./css/playlists.css">
-  <link rel="stylesheet" href="./css/journal.css">
-  <link rel="stylesheet" href="./css/contact-footer.css">
 </head>
 <body>
   <!-- Custom Cursor -->
@@ -26,8 +20,11 @@
   <!-- Navigation -->
   <nav class="nav-header">
     <div class="container nav-container">
-      <a href="#" class="nav-brand text-serif">SEQUOIA</a>
-      <ul class="nav-links text-sans">
+      <a href="#home" class="nav-brand text-serif">SEQUOIA</a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+      <ul class="nav-links text-sans" id="site-navigation">
         <li><a href="#photos">Photos</a></li>
         <li><a href="#playlists">Playlists</a></li>
         <li><a href="#journal">Journal</a></li>
@@ -73,13 +70,13 @@
       <div class="collage-grid reveal reveal-delay-1">
         <!-- Carousel Controls -->
         <div class="carousel-controls text-sans">
-          <button id="carousel-prev" class="carousel-btn">&lt;</button>
-          <button id="carousel-next" class="carousel-btn">&gt;</button>
+          <button id="carousel-prev" class="carousel-btn" aria-label="Previous photograph">&lt;</button>
+          <button id="carousel-next" class="carousel-btn" aria-label="Next photograph">&gt;</button>
         </div>
 
         <!-- Item 1 (Starts Main) -->
         <div class="collage-item rounded-image">
-          <img src="./public/assets/sequoia_hero.jpg" alt="Photo 1">
+          <img src="./assets/sequoia_hero.jpg" alt="A dark green reading room with a fireplace">
           <div class="photo-meta-overlay">
             <div class="meta-content text-sans">
               <span class="meta-date text-accent fw-500">22/09/26</span>
@@ -91,7 +88,7 @@
 
         <!-- Item 2 (Starts BG 1) -->
         <div class="collage-item rounded-image">
-          <img src="./public/assets/sequoia_hero.jpg" style="filter: sepia(0.3) hue-rotate(-30deg);" alt="Photo 2">
+          <img class="photo-tone-warm" src="./assets/sequoia_hero.jpg" alt="Morning light across a quiet reading room">
           <div class="photo-meta-overlay">
             <div class="meta-content text-sans">
               <span class="meta-date text-accent fw-500">14/10/26</span>
@@ -103,7 +100,7 @@
 
         <!-- Item 3 (Starts BG 2) -->
         <div class="collage-item rounded-image">
-          <img src="./public/assets/sequoia_hero.jpg" style="filter: grayscale(0.8) contrast(1.2);" alt="Photo 3">
+          <img class="photo-tone-cool" src="./assets/sequoia_hero.jpg" alt="Evening shadows in a quiet reading room">
           <div class="photo-meta-overlay">
             <div class="meta-content text-sans">
               <span class="meta-date text-accent fw-500">03/11/26</span>
@@ -163,7 +160,7 @@
           <div class="deck-platter">
             <div class="vinyl-record">
               <div class="vinyl-grooves"></div>
-              <img id="now-playing-img" class="vinyl-label" src="" alt="Album Art">
+              <img id="now-playing-img" class="vinyl-label" src="./assets/sequoia_hero.jpg" alt="Current album artwork">
             </div>
             <div class="tonearm" id="tonearm"></div>
           </div>
@@ -171,7 +168,7 @@
           <div class="deck-info">
             <div class="deck-status">
               <span class="status-dot" id="now-playing-dot"></span>
-              <span id="now-playing-status" class="text-sans fw-500 uppercase">Connecting...</span>
+              <span id="now-playing-status" class="text-sans fw-500 uppercase" aria-live="polite">Connecting...</span>
             </div>
             <h4 id="now-playing-title" class="deck-title text-serif">---</h4>
             <p id="now-playing-artist" class="deck-artist text-sans fw-300">---</p>
@@ -184,8 +181,8 @@
             <!-- Playlists will be injected here -->
           </div>
           <div class="cover-flow-controls text-sans">
-            <button id="cf-prev" class="cf-btn">&lt;</button>
-            <button id="cf-next" class="cf-btn">&gt;</button>
+            <button id="cf-prev" class="cf-btn" aria-label="Previous playlist">&lt;</button>
+            <button id="cf-next" class="cf-btn" aria-label="Next playlist">&gt;</button>
           </div>
         </div>
       </div>
@@ -226,8 +223,8 @@
         <h2 class="text-serif">Stay a while.<br>Or write sometime.</h2>
         <ul class="contact-links text-sans">
           <li><a href="mailto:hello@example.com">Email</a></li>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">LinkedIn</a></li>
+          <li><a href="https://www.instagram.com/" rel="noreferrer">Instagram</a></li>
+          <li><a href="https://www.linkedin.com/" rel="noreferrer">LinkedIn</a></li>
         </ul>
       </div>
     </section>

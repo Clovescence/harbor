@@ -1,20 +1,26 @@
 /* Contact Section */
 .section-contact {
-  padding: var(--section-spacing) var(--page-padding);
+  display: block;
+  padding-block: clamp(48px, 6vw, 88px);
   text-align: center;
+}
+
+.contact-content {
+  width: min(100%, 720px);
+  margin-inline: auto;
 }
 
 .contact-content h2 {
   font-size: clamp(2rem, 4vw, 3.5rem);
   font-style: italic;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
   line-height: 1.3;
 }
 
 .contact-links {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: clamp(20px, 3vw, 36px);
 }
 
 .contact-links a {
@@ -22,6 +28,8 @@
   letter-spacing: 0.05em;
   color: var(--color-accent);
   position: relative;
+  transform: translate(var(--magnetic-x, 0px), var(--magnetic-y, 0px));
+  transition: opacity 0.3s ease, transform 0.25s ease;
 }
 
 .contact-links a::after {
@@ -68,8 +76,9 @@
 
 @media (max-width: 768px) {
   .contact-links {
-    flex-direction: column;
-    gap: 20px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px 24px;
   }
   .footer-container {
     flex-direction: column;

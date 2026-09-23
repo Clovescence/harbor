@@ -1,12 +1,12 @@
 /* Journal Section */
 .section-journal {
-  padding: var(--section-spacing) var(--page-padding);
+  position: relative;
 }
 
 .journal-container {
   align-items: flex-start;
-  min-height: 500px;
-  margin-top: 60px;
+  min-height: 0;
+  margin-top: var(--content-spacing);
 }
 
 /* Left Column: Main Feature */
@@ -21,7 +21,7 @@
 }
 
 .journal-header {
-  margin-bottom: 40px;
+  margin-bottom: 32px;
 }
 
 .journal-date {
@@ -94,6 +94,14 @@
 }
 
 .archive-item {
+  appearance: none;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+  text-align: left;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -128,7 +136,7 @@
 @media (max-width: 1024px) {
   .journal-container {
     flex-direction: column;
-    gap: 80px;
+    gap: var(--content-spacing);
   }
   
   .journal-archive {

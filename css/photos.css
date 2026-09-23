@@ -1,12 +1,11 @@
 /* Photos Section */
 .section-photos {
-  padding: var(--section-spacing) 0 60px;
   position: relative;
 }
 
 .section-title {
   font-size: 2.5rem;
-  margin-bottom: 20px;
+  margin-bottom: 0;
   font-style: italic;
   position: relative;
   z-index: 20;
@@ -17,7 +16,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9; /* Bounding box for percentages */
-  margin-top: 40px;
+  margin-top: var(--content-spacing);
   max-width: 1400px; 
   margin-left: auto;
   margin-right: auto;
@@ -25,12 +24,40 @@
 
 .collage-item {
   position: absolute;
+  top: var(--slot-top);
+  left: var(--slot-left);
+  width: var(--slot-width);
+  height: var(--slot-height);
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  will-change: transform, width, height, top, left;
+  border-radius: 10px;
+  transform: translate3d(0, var(--parallax-y, 0px), 0);
+  transition: top 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              left 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              width 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              height 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.7s ease,
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
+
+.collage-item.slot-main { --slot-top: 15%; --slot-left: 30%; --slot-width: 45%; --slot-height: 70%; --slot-brightness: 1; --slot-depth: 0.25; }
+.collage-item.slot-back-left { --slot-top: 0%; --slot-left: 0%; --slot-width: 25%; --slot-height: 35%; --slot-brightness: 0.5; --slot-depth: 0.8; }
+.collage-item.slot-mid-left { --slot-top: 10%; --slot-left: 28%; --slot-width: 20%; --slot-height: 25%; --slot-brightness: 0.4; --slot-depth: 0.6; }
+.collage-item.slot-bottom-left { --slot-top: 60%; --slot-left: 8%; --slot-width: 25%; --slot-height: 35%; --slot-brightness: 0.6; --slot-depth: 1; }
+.collage-item.slot-back-right { --slot-top: 15%; --slot-left: 75%; --slot-width: 25%; --slot-height: 40%; --slot-brightness: 0.4; --slot-depth: 0.7; }
+.collage-item.slot-bottom-right { --slot-top: 65%; --slot-left: 80%; --slot-width: 20%; --slot-height: 30%; --slot-brightness: 0.5; --slot-depth: 0.9; }
+
+.collage-item:not(.is-main) {
+  filter: brightness(var(--slot-brightness));
+}
+
+.photo-tone-warm { filter: sepia(0.3) hue-rotate(-30deg); }
+.photo-tone-cool { filter: grayscale(0.8) contrast(1.2); }
+.photo-tone-night { filter: brightness(0.55) saturate(0.8); }
+.photo-tone-forest { filter: hue-rotate(18deg) saturate(0.8) brightness(0.8); }
+.photo-tone-muted { filter: grayscale(0.35) brightness(0.8); }
 
 .collage-item img,
 .collage-item .image-placeholder {
@@ -47,6 +74,8 @@
 /* Carousel JS states */
 .is-main {
   cursor: none;
+  filter: brightness(var(--slot-brightness));
+  z-index: 10;
 }
 
 .is-main img {
@@ -101,33 +130,43 @@
 /* Carousel Controls */
 .carousel-controls {
   position: absolute;
-  bottom: 5%;
-  left: 30%;
+  right: 0;
+  top: 0;
   z-index: 30;
   display: flex;
-  gap: 20px;
+  gap: 12px;
   align-items: center;
 }
 
-.carousel-btn {
+.carousel-btn,
+.cf-btn {
   background: transparent;
   border: 1px solid var(--color-neutral);
   color: var(--color-light);
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  line-height: 1;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
 }
 
-.carousel-btn:hover {
+.carousel-btn:hover,
+.cf-btn:hover {
   background-color: var(--color-accent);
   color: var(--color-dark);
   border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.carousel-btn:disabled,
+.cf-btn:disabled {
+  opacity: 0.35;
+  pointer-events: none;
 }
 
 /* Responsive Overrides */
@@ -136,7 +175,14 @@
 }
 
 @media (max-width: 768px) {
-  .collage-grid { aspect-ratio: auto; height: 600px; }
+  .collage-grid {
+    aspect-ratio: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 60px;
+  }
   
   /* Simplify for mobile - stack them up instead of animating layout */
   .collage-item { 
@@ -144,12 +190,14 @@
     width: 100% !important; 
     height: auto !important; 
     aspect-ratio: 4/3; 
-    margin-bottom: 16px; 
+    margin-bottom: 0; 
     filter: brightness(1) !important; 
+    transform: none !important;
+    transition: none;
   }
   
-  .pos-main { order: -1; aspect-ratio: 1/1; }
-  .carousel-controls { position: static; justify-content: flex-end; margin-bottom: 16px; }
-  .photo-meta-overlay { transform: translateY(0); width: calc(100% + 4px); height: calc(100% + 4px); padding: 22px; }
+  .collage-item.is-main { order: -1; aspect-ratio: 1/1; }
+  .carousel-controls { right: 0; top: 0; }
+  .photo-meta-overlay { transform: translateY(0); width: calc(100% + 4px); height: calc(100% + 4px); padding: 22px; opacity: 1; }
   .meta-content { transform: translateY(0); opacity: 1; transition: none; }
 }

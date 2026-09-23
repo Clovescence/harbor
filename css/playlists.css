@@ -1,21 +1,18 @@
 /* Playlists Section - Premium Glassmorphic Edition */
 
 .section-playlists {
-  padding: 100px 0;
-  min-height: 100vh;
   position: relative;
-  display: flex;
-  flex-direction: column;
 }
 
 .playlists-showcase {
   display: grid;
-  grid-template-columns: minmax(380px, auto) 1fr;
-  gap: 60px;
+  grid-template-columns: 380px minmax(0, 560px);
+  gap: var(--content-spacing);
   align-items: center;
-  margin-top: 80px;
-  height: 600px;
-  width: 100%;
+  margin-top: var(--content-spacing);
+  width: min(100%, 988px);
+  margin-inline: auto;
+  min-width: 0;
 }
 
 /* =========================================
@@ -33,6 +30,7 @@
   box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   position: relative;
   z-index: 10;
+  min-width: 0;
 }
 
 .deck-platter {
@@ -189,7 +187,7 @@
 #now-playing-status {
   font-size: 0.75rem;
   letter-spacing: 0.15em;
-  color: var(--color-muted);
+  color: var(--color-neutral);
 }
 
 .deck-title {
@@ -204,7 +202,7 @@
 
 .deck-artist {
   font-size: 1rem;
-  color: var(--color-muted);
+  color: var(--color-neutral);
   margin: 0;
 }
 
@@ -214,10 +212,11 @@
 .cover-flow-container {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 400px;
   perspective: 1200px;
   display: flex;
   align-items: center;
+  min-width: 0;
 }
 
 .cover-flow-track {
@@ -227,6 +226,7 @@
   transform-style: preserve-3d;
   display: flex;
   align-items: center;
+  min-width: 0;
 }
 
 .cf-item {
@@ -245,7 +245,7 @@
   gap: 20px;
   text-decoration: none;
   
-  /* Smooth CSS transition for the JS-driven cover flow */
+  /* Smooth transitions between semantic cover-flow positions */
   transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), 
               opacity 0.6s ease, 
               filter 0.5s ease;
@@ -253,6 +253,57 @@
   box-shadow: -15px 25px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
   transform-origin: left center;
   cursor: pointer;
+  min-width: 0;
+  transition-delay: var(--reveal-delay, 0s);
+}
+
+.cf-item[data-position="past"] {
+  transform: translate3d(-300px, 0, -100px) rotateY(20deg) scale(0.6);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cf-item[data-position="offset-0"] {
+  transform: translate3d(0, 0, 0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 6;
+}
+
+.cf-item[data-position="offset-1"] {
+  transform: translate3d(120px, 0, -200px) scale(0.9) rotateY(-15deg);
+  opacity: 1;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.cf-item[data-position="offset-2"] {
+  transform: translate3d(240px, 0, -400px) scale(0.8) rotateY(-15deg);
+  opacity: 1;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.cf-item[data-position="offset-3"] {
+  transform: translate3d(360px, 0, -600px) scale(0.7) rotateY(-15deg);
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.cf-item[data-position="offset-4"] {
+  transform: translate3d(480px, 0, -800px) scale(0.6) rotateY(-15deg);
+  opacity: 0.65;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.cf-item[data-position="offset-5"],
+.cf-item[data-position="offset-6"] {
+  transform: translate3d(600px, 0, -1000px) scale(0.5) rotateY(-15deg);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .cf-item:hover {
@@ -287,56 +338,61 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .cf-info p {
   font-size: 0.8rem;
-  color: var(--color-muted);
+  color: var(--color-neutral);
   margin: 0;
+}
+
+.cf-description {
+  display: -webkit-box;
+  overflow: hidden;
+  color: rgba(201, 198, 184, 0.72);
+  font-size: 0.72rem;
+  line-height: 1.4;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 /* Controls */
 .cover-flow-controls {
   position: absolute;
-  top: 10px;
-  right: 20px;
+  top: 0;
+  right: 0;
   display: flex;
   gap: 12px;
   z-index: 100;
 }
 
-.cf-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--color-light);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  backdrop-filter: blur(10px);
-}
-
-.cf-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: scale(1.1);
-}
-
 /* Mobile Fallback */
 @media (max-width: 1000px) {
   .playlists-showcase {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     height: auto;
-    gap: 60px;
+    gap: var(--content-spacing);
+    width: 100%;
   }
   
   .premium-vinyl-deck {
     width: 100%;
     max-width: 400px;
+    padding-inline: 20px;
     margin: 0 auto;
+  }
+
+  .deck-platter {
+    width: min(280px, 100%);
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .vinyl-record {
+    width: min(260px, 100%);
+    height: auto;
+    aspect-ratio: 1;
   }
   
   .cover-flow-container {
@@ -361,6 +417,11 @@
     transform: none !important; /* Overrides JS inline styles on mobile */
     opacity: 1 !important;
     pointer-events: auto !important;
+  }
+
+  .cf-item[data-position="mobile"] {
+    opacity: 1;
+    pointer-events: auto;
   }
   
   .cover-flow-controls {

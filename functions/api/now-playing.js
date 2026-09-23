@@ -40,10 +40,11 @@ export async function onRequest(context) {
 
     // 204 No Content means nothing is playing right now.
     // In that case, fetch Recently Played.
-    if (response.status === 204 || response.status > 400) {
+    if (response.status === 204) {
       response = await fetch('https://api.spotify.com/v1/me/player/recently-played?limit=1', {
         headers: { 'Authorization': `Bearer ${accessToken}` }
       });
+      if (!response.ok) throw new Error(`Recently played request failed: ${response.status}`);
       const data = await response.json();
       if (!data.items || data.items.length === 0) {
          return new Response(JSON.stringify({ isPlaying: false }), {
@@ -61,6 +62,10 @@ export async function onRequest(context) {
       }), {
         headers: { 'Content-Type': 'application/json' }
       });
+    }
+
+    if (!response.ok) {
+      throw new Error(`Currently playing request failed: ${response.status}`);
     }
 
     const data = await response.json();
