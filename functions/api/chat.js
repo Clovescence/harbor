@@ -20,8 +20,23 @@ export async function onRequestPost(context) {
       });
     }
 
-    // Call the Gemini REST API
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${env.GEMINI_API_KEY}`;
+    // First try to fetch available models to guarantee we use a valid one
+    const modelsResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${env.GEMINI_API_KEY}`);
+    const modelsData = await modelsResponse.json();
+    
+    let modelName = 'gemini-1.5-flash'; // fallback
+    if (modelsData.models && modelsData.models.length > 0) {
+      // Find a model that supports generateContent and starts with 'models/gemini'
+      const validModel = modelsData.models.find(m => 
+        m.name.includes('gemini') && 
+        m.supportedGenerationMethods.includes('generateContent')
+      );
+      if (validModel) {
+        modelName = validModel.name.replace('models/', '');
+      }
+    }
+
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${env.GEMINI_API_KEY}`;
     
     // We expect the frontend to pass the history if we want context, 
     // but for a simple terminal, just passing the current prompt or simple history is enough.
