@@ -12,8 +12,6 @@ import { initWebGL } from './gl.js';
 import { initAnimations } from './animations.js';
 import { initAudioVisualizer } from './audio.js';
 import { initGuestbook } from './guestbook.js';
-import { initTerminal } from './terminal.js';
-import '../css/terminal.css';
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -22,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initAnimations();
   initAudioVisualizer();
   initGuestbook();
-  initTerminal();
   initNavigation();
   initPhotoCarousel();
   initClockAndWeather();
