@@ -178,7 +178,14 @@ async function sendToGemini(message) {
     loadingLine.remove();
 
     if (!response.ok) {
-      throw new Error(`Server responded with ${response.status}`);
+      let errorMsg = `Server responded with ${response.status}`;
+      try {
+        const errData = await response.json();
+        if (errData.error) errorMsg = errData.error;
+      } catch (e) {
+        // Fallback to text or generic error
+      }
+      throw new Error(errorMsg);
     }
 
     const data = await response.json();

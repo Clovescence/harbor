@@ -21,7 +21,7 @@ export async function onRequestPost(context) {
     }
 
     // Call the Gemini REST API
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${env.GEMINI_API_KEY}`;
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${env.GEMINI_API_KEY}`;
     
     // We expect the frontend to pass the history if we want context, 
     // but for a simple terminal, just passing the current prompt or simple history is enough.
